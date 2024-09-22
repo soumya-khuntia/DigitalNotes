@@ -13,6 +13,16 @@ const Forgetpass = () => {
     setFocusedInput(null);
   };
 
+  const handleForgetpass = (e) => {
+    e.preventDefault();
+    const formdata = {
+      email: emailRef.current.value
+    }
+    console.log(formdata);
+
+    emailRef.current.value = '';
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -20,7 +30,7 @@ const Forgetpass = () => {
           <IoMdClose size={24} />
         </button>
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Forget Password</h2>
-        <form>
+        <form onSubmit={handleForgetpass}>
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="email"

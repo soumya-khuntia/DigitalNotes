@@ -4,8 +4,8 @@ import { IoMdClose } from "react-icons/io";
 
 const SetNewpassword = () => {
   const [focusedInput, setFocusedInput] = useState(null);
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
+  const passRef = useRef(null);
+  const npassRef = useRef(null);
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -15,6 +15,18 @@ const SetNewpassword = () => {
     setFocusedInput(null);
   };
 
+  const handleNewpass = (e) => {
+    e.preventDefault();
+    const formdata = {
+      password: passRef.current.value,
+      Cpassword: npassRef.current.value
+    }
+    console.log(formdata);
+
+    passRef.current.value = '';
+    npassRef.current.value = '';
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -22,12 +34,12 @@ const SetNewpassword = () => {
           <IoMdClose size={24} />
         </button>
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">New Password</h2>
-        <form>
+        <form onSubmit={handleNewpass}>
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="text"
               id="password"
-              ref={nameRef}
+              ref={passRef}
               className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               placeholder=" "
               required
@@ -37,7 +49,7 @@ const SetNewpassword = () => {
             <label
               htmlFor="password"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "password" || (nameRef.current && nameRef.current.value)
+                focusedInput === "password" || (passRef.current && passRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}
@@ -49,7 +61,7 @@ const SetNewpassword = () => {
             <input
               type="text"
               id="apassword"
-              ref={emailRef}
+              ref={npassRef}
               className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               placeholder=" "
               required
@@ -59,7 +71,7 @@ const SetNewpassword = () => {
             <label
               htmlFor="email"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "apassword" || (emailRef.current && emailRef.current.value)
+                focusedInput === "apassword" || (npassRef.current && npassRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}

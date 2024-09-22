@@ -13,6 +13,16 @@ const EmailCode = () => {
     setFocusedInput(null);
   };
 
+  const handleCode = (e) => {
+    e.preventDefault();
+    const formdata = {
+      Passcode: codeRef.current.value
+    };
+    console.log(formdata);
+
+    codeRef.current.value = '';
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -23,7 +33,7 @@ const EmailCode = () => {
         <p className="text-sm sm:text-base text-gray-800 mb-3">
         <span className="text-red-500">*</span>Note: Enter passcode from email
         </p>
-        <form>
+        <form onSubmit={handleCode}>
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="text"

@@ -17,6 +17,23 @@ const SignUp = () => {
     setFocusedInput(null);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      confirmPassword: cpasswordRef.current.value
+    };
+    console.log(formData);
+
+    // Clear inputs
+    nameRef.current.value = '';
+    emailRef.current.value = '';
+    passwordRef.current.value = '';
+    cpasswordRef.current.value = '';
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -24,7 +41,7 @@ const SignUp = () => {
           <IoMdClose size={24} />
         </button>
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Sign Up</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="text"
@@ -50,18 +67,18 @@ const SignUp = () => {
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="email"
-              id="email"
+              id="emailid"
               ref={emailRef}
               className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               placeholder=" "
               required
-              onFocus={() => handleFocus("email")}
+              onFocus={() => handleFocus("emailid")}
               onBlur={handleBlur}
             />
             <label
-              htmlFor="email"
+              htmlFor="emailid"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "email" || (emailRef.current && emailRef.current.value)
+                focusedInput === "emailid" || (emailRef.current && emailRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}
