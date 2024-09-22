@@ -3,10 +3,7 @@ import { IoMdClose } from "react-icons/io";
 
 const Forgetpass = () => {
   const [focusedInput, setFocusedInput] = useState(null);
-  const nameRef = useRef(null);
   const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const cpasswordRef = useRef(null);
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);

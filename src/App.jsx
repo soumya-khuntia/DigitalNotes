@@ -1,14 +1,18 @@
 import { useState } from "react";
 import SignUp from "./components/Auth/SignUp";
 import SignIn from "./components/Auth/SignIn";
-import Forgetpass from "./components/Auth/Forgetpass";
+import Forgetpass from "./components/Auth/PasswordReset/Forgetpass";
+import EmailCode from "./components/Auth/PasswordReset/EmailCode";
+import SetNewpassword from "./components/Auth/PasswordReset/SetNewpassword";
 
 function App() {
   return (
     <>
-      {/* <SignUp/> */}
+      <SignUp/>
       <SignIn/>
-      {/* <Forgetpass/> */}
+      <Forgetpass/>
+      <EmailCode/>
+      <SetNewpassword/>
     </>
   );
 }

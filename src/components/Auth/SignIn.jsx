@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
-import { FaGoogle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import SignUp from "./SignUp";
 
 const SignIn = () => {
   const [focusedInput, setFocusedInput] = useState(null);
-  const [showSignUp, setShowSignUp] = useState(false);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -16,14 +15,6 @@ const SignIn = () => {
   const handleBlur = () => {
     setFocusedInput(null);
   };
-
-  const handleCreateAccount = () => {
-    setShowSignUp(true);
-  };
-
-  if (showSignUp) {
-    return <SignUp />;
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
@@ -91,7 +82,6 @@ const SignIn = () => {
             </button>
             <button
               type="button"
-              onClick={handleCreateAccount}
               className="py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm sm:text-base"
             >
               Create Account
@@ -104,8 +94,8 @@ const SignIn = () => {
           <div className="border-t border-gray-300 flex-grow"></div>
         </div>
         <div className="mt-3 sm:mt-4 flex justify-center">
-          <button className="w-52 py-2 px-4 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
-            <FaGoogle className="mr-2" />
+          <button className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
+          <FcGoogle className="mr-2"/>
             Google
           </button>
         </div>
