@@ -8,12 +8,14 @@ import Contact from "./components/Pages/Contact";
 import About from "./components/Pages/About";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Home from "./components/Pages/Home";
+
 
 function App() {
   return (
     <>
       <Navbar/>
-      {/* <Footer/> */}
+      <Home/>
       {/* <SignUp/>
       <SignIn/>
       <Forgetpass/>
@@ -21,6 +23,7 @@ function App() {
       <SetNewpassword/> */}
       {/* <Contact/> */}
       {/* <About/> */}
+      <Footer/>
     </>
   );
 }
