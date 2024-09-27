@@ -49,17 +49,19 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Home</a>
-            <a href="/about" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">About</a>
-            <a href="/contact" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Contact</a>
-            <a href="/signup" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Signup</a>
-            <a href="/login" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Login</a>
-          </div>
+      <div 
+        className={`md:hidden transition-all duration-400 ease-in-out overflow-hidden ${
+          isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a href="/" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Home</a>
+          <a href="/about" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">About</a>
+          <a href="/contact" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Contact</a>
+          <a href="/signup" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Signup</a>
+          <a href="/login" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Login</a>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

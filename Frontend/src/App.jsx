@@ -9,13 +9,15 @@ import About from "./components/Pages/About";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
+import Dashboard from "./components/Pages/Dashboard";
 
 
 function App() {
   return (
     <>
       <Navbar/>
-      <Home/>
+      {/* <Home/> */}
+      <Dashboard/>
       {/* <SignUp/>
       <SignIn/>
       <Forgetpass/>
