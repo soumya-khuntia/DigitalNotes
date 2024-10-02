@@ -27,17 +27,14 @@ const Navbar = () => {
         <div className="text-white font-bold text-xl px-4 sm:px-6 md:px-8 lg:px-12">
           <a href="/">Logo</a>
         </div>
-        <div className="hidden md:flex space-x-2 lg:space-x-4 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
-          <a href="/" className="text-white font-bold hover:text-gray-300">Home</a>
-          <a href="/about" className="text-white font-bold hover:text-gray-300">About</a>
-          <a href="/contact" className="text-white font-bold hover:text-gray-300">Contact</a>
-          <a href="/signup" className="text-white font-bold hover:text-gray-300">Signup</a>
-          <a href="/login" className="text-white font-bold hover:text-gray-300">Login</a>
-        </div>
-        <div className="md:hidden">
+        <div className="flex items-center space-x-2 lg:space-x-4 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
+          <a href="/" className="text-white font-bold hover:text-gray-300 hidden md:inline">Home</a>
+          <a href="/about" className="text-white font-bold hover:text-gray-300 hidden md:inline">About</a>
+          <a href="/contact" className="text-white font-bold hover:text-gray-300 hidden md:inline">Contact</a>
+          <a href="/login" className="text-white font-bold hover:text-gray-300 bg-blue-600 px-4 py-2 rounded-md">Login</a>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-white focus:outline-none"
+            className="text-white focus:outline-none md:hidden"
           >
             <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
               {isOpen ? (
@@ -58,8 +55,6 @@ const Navbar = () => {
           <a href="/" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Home</a>
           <a href="/about" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">About</a>
           <a href="/contact" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Contact</a>
-          <a href="/signup" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Signup</a>
-          <a href="/login" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Login</a>
         </div>
       </div>
     </nav>

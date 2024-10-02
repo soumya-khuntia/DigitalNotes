@@ -11,21 +11,28 @@ import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
 import Dashboard from "./components/Pages/Dashboard";
 
+import StarRating from "./components/functional/StarRating";
+
+const handleRatingChange = (newRating) => {
+  console.log('New rating:', newRating);
+  // You can perform any action with the new rating here
+};
+
 
 function App() {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       {/* <Home/> */}
       <Dashboard/>
-      {/* <SignUp/>
-      <SignIn/>
-      <Forgetpass/>
+      {/* <SignUp/> */}
+      {/* <SignIn/> */}
+      {/* <Forgetpass/>
       <EmailCode/>
       <SetNewpassword/> */}
       {/* <Contact/> */}
       {/* <About/> */}
-      <Footer/>
+      <Footer />
     </>
   );
 }
