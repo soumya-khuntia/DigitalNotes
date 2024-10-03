@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import {
   FaUser,
-  FaBars,
   FaTimes,
   FaEdit,
   FaSave,
-  FaEye,
-  FaDownload,
-  FaArrowLeft,
 } from "react-icons/fa";
-import StarRating from "../functional/StarRating";
+import Notes from "../functional/Notes";
+
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState("profile");
-  const [selectedNote, setSelectedNote] = useState(null);
 
   const [name, setName] = useState("John Doe");
   const [email, setEmail] = useState("johndoe@example.com");
@@ -30,12 +26,6 @@ const Dashboard = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleRatingChange = (newRating) => {
-    console.log('New rating:', newRating);
-    // You can perform any action with the new rating here
-  };
-  // <StarRating totalStars={5} initialRating={3} onRatingChange={handleRatingChange} />
-
   const handleSaveProfile = () => {
     console.log("Saving profile:", {
       name,
@@ -48,14 +38,6 @@ const Dashboard = () => {
       semester,
     });
     setIsEditing(false);
-  };
-
-  const handleNoteClick = (index) => {
-    setSelectedNote(index);
-  };
-
-  const handleCloseNote = () => {
-    setSelectedNote(null);
   };
 
   return (
@@ -207,50 +189,10 @@ const Dashboard = () => {
             </div>
           </>
         )}
-        {activeSection === "notes" && (
-          <>
-            <h1 className="text-2xl font-bold mb-6 text-center">Notes</h1>
-            {selectedNote === null ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="bg-white p-4 rounded-lg shadow-md aspect-square flex items-center justify-center w-full h-48 sm:h-56 md:h-64 lg:h-72 cursor-pointer hover:bg-gray-100 transition-colors"
-                    onClick={() => handleNoteClick(index)}
-                  >
-                    <span className="text-xl font-semibold text-gray-700">
-                      Note {index + 1}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <div className="bg-white p-4 rounded-lg shadow-md aspect-square flex items-center justify-center w-full max-w-md h-64 sm:h-72 md:h-80 lg:h-96 mb-6">
-                  <span className="text-2xl font-semibold text-gray-700">
-                    Note {selectedNote + 1}
-                    <StarRating totalStars={5} initialRating={3} onRatingChange={handleRatingChange} />
-                  </span>
-                </div>
-                <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                  <button className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto">
-                    <FaEye className="mr-2" /> Preview
-                  </button>
-                  <button className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full sm:w-auto">
-                    <FaDownload className="mr-2" /> Download
-                  </button>
-                </div>
-                <button
-                  onClick={handleCloseNote}
-                  className="mt-4 text-gray-500 hover:text-gray-700 font-semibold"
-                >
-                  <FaArrowLeft className="inline-block mr-2" />
-                  Back to All Notes
-                </button>
-              </div>
-            )}
-          </>
-        )}
+
+        {/* Notes Section */}
+        {activeSection === "notes" && <Notes/>}
+
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-white font-bold text-xl px-4 sm:px-6 md:px-8 lg:px-12">
-          <a href="/">Logo</a>
+          <a href="/">DigiNotes</a>
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
           <a href="/" className="text-white font-bold hover:text-gray-300 hidden md:inline">Home</a>
