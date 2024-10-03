@@ -6,6 +6,7 @@ import {
   FaSave,
 } from "react-icons/fa";
 import Notes from "../functional/Notes";
+import SavedNotes from "../functional/SavedNotes";
 
 
 const Dashboard = () => {
@@ -78,12 +79,13 @@ const Dashboard = () => {
           <a
             href="#"
             onClick={() => setActiveSection("saved-notes")}
-            className="block py-2 px-6 text-gray-700 hover:bg-green-200 font-bold text-lg"
+            className={`block py-2 px-6 text-gray-700 hover:bg-green-200 font-bold text-lg ${activeSection === "saved-notes" ? "bg-green-300" : ""
+              }`}
           >
             Saved Notes
           </a>
           <a
-            href="/logout"
+            href="#"
             className="block py-2 px-6 text-gray-700 hover:bg-red-200 font-bold text-lg"
           >
             Logout
@@ -192,6 +194,9 @@ const Dashboard = () => {
 
         {/* Notes Section */}
         {activeSection === "notes" && <Notes/>}
+
+        {/* Saved Notes Section */}
+        {activeSection === "saved-notes" && <SavedNotes/>}
 
       </div>
     </div>
