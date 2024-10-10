@@ -4,6 +4,16 @@ import {
   FaTimes,
   FaEdit,
   FaSave,
+  FaEnvelope,
+  FaIdCard,
+  FaPhone,
+  FaBirthdayCake,
+  FaVenusMars,
+  FaGraduationCap,
+  FaCalendarAlt,
+  FaStickyNote,
+  FaBookmark,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import Notes from "../functional/Notes";
 import SavedNotes from "../functional/SavedNotes";
@@ -66,7 +76,10 @@ const Dashboard = () => {
             className={`block py-2 px-6 text-gray-700 hover:bg-blue-200 font-bold text-lg ${activeSection === "profile" ? "bg-blue-300" : ""
               }`}
           >
-            Profile
+            <div className="flex items-center">
+              <FaUser className="mr-2" />
+              <span className="inline">Profile</span>
+            </div>
           </a>
           <a
             href="#"
@@ -74,7 +87,10 @@ const Dashboard = () => {
             className={`block py-2 px-6 text-gray-700 hover:bg-yellow-200 font-bold text-lg ${activeSection === "notes" ? "bg-yellow-300" : ""
               }`}
           >
-            Notes
+            <div className="flex items-center">
+              <FaStickyNote className="mr-2" />
+              <span className="inline">Notes</span>
+            </div>
           </a>
           <a
             href="#"
@@ -82,13 +98,19 @@ const Dashboard = () => {
             className={`block py-2 px-6 text-gray-700 hover:bg-green-200 font-bold text-lg ${activeSection === "saved-notes" ? "bg-green-300" : ""
               }`}
           >
-            Saved Notes
+            <div className="flex items-center">
+              <FaBookmark className="mr-2" />
+              <span className="inline">Saved Notes</span>
+            </div>
           </a>
           <a
             href="#"
             className="block py-2 px-6 text-gray-700 hover:bg-red-200 font-bold text-lg"
           >
-            Logout
+            <div className="flex items-center">
+              <FaSignOutAlt className="mr-2" />
+              <span className="inline">Logout</span>
+            </div>
           </a>
         </nav>
       </div>
@@ -107,6 +129,7 @@ const Dashboard = () => {
                   isEditing={isEditing}
                   onChange={setName}
                   type="text"
+                  icon={<FaUser className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Email"
@@ -114,6 +137,7 @@ const Dashboard = () => {
                   isEditing={isEditing}
                   onChange={setEmail}
                   type="email"
+                  icon={<FaEnvelope className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Regd. No."
@@ -121,6 +145,7 @@ const Dashboard = () => {
                   isEditing={isEditing}
                   onChange={setRegdNo}
                   type="text"
+                  icon={<FaIdCard className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Phone No."
@@ -128,6 +153,7 @@ const Dashboard = () => {
                   isEditing={isEditing}
                   onChange={setphoneNo}
                   type="number"
+                  icon={<FaPhone className="mr-2 text-blue-500 transform rotate-180" />}
                 />
                 <ProfileField
                   label="Date of Birth"
@@ -135,6 +161,7 @@ const Dashboard = () => {
                   isEditing={isEditing}
                   onChange={setDob}
                   type="date"
+                  icon={<FaBirthdayCake className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Gender"
@@ -143,6 +170,7 @@ const Dashboard = () => {
                   onChange={setGender}
                   type="select"
                   options={["Male", "Female", "Other"]}
+                  icon={<FaVenusMars className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Branch"
@@ -151,6 +179,7 @@ const Dashboard = () => {
                   onChange={setBranch}
                   type="select"
                   options={["CSE", "EE", "EEE", "CE", "ME"]}
+                  icon={<FaGraduationCap className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
                   label="Semester"
@@ -168,6 +197,7 @@ const Dashboard = () => {
                     "7th",
                     "8th",
                   ]}
+                  icon={<FaCalendarAlt className="mr-2 text-blue-500" />}
                 />
               </div>
               <div className="flex justify-center p-4">
@@ -197,15 +227,17 @@ const Dashboard = () => {
 
         {/* Saved Notes Section */}
         {activeSection === "saved-notes" && <SavedNotes/>}
-
       </div>
     </div>
   );
 };
 
-const ProfileField = ({ label, value, isEditing, onChange, type, options }) => (
+const ProfileField = ({ label, value, isEditing, onChange, type, options, icon }) => (
   <div className="col-span-1 sm:col-span-2 md:col-span-1 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
-    <div className="font-semibold text-gray-700">{label}</div>
+    <div className="font-semibold text-gray-700 flex items-center">
+      {icon}
+      <span className="inline">{label}</span>
+    </div>
     {isEditing ? (
       type === "select" ? (
         <select

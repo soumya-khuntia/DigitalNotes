@@ -32,7 +32,7 @@ const SavedNotes = () => {
         <>
             <h1 className="text-2xl font-bold mb-2 text-center">SavedNotes</h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold mb-6 text-center sm:text-left">
-                <span className="text-red-500">*</span> Click on a note to give a review & remove bookmarks
+                {selectedNote === null ? (<p><span className="text-red-500">*</span> Click on a note to give a review & remove bookmarks</p>) : ''}
             </p>
             {selectedNote === null ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -86,7 +86,7 @@ const SavedNotes = () => {
                         className="mt-4 text-gray-500 hover:text-gray-700 font-semibold text-sm sm:text-base"
                     >
                         <FaArrowLeft className="inline-block mr-2" />
-                        Back to All Notes
+                        Back to Saved Notes
                     </button>
 
                     <hr className="w-full my-6 border-t border-gray-300" />

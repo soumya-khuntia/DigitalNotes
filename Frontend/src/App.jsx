@@ -5,13 +5,13 @@ import Forgetpass from "./components/Auth/PasswordReset/Forgetpass";
 import EmailCode from "./components/Auth/PasswordReset/EmailCode";
 import SetNewpassword from "./components/Auth/PasswordReset/SetNewpassword";
 import Contact from "./components/Pages/Contact";
-import About from "./components/Pages/About";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
 import Dashboard from "./components/Pages/Dashboard";
 
 import StarRating from "./components/functional/StarRating";
+import AboutUs from "./components/Pages/About";
 
 const handleRatingChange = (newRating) => {
   console.log('New rating:', newRating);
@@ -24,14 +24,14 @@ function App() {
     <>
       <Navbar />
       {/* <Home/> */}
-      <Dashboard/>
+      {/* <Dashboard/> */}
       {/* <SignUp/> */}
       {/* <SignIn/> */}
       {/* <Forgetpass/>
       <EmailCode/>
       <SetNewpassword/> */}
       {/* <Contact/> */}
-      {/* <About/> */}
+      <AboutUs/>
       <Footer />
     </>
   );
