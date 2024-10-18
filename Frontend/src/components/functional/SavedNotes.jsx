@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaEye, FaDownload, FaArrowLeft, FaFilePdf, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { FaEye, FaDownload, FaArrowLeft, FaFilePdf, FaBookmark, FaRegBookmark, FaTimes } from 'react-icons/fa';
 import StarRating from '../functional/StarRating';
 
 const SavedNotes = () => {
     const [selectedNote, setSelectedNote] = useState(null);
     const [bookmarked, setBookmarked] = useState(false);
+    const [previewOpen, setPreviewOpen] = useState(false);
 
     const handleNoteClick = (index) => {
         setSelectedNote(index);
@@ -20,6 +21,14 @@ const SavedNotes = () => {
 
     const toggleBookmark = () => {
         setBookmarked(!bookmarked);
+    };
+
+    const handlePreview = () => {
+        setPreviewOpen(true);
+    };
+
+    const handleClosePreview = () => {
+        setPreviewOpen(false);
     };
 
     const reviews = [
@@ -74,7 +83,7 @@ const SavedNotes = () => {
                         )}
                     </div>
                     <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 w-full max-w-sm">
-                        <button className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto text-sm sm:text-base">
+                        <button onClick={handlePreview} className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto text-sm sm:text-base">
                             <FaEye className="mr-2" /> Preview
                         </button>
                         <button className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full sm:w-auto text-sm sm:text-base">
@@ -103,6 +112,23 @@ const SavedNotes = () => {
                                     <p className="text-gray-700 text-xs sm:text-sm">{review.content}</p>
                                 </div>
                             ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {previewOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-3xl mx-4 sm:mx-auto">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-semibold">Preview: Note {selectedNote + 1}</h2>
+                            <button onClick={handleClosePreview} className="text-gray-500 hover:text-gray-700">
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className="flex flex-col items-center justify-center h-64 sm:h-96 bg-gray-100 rounded">
+                            <FaFilePdf className="text-6xl sm:text-8xl text-red-500 mb-4" />
+                            <p className="text-gray-600 text-sm sm:text-base">PDF Preview Placeholder</p>
                         </div>
                     </div>
                 </div>

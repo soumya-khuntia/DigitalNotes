@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -25,13 +24,17 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-white font-bold text-xl px-4 sm:px-6 md:px-8 lg:px-12">
-          <a href="/">DigiNotes</a>
+          <Link to="/">DigiNotes</Link>
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
-          <a href="/" className="text-white font-bold hover:text-gray-300 hidden md:inline">Home</a>
-          <a href="/about" className="text-white font-bold hover:text-gray-300 hidden md:inline">About</a>
-          <a href="/contact" className="text-white font-bold hover:text-gray-300 hidden md:inline">Contact</a>
-          <a href="/login" className="text-white font-bold hover:text-gray-300 bg-blue-600 px-4 py-2 rounded-md">Login</a>
+          <Link to="/" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/' ? 'text-blue-400' : ''}`}>Home</Link>
+          <Link to="/about" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/about' ? 'text-blue-400' : ''}`}>About</Link>
+          <Link to="/contact" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/contact' ? 'text-blue-400' : ''}`}>Contact</Link>
+          {isSignedIn ? (
+            <Link to="/dashboard" className="text-white font-bold hover:text-gray-300 bg-green-600 px-4 py-2 rounded-md hidden md:inline">Dashboard</Link>
+          ) : (
+            <Link to="/signin" className="text-white font-bold hover:text-gray-300 bg-blue-600 px-4 py-2 rounded-md hidden md:inline">Signin</Link>
+          )}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="text-white focus:outline-none md:hidden"
@@ -52,9 +55,14 @@ const Navbar = () => {
         }`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a href="/" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Home</a>
-          <a href="/about" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">About</a>
-          <a href="/contact" className="text-white block hover:bg-gray-700 px-3 py-2 rounded-md">Contact</a>
+          <Link to="/" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/' ? 'bg-gray-700' : ''}`}>Home</Link>
+          <Link to="/about" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/about' ? 'bg-gray-700' : ''}`}>About</Link>
+          <Link to="/contact" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/contact' ? 'bg-gray-700' : ''}`}>Contact</Link>
+          {isSignedIn ? (
+            <Link to="/dashboard" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/dashboard' ? 'bg-gray-700' : ''}`}>Dashboard</Link>
+          ) : (
+            <Link to="/signin" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/signin' ? 'bg-gray-700' : ''}`}>Signin</Link>
+          )}
         </div>
       </div>
     </nav>

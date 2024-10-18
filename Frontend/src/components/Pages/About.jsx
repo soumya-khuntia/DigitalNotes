@@ -101,20 +101,6 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Web3 Integration Details Section */}
-      {/* <section className="container mx-auto px-4 py-16 bg-indigo-100 rounded-lg">
-        <h2 className="text-4xl font-bold mb-8 text-center text-indigo-600">Web3 Integration</h2>
-        <div className="max-w-3xl mx-auto">
-          <p className="text-lg mb-6">Our platform leverages Web3 technology to provide a decentralized, secure, and transparent learning environment. Here's how we integrate Web3:</p>
-          <ul className="list-disc list-inside space-y-4 text-lg">
-            <li>Blockchain-based certification for verifiable credentials</li>
-            <li>Decentralized content storage for increased accessibility and censorship resistance</li>
-            <li>Smart contracts for automated and transparent reward systems</li>
-            <li>Cryptocurrency integration for global, borderless transactions</li>
-          </ul>
-        </div>
-      </section> */}
-
       {/* Call-to-Action Section */}
       <section className="container mx-auto px-4 bg-indigo-100 py-16 text-center">
         <h2 className="text-4xl font-bold mb-8 text-indigo-600">Join the Future of Learning</h2>

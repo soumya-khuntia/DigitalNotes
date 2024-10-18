@@ -14,6 +14,7 @@ import {
   FaStickyNote,
   FaBookmark,
   FaSignOutAlt,
+  FaInfoCircle,
 } from "react-icons/fa";
 import Notes from "../functional/Notes";
 import SavedNotes from "../functional/SavedNotes";
@@ -31,7 +32,7 @@ const Dashboard = () => {
   const [dob, setDob] = useState("2000-01-01");
   const [gender, setGender] = useState("Male");
   const [branch, setBranch] = useState("CSE");
-  const [semester, setSemester] = useState("6th");
+  const [year, setYear] = useState("1st");
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -46,7 +47,7 @@ const Dashboard = () => {
       gender,
       phoneNo,
       branch,
-      semester,
+      year,
     });
     setIsEditing(false);
   };
@@ -118,9 +119,15 @@ const Dashboard = () => {
       <div className="flex-1 p-8">
         {activeSection === "profile" && (
           <>
-            <h1 className="text-2xl font-bold mb-6 text-center">
+            <h1 className="text-2xl font-bold mb-2 text-center">
               Profile Details
             </h1>
+            <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
+              <p className="flex flex-col sm:flex-row items-center">
+                <FaInfoCircle className="mr-2 mb-2 sm:mb-0" />
+                <span className="text-center sm:text-left">Important: Please complete your profile details to access notes specific to your branch and year.</span>
+              </p>
+            </div>
             <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-x-12 gap-6 p-8">
                 <ProfileField
@@ -182,20 +189,16 @@ const Dashboard = () => {
                   icon={<FaGraduationCap className="mr-2 text-blue-500" />}
                 />
                 <ProfileField
-                  label="Semester"
-                  value={semester}
+                  label="Year"
+                  value={year}
                   isEditing={isEditing}
-                  onChange={setSemester}
+                  onChange={setYear}
                   type="select"
                   options={[
                     "1st",
                     "2nd",
                     "3rd",
                     "4th",
-                    "5th",
-                    "6th",
-                    "7th",
-                    "8th",
                   ]}
                   icon={<FaCalendarAlt className="mr-2 text-blue-500" />}
                 />
@@ -223,10 +226,10 @@ const Dashboard = () => {
         )}
 
         {/* Notes Section */}
-        {activeSection === "notes" && <Notes/>}
+        {activeSection === "notes" && <Notes branch={branch} year={year} />}
 
         {/* Saved Notes Section */}
-        {activeSection === "saved-notes" && <SavedNotes/>}
+        {activeSection === "saved-notes" && <SavedNotes branch={branch} year={year} />}
       </div>
     </div>
   );
