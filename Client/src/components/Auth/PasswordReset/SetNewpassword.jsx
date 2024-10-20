@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
-import { FaGoogle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const SetNewpassword = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const passRef = useRef(null);
   const npassRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -27,10 +28,14 @@ const SetNewpassword = () => {
     npassRef.current.value = '';
   };
 
+  const handleClose = () => {
+    navigate('/');
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
-        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+        <button onClick={handleClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
           <IoMdClose size={24} />
         </button>
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">New Password</h2>

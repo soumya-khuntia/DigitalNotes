@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
+import { useNavigate, Link } from "react-router-dom";
 
 const SignIn = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -27,10 +29,18 @@ const SignIn = () => {
     passwordRef.current.value = '';
   };
 
+  const handleClose = () => {
+    navigate('/');
+  };
+
+  const handleCreateAccount = () => {
+    navigate('/signup');
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-300 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
-        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+        <button onClick={handleClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
           <IoMdClose size={24} />
         </button>
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Sign In</h2>
@@ -80,9 +90,9 @@ const SignIn = () => {
             </label>
           </div>
           <div className="flex justify-between items-center mb-3 sm:mb-4">
-            <a href="#" className="text-sm text-blue-600 hover:text-blue-500 hover:underline">
+            <Link to="/forget-password" className="text-sm text-blue-600 hover:text-blue-500 hover:underline">
               Forgot password?
-            </a>
+            </Link>
           </div>
           <div className="flex justify-center items-center space-x-4 mb-3 sm:mb-4">
             <button
@@ -93,6 +103,7 @@ const SignIn = () => {
             </button>
             <button
               type="button"
+              onClick={handleCreateAccount}
               className="py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm sm:text-base"
             >
               Create Account

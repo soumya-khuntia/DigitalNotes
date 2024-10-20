@@ -54,7 +54,6 @@ const Notes = () => {
                             <FaFilePdf className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-red-500" />
                             <div className="mt-4 text-xs sm:text-sm">
                                 <StarRating totalStars={5} initialRating={3} readonly={true} />
-                                <p className="mt-1 text-gray-600">3 reviews</p>
                             </div>
                         </div>
                     ))}
