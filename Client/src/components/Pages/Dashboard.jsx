@@ -72,7 +72,7 @@ const Dashboard = () => {
         <hr className="border-t border-gray-200 my-2" />
         <nav className="mt-8 space-y-4">
           <a
-            href="#"
+            href="/dashboard/profile"
             onClick={() => setActiveSection("profile")}
             className={`block py-2 px-6 text-gray-700 hover:bg-blue-200 font-bold text-lg ${activeSection === "profile" ? "bg-blue-300" : ""
               }`}

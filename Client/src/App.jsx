@@ -10,13 +10,15 @@ import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
 import Dashboard from "./components/Pages/Dashboard";
 import AboutUs from "./components/Pages/About";
+import View from "./components/Pages/View";
 
 function App() {
   return (
-    <Router>
+    <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route  path="/" element={<Home />} />
+        <Route  path="/view" element={<View/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
@@ -26,8 +28,20 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
-      <Footer />
-    </Router>
+      {/* <Footer /> */}
+    </div>
+
+
+    // <div>
+    //   {/* <Header/> */}
+    //   <div className='container'>
+    //   <Routes>
+    //     <Route  path='/' element={<Home/>}/>
+    //     {/* <Route  path='/add-blog' element={<AddBlog/>} /> */}
+    //     {/* <Route path="*" element={<div>404 not fount</div>}></Route> */}
+    //   </Routes>
+    //   </div>
+    // </div>
   );
 }
 
