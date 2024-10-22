@@ -1,42 +1,74 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
-  const position = [20.56273, 85.99068]; // Example coordinates (London)
+  const position = [20.56273, 85.99068]; //coordinates of DRIEMS University
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Contact Us</h1>
-      <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 sm:mt-20 lg:mt-24">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center text-gray-800">Get in Touch</h1>
+      <p className="text-center text-gray-600 mb-8">We'd love to hear from you. Please fill out this form or use our contact information below.</p>
+      <div className="flex flex-col lg:flex-row gap-6 sm:gap-12">
         <div className="w-full lg:w-1/2">
-          <form className="space-y-4">
+          <form className="space-y-4 bg-white shadow-md rounded-lg p-6">
             <div>
-              <label htmlFor="name" className="block mb-1 font-medium">Name</label>
-              <input type="text" id="name" name="name" className="w-full px-3 py-2 border rounded-md" required />
+              <label htmlFor="name" className="block mb-1 font-medium text-gray-700">Name</label>
+              <input type="text" id="name" name="name" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
             </div>
             <div>
-              <label htmlFor="email" className="block mb-1 font-medium">Email</label>
-              <input type="email" id="email" name="email" className="w-full px-3 py-2 border rounded-md" required />
+              <label htmlFor="email" className="block mb-1 font-medium text-gray-700">Email</label>
+              <input type="email" id="email" name="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
             </div>
             <div>
-              <label htmlFor="message" className="block mb-1 font-medium">Message</label>
-              <textarea id="message" name="message" rows="4" className="w-full px-3 py-2 border rounded-md" required></textarea>
+              <label htmlFor="subject" className="block mb-1 font-medium text-gray-700">Subject</label>
+              <input type="text" id="subject" name="subject" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required />
             </div>
-            <button type="submit" className="w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">Send Message</button>
+            <div>
+              <label htmlFor="message" className="block mb-1 font-medium text-gray-700">Message</label>
+              <textarea id="message" name="message" rows="4" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+            </div>
+
+            <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">Send Message</button>
           </form>
         </div>
-        <div className="w-full lg:w-1/2 h-64 sm:h-80 lg:h-auto mt-6 lg:mt-0">
-          <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+        <div className="w-full lg:w-1/2">
+          <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Contact Information</h2>
+            <ul className="space-y-4">
+              <li className="flex items-center">
+                <FaPhone className="text-green-500 mr-3 transform rotate-90" />
+                <span>+91 1234567890</span>
+              </li>
+              <li className="flex items-center">
+                <FaEnvelope className="text-red-500 mr-3" />
+                <span>info@driems.ac.in</span>
+              </li>
+              <li className="flex items-center">
+                <FaMapMarkerAlt className="text-blue-500 mr-3" />
+                <span>DRIEMS University, Tangi, Cuttack, Odisha 754022</span>
+              </li>
+            </ul>
+          </div>
+          <MapContainer center={position} zoom={13} style={{ height: '400px', width: '100%' }} className="rounded-lg shadow-md" zoomControl={false}>
             <TileLayer
-              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Marker position={position}>
+            <Marker position={position}
+              eventHandlers={{
+                mouseover: (event) => event.target.openPopup(),
+                mouseout: (event) => event.target.closePopup(),
+              }}
+            >
               <Popup>
-                Our Location
+                <h3 className="font-bold">DRIEMS University</h3>
+                <p>Tangi, Cuttack, Odisha 754022</p>
+                <p>Welcome to our campus!</p>
               </Popup>
             </Marker>
+            <ZoomControl position="bottomright" />
           </MapContainer>
         </div>
       </div>
