@@ -20,7 +20,7 @@ const Notes = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const { noteList, setNoteList, pending, setPending } =
     useContext(GlobalContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   
 
@@ -210,7 +210,7 @@ const Notes = () => {
         </div>
       )}
 
-      {/* {previewOpen && (
+      {previewOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-3xl mx-4 sm:mx-auto">
             <div className="flex justify-between items-center mb-4">
@@ -232,7 +232,7 @@ const Notes = () => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
       </div>
     </>
   );
