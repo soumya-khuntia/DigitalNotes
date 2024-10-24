@@ -12,7 +12,7 @@ import StarRating from "../functional/StarRating";
 import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../layout/Sidebar";
+import Sidebar from "../layout/Dashboard";
 
 const Notes = () => {
   const [selectedNote, setSelectedNote] = useState(null);

@@ -20,7 +20,7 @@ import Notes from "../functional/Notes";
 import SavedNotes from "../functional/SavedNotes";
 
 
-const Dashboard = () => {
+const Dashboard2 = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState("profile");
@@ -269,4 +269,4 @@ const ProfileField = ({ label, value, isEditing, onChange, type, options, icon }
   </div>
 );
 
-export default Dashboard;
+export default Dashboard2;

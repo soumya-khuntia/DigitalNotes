@@ -8,11 +8,9 @@ import Contact from "./components/Pages/Contact";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
-import Dashboard from "./components/Pages/Dashboard";
 import AboutUs from "./components/Pages/About";
 import View from "./components/Pages/View";
-import Note from "./components/Pages/Note";
-import Sidebar from "./components/layout/Sidebar";
+import Dashboard from "./components/layout/Dashboard";
 import Notes from "./components/functional/Notes";
 
 function App() {
@@ -22,10 +20,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/view" element={<View />} />
-        <Route path="/dashboard" element={<Sidebar />} />
-        <Route path="/dashboard/notes" element={<Sidebar />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/notes" element={<Dashboard />} />
         {/* <Route  element={<Dashboard />} /> */}
-        <Route path="/dashboard/savednotes" element={<Sidebar />} />
+        <Route path="/dashboard/savednotes" element={<Dashboard />} />
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />

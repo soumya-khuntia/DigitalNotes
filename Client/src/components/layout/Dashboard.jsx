@@ -17,22 +17,15 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import { useState } from "react";
-import Note from "../Pages/Note";
 import Notes from "../functional/Notes";
 import Profile from "../functional/Profile";
 import SavedNotes from "../functional/SavedNotes";
 
-const Sidebar = () => {
+const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("profile");
 
   return (
     <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)] ml-64 bg-gray-100 mt-16">
-      {/* <Note/> */}
-
-      {/* <Profile /> */}
-
-      {/* {activeSection === "savenotes" && <Notes branch={branch} year={year} />} */}
-      {/* {activeSection === "notes" && <Notes branch={branch} year={year} />} */}
       <div className="w-64 bg-white shadow-md fixed inset-y-0 left-0 transform">
         <div className="p-4 mt-20">
           <FaUser className="w-20  h-20 mx-auto text-gray-700" />
@@ -97,4 +90,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Dashboard;
