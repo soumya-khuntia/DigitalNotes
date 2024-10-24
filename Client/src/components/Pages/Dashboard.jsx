@@ -53,7 +53,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)] bg-gray-100 mt-16">
+    <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]  bg-gray-100 mt-16">   
       <button
         className="md:hidden fixed top-20 left-4 z-20 p-2 rounded-md bg-gray-200 text-gray-700"
         onClick={toggleSidebar}
@@ -70,10 +70,11 @@ const Dashboard = () => {
           <FaUser className="w-20 h-20 mx-auto text-gray-700" />
         </div>
         <hr className="border-t border-gray-200 my-2" />
+
         <nav className="mt-8 space-y-4">
           <a
-            href="/dashboard/profile"
-            onClick={() => setActiveSection("profile")}
+            href="/dashboard"
+            // onClick={() => setActiveSection("profile")}
             className={`block py-2 px-6 text-gray-700 hover:bg-blue-200 font-bold text-lg ${activeSection === "profile" ? "bg-blue-300" : ""
               }`}
           >
@@ -83,8 +84,8 @@ const Dashboard = () => {
             </div>
           </a>
           <a
-            href="#"
-            onClick={() => setActiveSection("notes")}
+            href="/dashboard/notes"
+            // onClick={() => setActiveSection("notes")}
             className={`block py-2 px-6 text-gray-700 hover:bg-yellow-200 font-bold text-lg ${activeSection === "notes" ? "bg-yellow-300" : ""
               }`}
           >
@@ -94,8 +95,8 @@ const Dashboard = () => {
             </div>
           </a>
           <a
-            href="#"
-            onClick={() => setActiveSection("saved-notes")}
+            href="/dashboard/savednotes"
+            // onClick={() => setActiveSection("saved-notes")}
             className={`block py-2 px-6 text-gray-700 hover:bg-green-200 font-bold text-lg ${activeSection === "saved-notes" ? "bg-green-300" : ""
               }`}
           >

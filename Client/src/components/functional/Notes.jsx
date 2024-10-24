@@ -12,6 +12,7 @@ import StarRating from "../functional/StarRating";
 import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../layout/Sidebar";
 
 const Notes = () => {
   const [selectedNote, setSelectedNote] = useState(null);
@@ -19,7 +20,7 @@ const Notes = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const { noteList, setNoteList, pending, setPending } =
     useContext(GlobalContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   
 
@@ -99,6 +100,7 @@ const Notes = () => {
 
   return (
     <>
+    <div className="flex-1 p-8">
       <h1 className="text-2xl font-bold mb-2 text-center">Notes</h1>
       {selectedNote === null ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -231,6 +233,7 @@ const Notes = () => {
           </div>
         </div>
       )} */}
+      </div>
     </>
   );
 };

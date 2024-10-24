@@ -13,10 +13,13 @@ import axios from "axios";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 const View = ({ noteItem }) => {
-  
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const { note } = location.state || {};
+
+
+  const fileId = '19OC73L_x2GeC7GNG05FqG0BoQCjs7FAe'; 
+  const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
   if (!note) {
     return <p>Note not found</p>;
@@ -100,12 +103,16 @@ const View = ({ noteItem }) => {
         >
           <FaEye className="mr-2" /> Preview
         </button>
-        <button className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full sm:w-auto text-sm sm:text-base">
+        <a
+          href={downloadUrl}
+          download={`${note.title}.pdf`}
+          className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full sm:w-auto text-sm sm:text-base"
+        >
           <FaDownload className="mr-2" /> Download
-        </button>
+        </a>
       </div>
       <button
-        onClick={()=> navigate('/dashboard')}
+        onClick={() => navigate("/dashboard")}
         className="mt-4 text-gray-500 hover:text-gray-700 font-semibold text-sm sm:text-base"
       >
         <FaArrowLeft className="inline-block mr-2" />

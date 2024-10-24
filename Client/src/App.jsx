@@ -11,15 +11,22 @@ import Home from "./components/Pages/Home";
 import Dashboard from "./components/Pages/Dashboard";
 import AboutUs from "./components/Pages/About";
 import View from "./components/Pages/View";
+import Note from "./components/Pages/Note";
+import Sidebar from "./components/layout/Sidebar";
+import Notes from "./components/functional/Notes";
 
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route  path="/" element={<Home />} />
-        <Route  path="/view" element={<View/>} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/view" element={<View />} />
+        <Route path="/dashboard" element={<Sidebar />} />
+        <Route path="/dashboard/notes" element={<Sidebar />} />
+        {/* <Route  element={<Dashboard />} /> */}
+        <Route path="/dashboard/savednotes" element={<Sidebar />} />
+
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/forget-password" element={<Forgetpass />} />
@@ -28,9 +35,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<AboutUs />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
-
 
     // <div>
     //   {/* <Header/> */}
