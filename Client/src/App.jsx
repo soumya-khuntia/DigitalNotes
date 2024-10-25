@@ -32,6 +32,7 @@ function App() {
         <Route path="/set-new-password" element={<SetNewpassword />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="*" element={<div>404 not fount</div>}></Route>
       </Routes>
       <Footer />
     </div>

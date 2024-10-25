@@ -44,7 +44,29 @@ const fetchListOfNotes = async (req, res) => {
     return res.status(200).json({ currentNote });
   };
 
+  const handleSignUp = async (req, res) => {
+    try {
+      let { username, email, password } = req.body;
+      const newUser = new User({ email, username });
+      const registeroedUser = await User.register(newUser, password);
+      // console.log(registeroedUser);
+      req.login(registeroedUser, (err)=>{  //After signup auto login
+        if(err){
+          return next(err);
+        }
+        // req.flash("success", "Welcome to IdeaShare");
+        res.send("success");
+        // res.redirect("/listings");
+      })
+      
+    } catch (e) {
+      // req.flash("error", e.message);
+      // res.redirect("/signup");
+      res.send("Error Occured");
+    }
+  };
+
 
 
 //   module.exports = {fetchListOfBlogs, deleteABlog, updateABlog, addNewBlog};
-module.exports = {fetchListOfNotes, handleNoteClick};
+module.exports = {fetchListOfNotes, handleNoteClick, handleSignUp};

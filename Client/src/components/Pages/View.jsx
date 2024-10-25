@@ -18,7 +18,7 @@ const View = ({ noteItem }) => {
   const { note } = location.state || {};
 
 
-  const fileId = '19OC73L_x2GeC7GNG05FqG0BoQCjs7FAe'; 
+  const fileId = import.meta.env.VITE_FIELDID; 
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
   if (!note) {
