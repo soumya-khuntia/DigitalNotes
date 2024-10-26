@@ -56,7 +56,7 @@ const Sidebar = ({ sidebarOpen }) => {
           </div>
         </NavLink>
         <NavLink
-          to="/logout"
+          to="#"
           className="block py-2 px-6 text-gray-700 hover:bg-red-200 font-bold text-lg"
         >
           <div className="flex items-center">

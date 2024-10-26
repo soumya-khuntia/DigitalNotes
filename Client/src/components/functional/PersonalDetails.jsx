@@ -10,7 +10,7 @@ const PersonalDetails = () => {
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("");
     const [branch, setBranch] = useState("");
-    const [year, setYear] = useState("");
+    const [semester, setSemester] = useState("");
     const [showImportantMessage, setShowImportantMessage] = useState(true);
 
     const handleSaveProfile = () => {
@@ -22,10 +22,10 @@ const PersonalDetails = () => {
             gender,
             phoneNo,
             branch,
-            year,
+            semester,
         });
         setIsEditing(false);
-        const allFieldsFilled = name && email && regdNo && phoneNo && dob && gender && branch && year;
+        const allFieldsFilled = name && email && regdNo && phoneNo && dob && gender && branch && semester;
         setShowImportantMessage(!allFieldsFilled);
     };
 
@@ -36,7 +36,7 @@ const PersonalDetails = () => {
                 <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 mx-4 sm:mx-0 rounded-r">
                     <div className="flex flex-col sm:flex-row items-center sm:items-center">
                         <FaExclamationTriangle className="flex-shrink-0 mr-2 mb-2 sm:mb-0 text-yellow-500 text-xl" />
-                        <p className="font-bold text-sm sm:text-base text-center sm:text-left">Please complete all profile details to access notes specific to your branch and year.</p>
+                        <p className="font-bold text-sm sm:text-base text-center sm:text-left">Please complete all profile details to access notes specific to your branch and semester.</p>
                     </div>
                 </div>
             )}
@@ -72,7 +72,7 @@ const PersonalDetails = () => {
                         isEditing={isEditing}
                         onChange={setPhoneNo}
                         type="number"
-                        icon={<FaPhone className="mr-2 text-blue-500 transform rotate-180" />}
+                        icon={<FaPhone className="mr-2 text-blue-500 transform rotate-90" />}
                     />
                     <ProfileField
                         label="Date of Birth"
@@ -101,16 +101,20 @@ const PersonalDetails = () => {
                         icon={<FaGraduationCap className="mr-2 text-yellow-500" />}
                     />
                     <ProfileField
-                        label="Year"
-                        value={year}
+                        label="Semester"
+                        value={semester}
                         isEditing={isEditing}
-                        onChange={setYear}
+                        onChange={setSemester}
                         type="select"
                         options={[
                             "1st",
                             "2nd",
                             "3rd",
                             "4th",
+                            "5th",
+                            "6th",
+                            "7th",
+                            "8th",
                         ]}
                         icon={<FaCalendarAlt className="mr-2 text-orange-500" />}
                     />

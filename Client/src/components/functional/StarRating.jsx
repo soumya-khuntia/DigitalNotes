@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-const StarRating = ({ totalStars = 5, initialRating = 0, onRatingChange }) => {
+const StarRating = ({ totalStars = 5, initialRating = 0, onRatingChange, readonly = false }) => {
   const [rating, setRating] = useState(initialRating);
   const [hover, setHover] = useState(null);
 
   const handleRatingChange = (newRating) => {
+    if (readonly) return;
     setRating(newRating);
     if (onRatingChange) {
       onRatingChange(newRating);
@@ -19,11 +20,12 @@ const StarRating = ({ totalStars = 5, initialRating = 0, onRatingChange }) => {
           <button
             key={index}
             className={`text-3xl focus:outline-none ${
-              starValue <= (hover || rating) ? 'text-yellow-400' : 'text-gray-300'
-            }`}
+              starValue <= (readonly ? rating : (hover || rating)) ? 'text-yellow-400' : 'text-gray-300'
+            } ${readonly ? 'cursor-default' : 'cursor-pointer'}`}
             onClick={() => handleRatingChange(starValue)}
-            onMouseEnter={() => setHover(starValue)}
-            onMouseLeave={() => setHover(null)}
+            onMouseEnter={() => !readonly && setHover(starValue)}
+            onMouseLeave={() => !readonly && setHover(null)}
+            disabled={readonly}
           >
             &#9733;
           </button>

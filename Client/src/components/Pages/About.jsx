@@ -18,6 +18,7 @@ const AboutUs = () => {
     { name: "Dr. John Doe", role: "Founder & CEO", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Prof. Jane Smith", role: "Chief Technology Officer", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Dr. Mike Johnson", role: "Lead Developer & AI Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
+    { name: "Dr. Mike Johnson", role: "Lead Developer & AI Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Sarah Lee", role: "Head of User Experience", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
   ];
 
@@ -64,7 +65,7 @@ const AboutUs = () => {
             className="flex-1 bg-white p-6 md:p-10 rounded-xl shadow-lg"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-indigo-700">Our Mission</h2>
-            <p className="text-lg md:text-xl leading-relaxed">To revolutionize online education by leveraging Web3 technology, making high-quality study materials accessible to learners worldwide, and creating a decentralized knowledge-sharing ecosystem.</p>
+            <p className="text-lg md:text-xl leading-relaxed">To revolutionize online education by leveraging technology, making high-quality study materials accessible to learners worldwide, and creating a decentralized knowledge-sharing ecosystem.</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -122,7 +123,7 @@ const AboutUs = () => {
       <section className="bg-indigo-700 py-16 md:py-24 text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 md:mb-8 text-white">Join the Future of Learning</h2>
-          <p className="text-xl md:text-2xl mb-8 md:mb-12 text-indigo-100">Experience the power of Web3 in education. Start your journey with us today!</p>
+          <p className="text-xl md:text-2xl mb-8 md:mb-12 text-indigo-100">Start your journey with us today!</p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

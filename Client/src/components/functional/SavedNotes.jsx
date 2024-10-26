@@ -69,7 +69,7 @@ const SavedNotes = () => {
                             Note {selectedNote + 1}
                         </span>
                         <FaFilePdf className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-red-500" />
-                        <StarRating totalStars={5} initialRating={3} onRatingChange={handleRatingChange} />
+                        <StarRating totalStars={5} initialRating={3} readonly={true} />
                         {bookmarked ? (
                             <FaBookmark
                                 className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
