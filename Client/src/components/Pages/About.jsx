@@ -18,7 +18,7 @@ const AboutUs = () => {
     { name: "Dr. John Doe", role: "Founder & CEO", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Prof. Jane Smith", role: "Chief Technology Officer", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Dr. Mike Johnson", role: "Lead Developer & AI Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
-    { name: "Dr. Mike Johnson", role: "Lead Developer & AI Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
+    { name: "Dr. spandan swain", role: "Developer & Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
     { name: "Sarah Lee", role: "Head of User Experience", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
   ];
 
@@ -80,22 +80,48 @@ const AboutUs = () => {
       </section>
 
       {/* Team Profiles Section */}
-      <section className="container mx-auto px-4 py-16 md:py-24 bg-white">
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 md:mb-16 text-center text-indigo-700">Our Visionary Team</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {teamMembers.map((member, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-gray-50 p-6 md:p-8 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300"
-            >
-              <img src={member.image} alt={member.name} className="w-32 h-32 md:w-48 md:h-48 rounded-full mx-auto mb-4 md:mb-6 object-cover shadow-md" />
-              <h3 className="text-xl md:text-2xl font-semibold mb-2">{member.name}</h3>
-              <p className="text-indigo-600 text-base md:text-lg">{member.role}</p>
-            </motion.div>
-          ))}
+      <section className="relative py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-5xl font-bold text-indigo-700 mb-4">Our Visionary Team</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Meet the brilliant minds behind our mission to revolutionize education</p>
+          </motion.div>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="group relative overflow-hidden bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+              >
+                <div className="relative aspect-[4/5]">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500"
+                >
+                  <div className="relative z-10">
+                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-white mb-0.5">{member.name}</h3>
+                    <p className="text-indigo-300 font-medium text-xs sm:text-sm">{member.role}</p>
+                  </div>
+                </motion.div>
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
