@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaRocket, FaSearch, FaUsers, FaChartLine, FaShieldAlt, FaClock, FaServer } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaRocket, FaSearch, FaUsers, FaChartLine, FaShieldAlt, FaClock, FaServer, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -75,7 +75,7 @@ const Home = () => {
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10">Frequently Asked Questions</h2>
-          <div className="space-y-8">
+          <div className="space-y-4">
             <FAQItem
               question="What is this website about?"
               answer="This website provides a platform for users to access curated content, connect with others, and grow their knowledge in various subjects."
@@ -103,11 +103,31 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
   </div>
 );
 
-const FAQItem = ({ question, answer }) => (
-  <div className="border-b border-gray-300 pb-4">
-    <h3 className="text-lg sm:text-xl font-semibold text-gray-800">{question}</h3>
-    <p className="text-gray-600 mt-2">{answer}</p>
-  </div>
-);
+const FAQItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+      <button
+        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-800">{question}</h3>
+        <FaChevronDown
+          className={`text-gray-600 transition-transform duration-300 ${
+            isOpen ? 'transform rotate-180' : ''
+          }`}
+        />
+      </button>
+      <div
+        className={`px-6 transition-all duration-300 ease-in-out ${
+          isOpen ? 'max-h-48 py-4' : 'max-h-0'
+        } overflow-hidden`}
+      >
+        <p className="text-gray-600">{answer}</p>
+      </div>
+    </div>
+  );
+};
 
 export default Home;
