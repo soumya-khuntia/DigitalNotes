@@ -47,6 +47,86 @@ const Notes = () => {
         { id: 3, author: "Mike Johnson", content: "Excellent resource for studying.", rating: 3, date: "2023-06-29" },
     ];
 
+    const ReviewSection = () => {
+        return (
+            <div className="w-full max-w-2xl px-4 sm:px-0">
+                <h2 className="text-xl font-bold mb-6 flex items-center">
+                    <span className="mr-2">Reviews & Feedback</span>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        {reviews.length} Reviews
+                    </span>
+                </h2>
+
+                {/* New Review Form */}
+                <form onSubmit={handleNewReviewSubmit} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <label className="text-sm font-medium text-gray-700">Rate this note</label>
+                            <div className="flex items-center gap-1">
+                                <StarRating
+                                    totalStars={5}
+                                    initialRating={newReview.rating}
+                                    readonly={false}
+                                    onRatingChange={(rating, e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        setNewReview(prev => ({ ...prev, rating }))
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <textarea
+                                value={newReview.content}
+                                onChange={(e) => setNewReview(prev => ({ ...prev, content: e.target.value }))}
+                                className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                rows="4"
+                                placeholder="Share your thoughts about this note..."
+                                required
+                            />
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+                            >
+                                <FaPaperPlane className="mr-2 text-sm" />
+                                Post Review
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {/* Reviews List */}
+                <div className="space-y-6">
+                    {reviews.map((review) => (
+                        <div key={review.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                                        {review.author.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-medium text-gray-900">{review.author}</h3>
+                                        <div className="flex items-center space-x-2">
+                                            <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
+                                            <span className="text-sm text-gray-500">•</span>
+                                            <time className="text-sm text-gray-500">{review.date}</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 leading-relaxed">{review.content}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+
     return (
         <>
             <h1 className="text-2xl font-bold mb-2 text-center">Notes</h1>
@@ -106,54 +186,7 @@ const Notes = () => {
 
                     <hr className="w-full my-6 border-t border-gray-300" />
 
-                    <div className="w-full max-w-2xl px-4 sm:px-0">
-                        <h2 className="text-lg sm:text-xl font-semibold mb-4">Reviews</h2>
-
-                        <form onSubmit={handleNewReviewSubmit} className="bg-white p-4 rounded-lg shadow-md mb-6">
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                                <label className="font-semibold text-sm sm:text-base mb-2 sm:mb-0">Your Rating:</label>
-                                <StarRating
-                                    totalStars={5}
-                                    initialRating={newReview.rating}
-                                    readonly={false}
-                                    onRatingChange={(rating) => setNewReview(prev => ({ ...prev, rating }))}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block font-semibold text-sm sm:text-base mb-2">Your Review:</label>
-                                <textarea
-                                    value={newReview.content}
-                                    onChange={(e) => setNewReview(prev => ({ ...prev, content: e.target.value }))}
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm sm:text-base"
-                                    rows="4"
-                                    placeholder="Write your review here..."
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full sm:w-auto px-6 py-2.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-200 flex items-center justify-center text-sm sm:text-base font-medium"
-                            >
-                                <FaPaperPlane className="mr-2" />
-                                Submit Review
-                            </button>
-                        </form>
-
-                        <div className="space-y-4">
-                            {reviews.map((review) => (
-                                <div key={review.id} className="bg-white p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg">
-                                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3">
-                                        <div className="flex flex-col mb-2 sm:mb-0">
-                                            <span className="font-semibold text-sm sm:text-base text-gray-800">{review.author}</span>
-                                            <span className="text-xs text-gray-500">{review.date}</span>
-                                        </div>
-                                        <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
-                                    </div>
-                                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{review.content}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <ReviewSection />
                 </div>
             )}
 

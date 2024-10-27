@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FaEye, FaDownload, FaArrowLeft, FaFilePdf, FaBookmark, FaRegBookmark, FaTimes } from 'react-icons/fa';
+import { FaEye, FaDownload, FaArrowLeft, FaFilePdf, FaBookmark, FaRegBookmark, FaTimes, FaPaperPlane } from 'react-icons/fa';
 import StarRating from '../functional/StarRating';
 
 const SavedNotes = () => {
     const [selectedNote, setSelectedNote] = useState(null);
     const [bookmarked, setBookmarked] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
+    const [newReview, setNewReview] = useState({ rating: 0, content: '' });
 
     const handleNoteClick = (index) => {
         setSelectedNote(index);
@@ -15,8 +16,17 @@ const SavedNotes = () => {
         setSelectedNote(null);
     };
 
-    const handleRatingChange = (newRating) => {
-        console.log('New rating:', newRating);
+    const handleNewReviewSubmit = (e) => {
+        e.preventDefault();
+        const review = {
+            id: reviews.length + 1,
+            author: "Current User",
+            rating: newReview.rating,
+            content: newReview.content,
+            date: new Date().toLocaleDateString()
+        };
+        reviews.unshift(review);
+        setNewReview({ rating: 0, content: '' });
     };
 
     const toggleBookmark = () => {
@@ -32,10 +42,87 @@ const SavedNotes = () => {
     };
 
     const reviews = [
-        { id: 1, author: "John Doe", content: "Great notes! Very helpful.", rating: 5 },
-        { id: 2, author: "Jane Smith", content: "Could use more detail, but overall good.", rating: 4 },
-        { id: 3, author: "Mike Johnson", content: "Excellent resource for studying.", rating: 3 },
+        { id: 1, author: "John Doe", content: "Great notes! Very helpful.", rating: 5, date: "2023-07-01" },
+        { id: 2, author: "Jane Smith", content: "Could use more detail, but overall good.", rating: 4, date: "2023-06-30" },
+        { id: 3, author: "Mike Johnson", content: "Excellent resource for studying.", rating: 3, date: "2023-06-29" },
     ];
+
+    const ReviewSection = () => {
+        return (
+            <div className="w-full max-w-2xl px-4 sm:px-0">
+                <h2 className="text-xl font-bold mb-6 flex items-center">
+                    <span className="mr-2">Reviews & Feedback</span>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        {reviews.length} Reviews
+                    </span>
+                </h2>
+
+                <form onSubmit={handleNewReviewSubmit} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <label className="text-sm font-medium text-gray-700">Rate this note</label>
+                            <div className="flex items-center gap-1">
+                                <StarRating
+                                    totalStars={5}
+                                    initialRating={newReview.rating}
+                                    readonly={false}
+                                    onRatingChange={(rating, e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        setNewReview(prev => ({ ...prev, rating }))
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <textarea
+                                value={newReview.content}
+                                onChange={(e) => setNewReview(prev => ({ ...prev, content: e.target.value }))}
+                                className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                rows="4"
+                                placeholder="Share your thoughts about this note..."
+                                required
+                            />
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+                            >
+                                <FaPaperPlane className="mr-2 text-sm" />
+                                Post Review
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div className="space-y-6">
+                    {reviews.map((review) => (
+                        <div key={review.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                                        {review.author.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-medium text-gray-900">{review.author}</h3>
+                                        <div className="flex items-center space-x-2">
+                                            <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
+                                            <span className="text-sm text-gray-500">•</span>
+                                            <time className="text-sm text-gray-500">{review.date}</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 leading-relaxed">{review.content}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
 
     return (
         <>
@@ -100,20 +187,7 @@ const SavedNotes = () => {
 
                     <hr className="w-full my-6 border-t border-gray-300" />
 
-                    <div className="w-full max-w-2xl">
-                        <h2 className="text-lg sm:text-xl font-semibold mb-4">Reviews</h2>
-                        <div className="space-y-4">
-                            {reviews.map((review) => (
-                                <div key={review.id} className="bg-white p-4 rounded-lg shadow-md">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="font-semibold text-sm sm:text-base">{review.author}</span>
-                                        <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
-                                    </div>
-                                    <p className="text-gray-700 text-xs sm:text-sm">{review.content}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <ReviewSection />
                 </div>
             )}
 
