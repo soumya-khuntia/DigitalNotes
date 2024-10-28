@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaRocket } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
-
+import { toast } from "sonner";
 
 
 
@@ -11,10 +11,29 @@ import axios from "axios";
 const Home = () => {
   // const { noteList, setNoteList, pending, setPending } =
   // useContext(GlobalContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (location.state?.flashMessage) {
+      const { type, text } = location.state.flashMessage;
+      if (type === "success") toast.success(text);
+      if (type === "error") toast.error(text);
+
+      // Clear flash message after displaying
+      location.state.flashMessage = null;
+    }
+  }, [location]);
 
   return (
     
     <div className="relative h-screen w-full">
+      {/* {flashMessage && (
+        <div className={`popup-message ${flashMessage.type === "success" ? "bg-green-500" : "bg-red-500"} text-white p-4 rounded`}>
+          {flashMessage.text}
+        </div>
+      )} */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{backgroundImage: "url('/bookshell.jpg')"}}

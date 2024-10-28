@@ -58,7 +58,12 @@ const Navbar = () => {
           <Link to="/" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/' ? 'bg-gray-700' : ''}`}>Home</Link>
           <Link to="/about" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/about' ? 'bg-gray-700' : ''}`}>About</Link>
           <Link to="/contact" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/contact' ? 'bg-gray-700' : ''}`}>Contact</Link>
-          {isSignedIn ? (
+          {/* {isSignedIn ? (
+            <Link to="/dashboard" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/dashboard' ? 'bg-gray-700' : ''}`}>Dashboard</Link>
+          ) : (
+            <Link to="/signin" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/signin' ? 'bg-gray-700' : ''}`}>Signin</Link>
+          )} */}
+          {currUser ? (
             <Link to="/dashboard" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/dashboard' ? 'bg-gray-700' : ''}`}>Dashboard</Link>
           ) : (
             <Link to="/signin" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/signin' ? 'bg-gray-700' : ''}`}>Signin</Link>

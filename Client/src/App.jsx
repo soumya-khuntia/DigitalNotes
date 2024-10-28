@@ -12,10 +12,11 @@ import AboutUs from "./components/Pages/About";
 import View from "./components/Pages/View";
 import Dashboard from "./components/layout/Dashboard";
 import Notes from "./components/functional/Notes";
-
+import { Toaster } from "sonner";
 function App() {
   return (
     <div>
+      <Toaster position="top-center" duration={3000} />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -32,9 +33,9 @@ function App() {
         <Route path="/set-new-password" element={<SetNewpassword />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="*" element={<div>404 not fount</div>}></Route>
+        <Route path="*" element={<div className="mt-30">404 not fount</div>}></Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
 
     // <div>

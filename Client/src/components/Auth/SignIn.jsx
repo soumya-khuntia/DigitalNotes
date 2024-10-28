@@ -1,11 +1,16 @@
 import React, { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const SignIn = () => {
+  const [flashMessage, setFlashMessage] = useState(null); // Add flash message state
   const [focusedInput, setFocusedInput] = useState(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();  // Initialize navigate
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -15,16 +20,47 @@ const SignIn = () => {
     setFocusedInput(null);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const formData = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    console.log(formData);
 
-    emailRef.current.value = '';
-    passwordRef.current.value = '';
+    try {
+      const response = await fetch("http://localhost:8080/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Show toast message for error
+        toast.error(data.message || "Failed to sign in");
+      } else {
+        // Show toast message for success
+        toast.success(data.message || "Welcome back to DigitalNote!");
+        navigate("/", { state: { flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } } });
+      }
+
+      // if (response.ok) {
+      //   setFlashMessage({ type: "success", text: data.message });
+      //   navigate("/", { state: { flashMessage: { type: "success", text: "Welcome Back to DigitalNote!" } }, replace: true });      } else{
+      //   setFlashMessage({ type: "error", text: data.message });
+      // }
+      // navigate("/", { state: { flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } } });
+
+
+
+      // Clear inputs
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+    } catch (error) {
+      toast.error( "Enter valid email or password");
+    }
   };
 
   return (
@@ -33,23 +69,26 @@ const SignIn = () => {
         <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
           <IoMdClose size={24} />
         </button>
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Sign In</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
+          Sign In
+        </h2>
         <form onSubmit={handleLogin}>
           <div className="mb-3 sm:mb-4 relative">
             <input
               type="email"
-              id="emailid"
+              id="email"
               ref={emailRef}
               className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               placeholder=" "
               required
-              onFocus={() => handleFocus("emailid")}
+              onFocus={() => handleFocus("email")}
               onBlur={handleBlur}
             />
             <label
-              htmlFor="emailid"
+              htmlFor="email"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "emailid" || (emailRef.current && emailRef.current.value)
+                focusedInput === "email" ||
+                (emailRef.current && emailRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}
@@ -71,7 +110,8 @@ const SignIn = () => {
             <label
               htmlFor="password"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "password" || (passwordRef.current && passwordRef.current.value)
+                focusedInput === "password" ||
+                (passwordRef.current && passwordRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}
@@ -80,7 +120,10 @@ const SignIn = () => {
             </label>
           </div>
           <div className="flex justify-between items-center mb-3 sm:mb-4">
-            <a href="#" className="text-sm text-blue-600 hover:text-blue-500 hover:underline">
+            <a
+              href="#"
+              className="text-sm text-blue-600 hover:text-blue-500 hover:underline"
+            >
               Forgot password?
             </a>
           </div>
@@ -95,7 +138,7 @@ const SignIn = () => {
               type="button"
               className="py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm sm:text-base"
             >
-              Create Account
+              <Link to="/signup">Create Account</Link>
             </button>
           </div>
         </form>
@@ -106,7 +149,7 @@ const SignIn = () => {
         </div>
         <div className="mt-3 sm:mt-4 flex justify-center">
           <button className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
-          <FcGoogle className="mr-2"/>
+            <FcGoogle className="mr-2" />
             Google
           </button>
         </div>
