@@ -3,8 +3,8 @@ import { FaUser, FaEdit, FaSave, FaEnvelope, FaIdCard, FaPhone, FaBirthdayCake, 
 
 const PersonalDetails = () => {
     const [isEditing, setIsEditing] = useState(false);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [name, setName] = useState("John Doe");
+    const [email, setEmail] = useState("joohndoe@example.com");
     const [regdNo, setRegdNo] = useState("");
     const [phoneNo, setPhoneNo] = useState("");
     const [dob, setDob] = useState("");
@@ -40,7 +40,7 @@ const PersonalDetails = () => {
                     </div>
                 </div>
             )}
-            <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+            <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 shadow-md rounded-lg overflow-hidden">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-x-12 gap-6 p-8">
                     <ProfileField
                         label="Name"

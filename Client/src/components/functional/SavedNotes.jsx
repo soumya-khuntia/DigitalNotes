@@ -183,7 +183,7 @@ const SavedNotes = () => {
                     {[...Array(8)].map((_, index) => (
                         <div
                             key={index}
-                            className="bg-white p-4 rounded-lg shadow-md aspect-square flex flex-col items-center justify-center w-full h-48 sm:h-56 md:h-64 lg:h-72 cursor-pointer hover:bg-gray-100 transition-colors relative"
+                            className="bg-gradient-to-br from-blue-50 to-indigo-100 p-4 rounded-lg shadow-md aspect-square flex flex-col items-center justify-center w-full h-48 sm:h-56 md:h-64 lg:h-72 cursor-pointer hover:bg-gray-100 transition-colors relative"
                             onClick={() => handleNoteClick(index)}
                         >
                             <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 mb-2">
@@ -199,7 +199,7 @@ const SavedNotes = () => {
                 </div>
             ) : (
                 <div className="flex flex-col items-center">
-                    <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-between w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-4 rounded-lg shadow-md flex flex-col items-center justify-between w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
                         <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-700">
                             Note {selectedNote + 1}
                         </span>

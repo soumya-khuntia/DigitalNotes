@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FiMenu } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,51 +19,69 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled
-        ? 'bg-gray-800/70 backdrop-blur-md shadow-lg'
-        : 'bg-gray-800'
+        ? 'bg-white/80 backdrop-blur-lg shadow-lg'
+        : 'bg-gradient-to-r from-blue-600 to-purple-600'
     }`}>
       <div className="container mx-auto flex justify-between items-center p-4">
-        <div className="text-white font-bold text-xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className={`font-extrabold text-2xl px-4 sm:px-6 md:px-8 lg:px-12 hover:scale-105 transition-transform duration-300 ${
+          isScrolled ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600' : 'text-white'
+        }`}>
           <Link to="/">DigiNotes</Link>
         </div>
-        <div className="flex items-center space-x-2 lg:space-x-4 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
-          <Link to="/" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/' ? 'text-blue-400' : ''}`}>Home</Link>
-          <Link to="/about" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/about' ? 'text-blue-400' : ''}`}>About</Link>
-          <Link to="/contact" className={`text-white font-bold hover:text-gray-300 hidden md:inline ${location.pathname === '/contact' ? 'text-blue-400' : ''}`}>Contact</Link>
+        <div className="flex items-center space-x-2 lg:space-x-6 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
+          <Link to="/" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+            location.pathname === '/' 
+              ? 'text-blue-600' 
+              : isScrolled ? 'text-gray-700' : 'text-white'
+          }`}>Home</Link>
+          <Link to="/about" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+            location.pathname === '/about' 
+              ? 'text-blue-600' 
+              : isScrolled ? 'text-gray-700' : 'text-white'
+          }`}>About</Link>
+          <Link to="/contact" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+            location.pathname === '/contact' 
+              ? 'text-blue-600' 
+              : isScrolled ? 'text-gray-700' : 'text-white'
+          }`}>Contact</Link>
           {isSignedIn ? (
-            <Link to="/dashboard" className="text-white font-bold hover:text-gray-300 bg-green-600 px-4 py-2 rounded-md hidden md:inline">Dashboard</Link>
+            <Link to="/dashboard" className={`font-bold px-6 py-2.5 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 hidden md:inline ${
+              isScrolled ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'bg-white text-blue-600'
+            }`}>Dashboard</Link>
           ) : (
-            <Link to="/signin" className="text-white font-bold hover:text-gray-300 bg-blue-600 px-4 py-2 rounded-md hidden md:inline">Signin</Link>
+            <Link to="/signin" className={`font-bold px-6 py-2.5 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 hidden md:inline ${
+              isScrolled ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'bg-white text-blue-600'
+            }`}>Sign In</Link>
           )}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-white focus:outline-none md:hidden"
+            className={`hover:text-blue-600 focus:outline-none md:hidden transition-colors duration-300 ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}
           >
-            <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-              {isOpen ? (
-                <path fillRule="evenodd" clipRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z" />
-              ) : (
-                <path fillRule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
-              )}
-            </svg>
+            {isOpen ? (
+              <IoClose className="h-6 w-6" />
+            ) : (
+              <FiMenu className="h-6 w-6" />
+            )}
           </button>
         </div>
       </div>
       <div 
-        className={`md:hidden transition-all duration-400 ease-in-out overflow-hidden ${
+        className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
           isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link to="/" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/' ? 'bg-gray-700' : ''}`}>Home</Link>
-          <Link to="/about" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/about' ? 'bg-gray-700' : ''}`}>About</Link>
-          <Link to="/contact" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/contact' ? 'bg-gray-700' : ''}`}>Contact</Link>
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/80 backdrop-blur-lg">
+          <Link to="/" className={`block px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${location.pathname === '/' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>Home</Link>
+          <Link to="/about" className={`block px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${location.pathname === '/about' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>About</Link>
+          <Link to="/contact" className={`block px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${location.pathname === '/contact' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>Contact</Link>
           {isSignedIn ? (
-            <Link to="/dashboard" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/dashboard' ? 'bg-gray-700' : ''}`}>Dashboard</Link>
+            <Link to="/dashboard" className={`block px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${location.pathname === '/dashboard' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>Dashboard</Link>
           ) : (
-            <Link to="/signin" className={`text-white block hover:bg-gray-700 px-3 py-2 rounded-md ${location.pathname === '/signin' ? 'bg-gray-700' : ''}`}>Signin</Link>
+            <Link to="/signin" className={`block px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${location.pathname === '/signin' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>Sign In</Link>
           )}
         </div>
       </div>

@@ -7,7 +7,7 @@ const Contact = () => {
   const position = [20.56273, 85.99068]; //coordinates of DRIEMS University
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 sm:mt-20 lg:mt-24">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20 bg-gradient-to-br from-blue-50 to-indigo-100">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center text-gray-800">Get in Touch</h1>
       <p className="text-center text-gray-600 mb-8">We'd love to hear from you. Please fill out this form or use our contact information below.</p>
       <div className="flex flex-col lg:flex-row gap-6 sm:gap-12">
