@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import SJO from "/photos/SJO.jpeg";
 import SRK from "/photos/SRK.jpg";
 import SRP from "/photos/SRP.jpg";
+import SRD from "/photos/SRD.jpg";
 
 const AboutUs = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -28,7 +29,7 @@ const AboutUs = () => {
     { name: "Soumya jaganath ojha", role: "Backend Developer", image: SJO },
     { name: "Soumya Ranjan Khuntia", role: "Frontend Developer", image: SRK },
     { name: "Soumya Ranjan palei", role: "API Developer", image: SRP },
-    { name: "Soumya Ranjan Das", role: "Ui & Ux Designer", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
+    { name: "Soumya Ranjan Das", role: "Ui & Ux Designer", image: SRD },
   ];
 
   const coreValues = [
