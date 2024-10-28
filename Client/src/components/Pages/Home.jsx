@@ -78,15 +78,23 @@ const Home = () => {
           <div className="space-y-4">
             <FAQItem
               question="What is this website about?"
-              answer="This website provides a platform for users to access curated content, connect with others, and grow their knowledge in various subjects."
+              answer="This website provides a platform for users to access different pdf notes and grow their knowledge in various engineering subjects."
             />
             <FAQItem
               question="How can I sign up?"
               answer="You can sign up by clicking the 'Get Started' button on the homepage or navigating to the Sign-Up page."
             />
             <FAQItem
-              question="Is there a community feature?"
-              answer="Yes, you can join our community to connect with like-minded individuals and share insights."
+              question="Is it is Free to use and download notes?"
+              answer="Yes, all content on this website is free to use and download."
+            />
+            <FAQItem
+              question="How do i access my semester notes?"
+              answer="First, you need to sign up and log in to your account. Then, complete your profile to get access to your notes according to your branch & semester."
+            />
+            <FAQItem
+              question="How do i upload notes?"
+              answer="Sorry, you cannot upload notes directly. If you want to upload notes then you will have to contact the admin by contact form."
             />
           </div>
         </div>

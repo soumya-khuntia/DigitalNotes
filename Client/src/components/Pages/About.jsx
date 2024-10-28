@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FaRocket, FaLightbulb, FaUsers, FaLock, FaChalkboardTeacher } from "react-icons/fa";
+import { FaRocket, FaLightbulb, FaUsers, FaLock, FaChalkboardTeacher, FaUserTie } from "react-icons/fa";
 import { motion } from "framer-motion";
+
+import SJO from "/photos/SJO.jpeg";
+import SRK from "/photos/SRK.jpg";
+import SRP from "/photos/SRP.jpg";
 
 const AboutUs = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -15,11 +19,16 @@ const AboutUs = () => {
   }, []);
 
   const teamMembers = [
-    { name: "Dr. John Doe", role: "Founder & CEO", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
-    { name: "Prof. Jane Smith", role: "Chief Technology Officer", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
-    { name: "Dr. Mike Johnson", role: "Lead Developer & AI Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
-    { name: "Dr. spandan swain", role: "Developer & Specialist", image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
-    { name: "Sarah Lee", role: "Head of User Experience", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
+    { 
+      name: "Mr. Spandan Swain", 
+      role: "Team Leader", 
+      image: <FaUserTie className="w-full h-full text-indigo-600 bg-gradient-to-r from-purple-200 to-indigo-200 p-4" />,
+      isIcon: true 
+    },
+    { name: "Soumya jaganath ojha", role: "Backend Developer", image: SJO },
+    { name: "Soumya Ranjan Khuntia", role: "Frontend Developer", image: SRK },
+    { name: "Soumya Ranjan palei", role: "API Developer", image: SRP },
+    { name: "Soumya Ranjan Das", role: "Ui & Ux Designer", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80" },
   ];
 
   const coreValues = [
@@ -74,7 +83,7 @@ const AboutUs = () => {
             className="flex-1 bg-white p-6 md:p-10 rounded-xl shadow-lg"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-indigo-700">Our Vision</h2>
-            <p className="text-lg md:text-xl leading-relaxed">To create a global, decentralized learning ecosystem where knowledge is freely shared, verified, and rewarded, empowering individuals to reach their full potential and drive innovation in every field.</p>
+            <p className="text-lg md:text-xl leading-relaxed">To create a global, decentralized learning ecosystem where knowledge is freely shared, verified and empowering individuals to reach their full potential and drive innovation in every field.</p>
           </motion.div>
         </div>
       </section>
@@ -102,11 +111,17 @@ const AboutUs = () => {
                 className="group relative overflow-hidden bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 <div className="relative aspect-[4/5]">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {member.isIcon ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      {member.image}
+                    </div>
+                  ) : (
+                    <img 
+                      src={member.image} 
+                      alt={member.name} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
                 <motion.div
