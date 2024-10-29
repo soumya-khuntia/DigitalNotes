@@ -96,6 +96,10 @@ const Home = () => {
               question="How do i upload notes?"
               answer="Sorry, you cannot upload notes directly. If you want to upload notes then you will have to contact the admin by contact form."
             />
+            <FAQItem
+              question="Are the notes available are really useful?"
+              answer="The notes available are verified by the highly qualified teachers in their respective subjects. So the notes are really helpful"
+            />
           </div>
         </div>
       </section>

@@ -31,19 +31,19 @@ const Navbar = () => {
           <Link to="/">DigiNotes</Link>
         </div>
         <div className="flex items-center space-x-2 lg:space-x-6 px-4 sm:px-6 md:px-8 lg:px-12 gap-4">
-          <Link to="/" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+          <Link to="/" className={`font-bold hover:${ isScrolled ? 'text-blue-500' : 'text-blue-500' } hidden md:inline transition-colors duration-300 ${
             location.pathname === '/' 
-              ? 'text-blue-600' 
+              ? ( isScrolled ? 'text-blue-600' : 'text-blue-300' ) 
               : isScrolled ? 'text-gray-700' : 'text-white'
           }`}>Home</Link>
-          <Link to="/about" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+          <Link to="/about" className={`font-bold hover:${ isScrolled ? 'text-blue-500' : 'text-blue-500' } hidden md:inline transition-colors duration-300 ${
             location.pathname === '/about' 
-              ? 'text-blue-600' 
+              ? ( isScrolled ? 'text-blue-600' : 'text-blue-300' ) 
               : isScrolled ? 'text-gray-700' : 'text-white'
           }`}>About</Link>
-          <Link to="/contact" className={`font-bold hover:text-blue-600 hidden md:inline transition-colors duration-300 ${
+          <Link to="/contact" className={`font-bold hover:${ isScrolled ? 'text-blue-500' : 'text-blue-500' } hidden md:inline transition-colors duration-300 ${
             location.pathname === '/contact' 
-              ? 'text-blue-600' 
+              ? ( isScrolled ? 'text-blue-600' : 'text-blue-300' ) 
               : isScrolled ? 'text-gray-700' : 'text-white'
           }`}>Contact</Link>
           {isSignedIn ? (
