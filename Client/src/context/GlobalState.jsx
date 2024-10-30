@@ -11,6 +11,7 @@ const GlobalState = ({ children }) => {
   const [noteList, setNoteList] = useState([]);
   const [pending, setPending] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [currUser,setCurrUser] = useState(null);
   return (
     <GlobalContext.Provider
       value={{
@@ -22,6 +23,8 @@ const GlobalState = ({ children }) => {
         // setFormData,
         // isEdit,
         // setIsEdit,
+        currUser,
+        setCurrUser,
       }}
     >
       {children}

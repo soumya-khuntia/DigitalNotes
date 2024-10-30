@@ -11,6 +11,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { handleSignUp, handleSignIn } = require("./controller/note-controller");
 const userRouter = require("./routes/user.js");
+const updateRouter = require("./routes/update.js");
 
 main()
   .then(() => {
@@ -27,7 +28,13 @@ async function main() {
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your React frontend URL
+    credentials: true, // Allows cookies to be sent with requests
+  })
+);
 app.use(express.json());
 
 const sessionOption = {
@@ -48,6 +55,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
+
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -60,6 +69,7 @@ app.use((req, res, next) => {
 
 app.use("/api/notes", noteRouter);
 app.use("/", userRouter);
+// app.use("/dashboard", updateRouter);
 // app.use("/signup",handleSignUp);
 // app.use("/signin",handleSignIn);
 

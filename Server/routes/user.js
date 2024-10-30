@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const wrapAsyc = require("../utils/wrapAsyc");
 const passport = require("passport");
+const ensureAuthenticated  = require("../middleware");
 // const { saveRedirectUrl } = require("../middleware");
 
 // router.get("/signup", (req, res) => {
@@ -37,47 +38,100 @@ router.post(
   })
 );
 
-// router.get("/login", (req, res) => {
-//   res.render("users/login.ejs");
+
+
+
+router.post('/signin', 
+  passport.authenticate('local', { session: true }), 
+  (req, res) => {
+    console.log(req.user);
+    
+    res.status(200).json({  user: req.user });
+  }
+);
+
+// Profile update route
+router.put("/dashboard/profile", async (req, res) => {
+  try {
+    
+    // Get profile data from request body
+    const { _id, username, email, regdNo, phoneNo, dob, gender, branch, year, sem } = req.body;
+    const userId = _id; // Ensure req.user is defined
+
+    // Update user profile
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { username, email, regdNo, phoneNo, dob, gender, branch, year, sem },
+      { new: true, runValidators: true } // Return the updated user with validation
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "Profile updated successfully!",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({ message: "An error occurred while updating the profile." });
+  }
+});
+
+
+
+router.get("/logout", (req, res) => {
+  req.logout(err => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to log out" });
+    }
+    res.clearCookie("connect.sid"); // Clear the session cookie if using sessions
+    res.status(200).json({ message: "Logged out successfully" });
+  });
+})
+
+// // Profile update route
+// router.put("/profile",  async (req, res) => {
+//   try {
+//     console.log(req.user._id);
+    
+//     // Assuming req.user contains the logged-in user's information
+//     const userId = req.user._id;
+
+//     // Get profile data from request body
+//     const { regdNo, phoneNo, dob, gender, branch,year, sem } = req.body;
+
+//     // Find the user and update their profile
+//     const updatedUser = await User.findByIdAndUpdate(
+//       userId,
+//       {
+//         regdNo,
+//         phoneNo,
+//         dob,
+//         gender,
+//         branch,
+//         year,
+//         sem,
+//       },
+//       { new: true } // Return the updated user
+//     );
+
+//     if (!updatedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     return res.status(200).json({
+//       message: "Profile updated successfully!",
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     console.error("Error updating profile:", error);
+//     return res.status(500).json({ message: "An error occurred while updating the profile." });
+//   }
 // });
 
-// router.post(
-//   "/signin",
-// //   saveRedirectUrl,
-//   passport.authenticate("local", {
-//      successRedirect: '/',
-//   failureRedirect: '/signin'
-//   }),
 
-    
-
-// //   passport.authenticate("local");
-//   async(req, res) => {
-//     // req.flash("success", "Welcome back to IdeaShare.");
-//     // let redirectUrl = res.locals.redirectUrl || "/listings";
-//     // res.redirect(redirectUrl);
-//     // res.send("It's work");
-//     console.log(req.body);
-    
-//     return res.status(200).json({ flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } });
-//   },
-// );
-
-
-router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), (req, res) => {
-  res.status(200).json({ message: "Welcome back to DigitalNote!" });
-});
-
-
-router.get("/logout", (req, res,next) => {
-  req.logout((err)=>{
-    if(err){
-      return next(err);
-    }
-    return res.status(200).json({ message: "Successfully logout!" });
-
-  })
-});
 
 
 

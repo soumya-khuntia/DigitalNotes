@@ -1,16 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { GlobalContext } from "../../context/GlobalState";
 
 const SignIn = () => {
   const [flashMessage, setFlashMessage] = useState(null); // Add flash message state
   const [focusedInput, setFocusedInput] = useState(null);
-  const emailRef = useRef(null);
+  const nameRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();  // Initialize navigate
+  const { setCurrUser } = useContext(GlobalContext); // Access setCurrUser from context
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -23,7 +25,7 @@ const SignIn = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const formData = {
-      email: emailRef.current.value,
+      username: nameRef.current.value,
       password: passwordRef.current.value,
     };
 
@@ -38,11 +40,13 @@ const SignIn = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        
         // Show toast message for error
         toast.error(data.message || "Failed to sign in");
       } else {
+        setCurrUser(data.user); // Store user data on successful login
         // Show toast message for success
-        toast.success(data.message || "Welcome back to DigitalNote!");
+        // toast.success(data.message || "Welcome back to DigitalNote!");
         navigate("/", { state: { flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } } });
       }
 
@@ -56,7 +60,7 @@ const SignIn = () => {
 
 
       // Clear inputs
-      emailRef.current.value = "";
+      nameRef.current.value = "";
       passwordRef.current.value = "";
     } catch (error) {
       toast.error( "Enter valid email or password");
@@ -75,25 +79,25 @@ const SignIn = () => {
         <form onSubmit={handleLogin}>
           <div className="mb-3 sm:mb-4 relative">
             <input
-              type="email"
-              id="email"
-              ref={emailRef}
+              type="text"
+              id="username"
+              ref={nameRef}
               className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               placeholder=" "
               required
-              onFocus={() => handleFocus("email")}
+              onFocus={() => handleFocus("username")}
               onBlur={handleBlur}
             />
             <label
-              htmlFor="email"
+              htmlFor="username"
               className={`absolute left-3 transition-all duration-200 ${
-                focusedInput === "email" ||
-                (emailRef.current && emailRef.current.value)
+                focusedInput === "username" ||
+                (nameRef.current && nameRef.current.value)
                   ? "text-xs text-blue-500 top-[-0.5rem] bg-white px-1"
                   : "text-sm text-gray-700 top-2"
               }`}
             >
-              Email
+              Username
             </label>
           </div>
           <div className="mb-3 sm:mb-4 relative">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     FaUser,
     FaTimes,
@@ -17,21 +17,51 @@ import {
     FaInfoCircle,
   } from "react-icons/fa";
   import { useState } from "react";
+  import { toast } from "sonner";
+  import { GlobalContext } from "../../context/GlobalState";
+import ProfileUpdateForm from "./ProfileUpdateForm";
 
 const Profile = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [activeSection, setActiveSection] = useState("profile");
+    const { currUser } = useContext(GlobalContext);
   
-    const [name, setName] = useState("John Doe");
-    const [email, setEmail] = useState("johndoe@example.com");
-    const [regdNo, setRegdNo] = useState("12345678");
-    const [phoneNo, setphoneNo] = useState("9457834567");
-    const [dob, setDob] = useState("2000-01-01");
-    const [gender, setGender] = useState("Male");
-    const [branch, setBranch] = useState("CSE");
-    const [year, setYear] = useState("1st");
+    // const [name, setName] = useState("John Doe");
+    // const [email, setEmail] = useState("johndoe@example.com");
+    // const [regdNo, setRegdNo] = useState("12345678");
+    // const [phoneNo, setphoneNo] = useState("9457834567");
+    // const [dob, setDob] = useState("2000-01-01");
+    // const [gender, setGender] = useState("Male");
+    // const [branch, setBranch] = useState("CSE");
+    // const [year, setYear] = useState("1st");
+
+
+
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    const profileData = { regdno: regdNo, phno: phoneNo, dob, gender, branch, sem };
+
+    try {
+      const response = await fetch("http://localhost:8080/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(profileData),
+      });
+
+      if (response.ok) {
+        alert("Profile updated successfully!");
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || "Failed to update profile");
+      }
+    } catch (error) {
+      alert("An error occurred while updating the profile.");
+    }
+  };
   
     const toggleSidebar = () => {
       setSidebarOpen(!sidebarOpen);
@@ -110,7 +140,13 @@ const Profile = () => {
             </span>
           </p>
         </div>
-        <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        {currUser ? (
+        <ProfileUpdateForm initialData={currUser} />
+      ) : (
+        <p>Loading profile data...</p>
+      )}
+        
+        {/* <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-x-12 gap-6 p-8">
             <ProfileField
               label="Name"
@@ -199,7 +235,95 @@ const Profile = () => {
               {isEditing ? "Save Profile" : "Edit Profile"}
             </button>
           </div>
-        </div>
+        </div> */}
+
+
+{/* <form onSubmit={handleUpdateProfile} className="max-w-lg mx-auto p-8 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-6 text-center">Update Profile</h2>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Regd. No.</label>
+        <input
+          type="text"
+          value={regdNo}
+          onChange={(e) => setRegdNo(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Phone No.</label>
+        <input
+          type="tel"
+          value={phoneNo}
+          onChange={(e) => setPhoneNo(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Date of Birth</label>
+        <input
+          type="date"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Gender</label>
+        <select
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Branch</label>
+        <select
+          value={branch}
+          onChange={(e) => setBranch(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        >
+          <option value="">Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="EE">EE</option>
+          <option value="EEE">EEE</option>
+          <option value="CE">CE</option>
+          <option value="ME">ME</option>
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Year</label>
+        <select
+          value={sem}
+          onChange={(e) => setSem(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        >
+          <option value="">Select Year</option>
+          <option value="1st">1st</option>
+          <option value="2nd">2nd</option>
+          <option value="3rd">3rd</option>
+          <option value="4th">4th</option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700"
+      >
+        Save Profile
+      </button>
+    </form> */}
+    
 
         {/* // )} */}
 

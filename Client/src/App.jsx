@@ -13,12 +13,15 @@ import View from "./components/Pages/View";
 import Dashboard from "./components/layout/Dashboard";
 import Notes from "./components/functional/Notes";
 import { Toaster } from "sonner";
+import GlobalState from "./context/GlobalState";
+import LogoutButton from "./components/Auth/LogoutButton";
 function App() {
   return (
     <div>
       <Toaster position="top-center" duration={3000} />
       <Navbar />
       <Routes>
+      
         <Route path="/" element={<Home />} />
         <Route path="/view" element={<View />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -28,6 +31,7 @@ function App() {
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/logout" element={<LogoutButton />} />
         <Route path="/forget-password" element={<Forgetpass />} />
         <Route path="/email-code" element={<EmailCode />} />
         <Route path="/set-new-password" element={<SetNewpassword />} />

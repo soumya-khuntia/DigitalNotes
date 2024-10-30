@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
+import { GlobalContext } from "../../context/GlobalState";
 const SignUp = () => {
   const [flashMessage, setFlashMessage] = useState(null); // Add flash message state
   const [focusedInput, setFocusedInput] = useState(null);
@@ -13,6 +13,7 @@ const SignUp = () => {
   const passwordRef = useRef(null);
   // const cpasswordRef = useRef(null);
   const navigate = useNavigate(); // Initialize navigate
+  const { setCurrUser } = useContext(GlobalContext);
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -51,6 +52,8 @@ const SignUp = () => {
       //   navigate("/", { state: { flashMessage: { type: "success", text: "Welcome to DigitalNote!" } }, replace: true });      } else{
       //   setFlashMessage({ type: "error", text: data.message });
       // }
+      
+      setCurrUser(data.user);
       navigate("/", {
         state: {
           flashMessage: { type: "success", text: "Welcome to DigitalNote!" },
