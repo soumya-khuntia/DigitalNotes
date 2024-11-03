@@ -12,6 +12,25 @@ const GlobalState = ({ children }) => {
   const [pending, setPending] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [currUser,setCurrUser] = useState(null);
+  const [favoritesList ,setFavoritesList] = useState([]);
+
+
+
+  function handleAddToFavorite(getCurrItem){
+    // console.log(getCurrItem);
+    let cpyFavoritesList = [...favoritesList];
+    const idx = cpyFavoritesList.findIndex(item => item._id === getCurrItem._id);
+
+    if(idx === -1){
+      cpyFavoritesList.push(getCurrItem);
+    } else {
+      cpyFavoritesList.splice(idx);
+    }
+
+    setFavoritesList(cpyFavoritesList);
+    console.log(favoritesList,'favoritesList');
+    
+  }
   return (
     <GlobalContext.Provider
       value={{
@@ -25,6 +44,8 @@ const GlobalState = ({ children }) => {
         // setIsEdit,
         currUser,
         setCurrUser,
+        handleAddToFavorite,
+        favoritesList
       }}
     >
       {children}

@@ -9,21 +9,50 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Pages/Home";
 import AboutUs from "./components/Pages/About";
-import View from "./components/Pages/View";
+import NoteView from "./components/Pages/NoteView";
 import Dashboard from "./components/layout/Dashboard";
 import Notes from "./components/functional/Notes";
 import { Toaster } from "sonner";
 import GlobalState from "./context/GlobalState";
 import LogoutButton from "./components/Auth/LogoutButton";
+import { createContext, useEffect, useState } from "react";
+
+
+export const UserContext = createContext(null);
+
 function App() {
+  const [currUser, setCurrUser] = useState(null);
+
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/auth/current-user", {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const user = await response.json();
+          setCurrUser(user);
+        }
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
+
+
+
   return (
+    <UserContext.Provider value={{ currUser, setCurrUser }}>
+      
     <div>
       <Toaster position="top-center" duration={3000} />
       <Navbar />
       <Routes>
       
         <Route path="/" element={<Home />} />
-        <Route path="/view" element={<View />} />
+        <Route path="/view" element={<NoteView />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/notes" element={<Dashboard />} />
         {/* <Route  element={<Dashboard />} /> */}
@@ -39,7 +68,7 @@ function App() {
         <Route path="/about" element={<AboutUs />} />
         <Route path="*" element={<div className="mt-30">404 not fount</div>}></Route>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
 
     // <div>
@@ -52,6 +81,8 @@ function App() {
     //   </Routes>
     //   </div>
     // </div>
+    
+    </UserContext.Provider>
   );
 }
 

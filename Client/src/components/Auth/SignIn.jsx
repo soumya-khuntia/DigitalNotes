@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const SignIn = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
-  const navigate = useNavigate();  // Initialize navigate
+  const navigate = useNavigate(); // Initialize navigate
   const { setCurrUser } = useContext(GlobalContext); // Access setCurrUser from context
 
   const handleFocus = (inputId) => {
@@ -40,33 +40,67 @@ const SignIn = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        
         // Show toast message for error
         toast.error(data.message || "Failed to sign in");
       } else {
         setCurrUser(data.user); // Store user data on successful login
         // Show toast message for success
         // toast.success(data.message || "Welcome back to DigitalNote!");
-        navigate("/", { state: { flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } } });
+        navigate("/dashboard", {
+          state: {
+            flashMessage: {
+              type: "success",
+              text: "Welcome back to DigitalNote!",
+            },
+          },
+        });
       }
-
-      // if (response.ok) {
-      //   setFlashMessage({ type: "success", text: data.message });
-      //   navigate("/", { state: { flashMessage: { type: "success", text: "Welcome Back to DigitalNote!" } }, replace: true });      } else{
-      //   setFlashMessage({ type: "error", text: data.message });
-      // }
-      // navigate("/", { state: { flashMessage: { type: "success", text: "Welcome back to DigitalNote!" } } });
-
-
 
       // Clear inputs
       nameRef.current.value = "";
       passwordRef.current.value = "";
     } catch (error) {
-      toast.error( "Enter valid email or password");
+      toast.error("Enter valid email or password");
     }
   };
 
+  const google = () => {
+    window.open("http://localhost:8080/auth/google", "_self");
+  };
+
+  // useEffect(() => {
+  //   // Check for user session on page load if backend uses session or cookies
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const res = await fetch("http://localhost:8080/google/callback", { credentials: "include" });
+  //       if (res.ok) {
+  //         const data = await res.json();
+  //         console.log(data);
+
+  //         setCurrUser(data.user);
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to fetch user data:", err);
+  //     }
+  //   };
+  //   fetchUserData();
+  // }, [setCurrUser]);
+
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const userData = urlParams.get("user");
+  //   console.log(urlParams);
+  //   console.log(userData);
+    
+    
+  
+  //   if (userData) {
+  //     const parsedUser = JSON.parse(userData);
+  //     setCurrUser(parsedUser); // Set `currUser` context with parsed user data
+  //     toast.success("Welcome to DigitalNote!");  // Show success message using toast
+  //     navigate("/", { replace: true }); // Navigate to home or another route if needed
+  //   }
+  // }, [setCurrUser,, navigate]);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-300 px-4 sm:px-6 lg:px-8">
       <div className="relative w-full max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -151,7 +185,7 @@ const SignIn = () => {
           <span className="px-2 text-gray-700 text-sm">OR</span>
           <div className="border-t border-gray-300 flex-grow"></div>
         </div>
-        <div className="mt-3 sm:mt-4 flex justify-center">
+        <div className="mt-3 sm:mt-4 flex justify-center" onClick={google}>
           <button className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
             <FcGoogle className="mr-2" />
             Google

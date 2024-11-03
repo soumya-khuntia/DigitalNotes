@@ -25,7 +25,7 @@ router.post(
     //     req.flash("success", "Welcome to IdeaShare");
     //     res.redirect("/listings");
     //   })
-      return res.status(200).json({ message: "Welcome to DigitalNote!", user: registeroedUser });
+      return res.status(200).json({newUser, message: "Welcome to DigitalNote!", user: registeroedUser });
     } catch (e) {
     //   req.flash("error", e.message);
     //   res.redirect("/signup");
@@ -41,14 +41,32 @@ router.post(
 
 
 
+// router.post('/signin', 
+//   passport.authenticate('local', { session: true }), 
+//   (req, res) => {
+//     // console.log(req.user._id);
+    
+//     res.status(200).json({  user: req.user });
+//   }
+// );
 router.post('/signin', 
   passport.authenticate('local', { session: true }), 
   (req, res) => {
-    console.log(req.user);
+    // console.log(req.user._id);
     
     res.status(200).json({  user: req.user });
   }
 );
+
+// Route to check if a user is currently authenticated
+router.get("/current-user", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json(req.user);
+  } else {
+    res.status(401).json({ message: "No user is authenticated" });
+  }
+});
+
 
 // Profile update route
 router.put("/dashboard/profile", async (req, res) => {
@@ -80,13 +98,37 @@ router.put("/dashboard/profile", async (req, res) => {
 });
 
 
+router.post("/dashboard/note/view", async (req, res) => {
+  try {
+    
+    // Get profile data from request body
+    const { _id, username } = req.body;
+    const userId = _id; // Ensure req.user is defined
+
+    console.log(req.body);
+    
+
+    return res.status(200).json({
+      message: "Profile updated successfully!",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({ message: "An error occurred while updating the profile." });
+  }
+});
+
+
+
+
+
 
 router.get("/logout", (req, res) => {
   req.logout(err => {
     if (err) {
       return res.status(500).json({ message: "Failed to log out" });
     }
-    res.clearCookie("connect.sid"); // Clear the session cookie if using sessions
+    // res.clearCookie("connect.sid"); // Clear the session cookie if using sessions
     res.status(200).json({ message: "Logged out successfully" });
   });
 })

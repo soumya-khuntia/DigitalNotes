@@ -2,12 +2,21 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalState";
 import LogoutButton from "./Auth/LogoutButton";
+import { UserContext } from "../App";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(true);
   const location = useLocation();
-  const { currUser } = useContext(GlobalContext);
+  // const { currUser } = useContext(GlobalContext);
+
+  const { currUser, setCurrUser } = useContext(UserContext);
+
+  const handleLogout = async () => {
+    await fetch("http://localhost:8080/auth/logout", { credentials: "include" });
+    setCurrUser(null); // Clear current user in context
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -60,7 +69,8 @@ const Navbar = () => {
             >
               Dashboard
             </Link>
-            <LogoutButton />
+            {/* <LogoutButton /> */}
+            <button onClick={handleLogout} className="text-white">Logout</button>
             </div>
             
             

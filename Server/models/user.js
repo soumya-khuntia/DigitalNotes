@@ -2,46 +2,58 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require("passport-local-mongoose");
 
-const userSchema = new Schema ({
-    username: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    regdNo: {
-        type: String,
-        unique:true
-    },
-    phoneNo: {
-        type: Number,
-        // required: true,
-        unique:true
-    },
-    dob: {
-        type: Date,
-        // required: true
-    },
-    gender: {
-        type: String,
-        // required: true
-    },
-    branch: {
-        type: String,
-        // required: true
-    },
-    year: {
-        type: String,
-        // required: true
-    },
-    sem: {
-        type: String,
-        // required: true
-    }
-    
+const userSchema = new Schema({
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    trim: true,
+    unique: true,
+    sparse: true,
+  },
+  regdNo: {
+    type: String,
+    unique: true,
+    sparse: true,
+    default: null,
+  },
+  phoneNo: {
+    type: Number,
+    // unique: true,
+    sparse: true,
+    default: null,
+  },
+  dob: {
+    type: Date,
+    default: null,
+  },
+  gender: {
+    type: String,
+    default: "",
+  },
+  branch: {
+    type: String,
+    default: "",
+  },
+  year: {
+    type: String,
+    default: "",
+  },
+  sem: {
+    type: String,
+    default: "",
+  },
 });
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email",
+});
 
-module.exports = mongoose.model('User',userSchema);
+module.exports = mongoose.model("User", userSchema);
