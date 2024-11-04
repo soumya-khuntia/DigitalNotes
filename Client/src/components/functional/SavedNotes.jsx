@@ -174,7 +174,7 @@ const SavedNotes = () => {
 
     return (
         <>
-            <h1 className="text-2xl font-bold mb-2 text-center">SavedNotes</h1>
+            <h1 className="text-2xl font-bold mb-2 text-center">BookmarkNotes</h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold mb-6 text-center sm:text-left">
                 {selectedNote === null ? (<p><span className="text-red-500">*</span> Click on a note to give a review & remove bookmarks</p>) : ''}
             </p>

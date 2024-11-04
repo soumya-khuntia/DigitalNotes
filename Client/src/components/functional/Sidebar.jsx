@@ -52,7 +52,7 @@ const Sidebar = ({ sidebarOpen }) => {
         >
           <div className="flex items-center">
             <FaBookmark className="mr-2" />
-            <span className="inline">Saved Notes</span>
+            <span className="inline">Bookmarks</span>
           </div>
         </NavLink>
         <NavLink
