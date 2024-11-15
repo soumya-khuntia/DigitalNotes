@@ -13,11 +13,15 @@ const ensureAuthenticated  = require("../middleware");
 router.post(
   "/signup",
   wrapAsyc(async (req, res) => {
+    // console.log(req.body);
+    
     try {
       let { username, email, password } = req.body;
       const newUser = new User({ email, username });
+      console.log(newUser);
+      
       const registeroedUser = await User.register(newUser, password);
-      // console.log(registeroedUser);
+      console.log(registeroedUser);
     //   req.login(registeroedUser, (err)=>{  //After signup auto login
         // if(err){
         //   return next(err);
@@ -50,11 +54,12 @@ router.post(
 //   }
 // );
 router.post('/signin', 
-  passport.authenticate('local', { session: true }), 
+  passport.authenticate('local'), 
   (req, res) => {
-    // console.log(req.user._id);
+    console.log(req.user);
     
-    res.status(200).json({  user: req.user });
+    // res.status(200).json({  user: req.user });
+    res.json({ user: req.user, message: "Login successful!" });
   }
 );
 

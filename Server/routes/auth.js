@@ -25,7 +25,7 @@ const CLIENT_URL = "http://localhost:5173/";
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile","email"] })     //,
 );
 
 // router.get("/google/callback", passport.authenticate("google",{
@@ -42,7 +42,7 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: CLIENT_URL }),
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/signin" }),
   (req, res) => {
     res.redirect(CLIENT_URL);
   }

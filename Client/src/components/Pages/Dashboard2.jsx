@@ -25,14 +25,14 @@ const Dashboard2 = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState("profile");
 
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [regdNo, setRegdNo] = useState("12345678");
-  const [phoneNo, setphoneNo] = useState("9457834567");
-  const [dob, setDob] = useState("2000-01-01");
-  const [gender, setGender] = useState("Male");
-  const [branch, setBranch] = useState("CSE");
-  const [year, setYear] = useState("1st");
+  // const [name, setName] = useState("John Doe");
+  // const [email, setEmail] = useState("johndoe@example.com");
+  // const [regdNo, setRegdNo] = useState("12345678");
+  // const [phoneNo, setphoneNo] = useState("9457834567");
+  // const [dob, setDob] = useState("2000-01-01");
+  // const [gender, setGender] = useState("Male");
+  // const [branch, setBranch] = useState("CSE");
+  // const [year, setYear] = useState("1st");
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

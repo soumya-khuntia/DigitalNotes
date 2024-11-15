@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { GlobalContext } from "../../context/GlobalState";
-const SignUp = () => {
+const SignUp = ({onSignup, googleSignup, setCurrUser}) => {
   const [flashMessage, setFlashMessage] = useState(null); // Add flash message state
   const [focusedInput, setFocusedInput] = useState(null);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   // const cpasswordRef = useRef(null);
+ 
+  // const { setCurrUser } = useContext(GlobalContext);
+
   const navigate = useNavigate(); // Initialize navigate
-  const { setCurrUser } = useContext(GlobalContext);
+
+
+  const [formData, setFormData] = useState({ email: "", username: "", password: "" });
+
+  
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -71,6 +78,17 @@ const SignUp = () => {
       toast.error(error.message);
     }
   };
+
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   onSignup(formData); // Call the onSignup function passed from App.jsx
+  // };
+
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-300 px-4 sm:px-6 lg:px-8 mt-10">
@@ -181,7 +199,7 @@ const SignUp = () => {
             </label>
           </div> */}
           <button
-            // type="submit"
+            type="submit"
             className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm sm:text-base"
           >
             Sign Up
@@ -193,7 +211,7 @@ const SignUp = () => {
           <div className="border-t border-gray-300 flex-grow"></div>
         </div>
         <div className="mt-3 sm:mt-4">
-          <button className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
+          <button onClick={googleSignup} className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
             <FcGoogle className="mr-2" />
             Google
           </button>

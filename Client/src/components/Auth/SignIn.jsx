@@ -6,13 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { GlobalContext } from "../../context/GlobalState";
 
-const SignIn = () => {
+const SignIn = ({ onLogin, googleLogin,currUser,setCurrUser }) => {
   const [flashMessage, setFlashMessage] = useState(null); // Add flash message state
   const [focusedInput, setFocusedInput] = useState(null);
   const nameRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate(); // Initialize navigate
-  const { setCurrUser } = useContext(GlobalContext); // Access setCurrUser from context
+  // const { setCurrUser } = useContext(GlobalContext); // Access setCurrUser from context
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleFocus = (inputId) => {
     setFocusedInput(inputId);
@@ -64,9 +66,13 @@ const SignIn = () => {
     }
   };
 
-  const google = () => {
-    window.open("http://localhost:8080/auth/google", "_self");
-  };
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   onLogin(formData);
+  // };
+  // const google = () => {
+  //   window.open("http://localhost:8080/auth/google", "_self");
+  // };
 
   // useEffect(() => {
   //   // Check for user session on page load if backend uses session or cookies
@@ -131,7 +137,7 @@ const SignIn = () => {
                   : "text-sm text-gray-700 top-2"
               }`}
             >
-              Username
+              Email
             </label>
           </div>
           <div className="mb-3 sm:mb-4 relative">
@@ -185,7 +191,7 @@ const SignIn = () => {
           <span className="px-2 text-gray-700 text-sm">OR</span>
           <div className="border-t border-gray-300 flex-grow"></div>
         </div>
-        <div className="mt-3 sm:mt-4 flex justify-center" onClick={google}>
+        <div className="mt-3 sm:mt-4 flex justify-center" onClick={googleLogin}>
           <button className="w-44 py-2 border border-gray-300 rounded-md flex items-center justify-center text-gray-700 hover:bg-gray-50 text-sm sm:text-base">
             <FcGoogle className="mr-2" />
             Google

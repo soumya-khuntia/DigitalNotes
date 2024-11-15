@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import SignUp from "./components/Auth/SignUp";
 import SignIn from "./components/Auth/SignIn";
 import Forgetpass from "./components/Auth/PasswordReset/Forgetpass";
@@ -17,19 +22,21 @@ import GlobalState from "./context/GlobalState";
 import LogoutButton from "./components/Auth/LogoutButton";
 import { createContext, useEffect, useState } from "react";
 
-
 export const UserContext = createContext(null);
 
 function App() {
   const [currUser, setCurrUser] = useState(null);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/current-user", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "http://localhost:8080/auth/current-user",
+          {
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const user = await response.json();
           setCurrUser(user);
@@ -41,47 +48,116 @@ function App() {
     fetchCurrentUser();
   }, []);
 
+  const handleLogin = async (formData) => {
+    try {
+      const response = await fetch("http://localhost:8080/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCurrUser(data.user);
+        navigate("/", {
+          state: {
+            flashMessage: { type: "success", text: "Logged in successfully!" },
+          },
+        });
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
+  const googleLogin = () => {
+    window.open("http://localhost:8080/auth/google", "_self");
+  };
+
+  const handleSignup = async (formData) => {
+    try {
+      const response = await fetch("http://localhost:8080/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setCurrUser(data.user);
+        navigate("/", {
+          state: {
+            flashMessage: { type: "success", text: "Signup successful!" },
+          },
+        });
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
+  };
 
   return (
     <UserContext.Provider value={{ currUser, setCurrUser }}>
-      
-    <div>
-      <Toaster position="top-center" duration={3000} />
-      <Navbar />
-      <Routes>
-      
-        <Route path="/" element={<Home />} />
-        <Route path="/view" element={<NoteView />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/notes" element={<Dashboard />} />
-        {/* <Route  element={<Dashboard />} /> */}
-        <Route path="/dashboard/savednotes" element={<Dashboard />} />
+      <div>
+        <Toaster position="top-center" duration={3000} />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/view" element={<NoteView />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/notes" element={<Dashboard />} />
+          {/* <Route  element={<Dashboard />} /> */}
+          <Route path="/dashboard/savednotes" element={<Dashboard />} />
 
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/logout" element={<LogoutButton />} />
-        <Route path="/forget-password" element={<Forgetpass />} />
-        <Route path="/email-code" element={<EmailCode />} />
-        <Route path="/set-new-password" element={<SetNewpassword />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="*" element={<div className="mt-30">404 not fount</div>}></Route>
-      </Routes>
-      <Footer />
-    </div>
+          <Route
+            path="/signup"
+            element={
+              <SignUp
+                onSignup={handleSignup}
+                googleSignup={googleLogin}
+                setCurrUser={setCurrUser}
+              />
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <SignIn
+                onLogin={handleLogin}
+                googleLogin={googleLogin}
+                currUser={currUser}
+                setCurrUser={setCurrUser}
+              />
+            }
+          />
+          <Route path="/logout" element={<LogoutButton />} />
+          <Route path="/forget-password" element={<Forgetpass />} />
+          <Route path="/email-code" element={<EmailCode />} />
+          <Route path="/set-new-password" element={<SetNewpassword />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route
+            path="*"
+            element={<div className="mt-30">404 not fount</div>}
+          ></Route>
+        </Routes>
+        <Footer />
+      </div>
 
-    // <div>
-    //   {/* <Header/> */}
-    //   <div className='container'>
-    //   <Routes>
-    //     <Route  path='/' element={<Home/>}/>
-    //     {/* <Route  path='/add-blog' element={<AddBlog/>} /> */}
-    //     {/* <Route path="*" element={<div>404 not fount</div>}></Route> */}
-    //   </Routes>
-    //   </div>
-    // </div>
-    
+      <div>
+        {/* <Header/> */}
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route  path='/add-blog' element={<AddBlog/>} /> */}
+            {/* <Route path="*" element={<div>404 not fount</div>}></Route> */}
+          </Routes>
+        </div>
+      </div>
     </UserContext.Provider>
   );
 }
