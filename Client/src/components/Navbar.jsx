@@ -3,19 +3,50 @@ import { Link, useLocation } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalState";
 import LogoutButton from "./Auth/LogoutButton";
 import { UserContext } from "../App";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize navigate
   // const { currUser } = useContext(GlobalContext);
 
   const { currUser, setCurrUser } = useContext(UserContext);
 
+  // const handleLogout = async () => {
+  //   await fetch("http://localhost:8080/logout", { credentials: "include" });
+  //   setCurrUser(null); // Clear current user in context
+  // };
+
   const handleLogout = async () => {
-    await fetch("http://localhost:8080/auth/logout", { credentials: "include" });
-    setCurrUser(null); // Clear current user in context
-  };
+    try {
+      // Make a logout request to the backend (optional)
+      const response = await fetch("http://localhost:8080/logout", {
+        method: "POST",
+        credentials: "include", // Include credentials if using cookies
+      });
+
+      if (response.ok) {
+        // Clear the user data
+        setCurrUser(null);
+
+        // Optionally show a toast message
+        toast.success("Logged out successfully!");
+
+        // Redirect to the login or home page
+        navigate("/");
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || "Logout failed.");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast.error("An error occurred while logging out.");
+    }
+
+  }
 
   useEffect(() => {
     const handleScroll = () => {

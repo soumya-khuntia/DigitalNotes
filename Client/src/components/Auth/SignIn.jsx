@@ -44,7 +44,9 @@ const SignIn = ({ onLogin, googleLogin,currUser,setCurrUser }) => {
       if (!response.ok) {
         // Show toast message for error
         toast.error(data.message || "Failed to sign in");
-      } else {
+      } else {   
+        // console.log("Data user: ",data.user);
+        
         setCurrUser(data.user); // Store user data on successful login
         // Show toast message for success
         // toast.success(data.message || "Welcome back to DigitalNote!");

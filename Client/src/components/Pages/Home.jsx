@@ -74,45 +74,45 @@ const Home = () => {
   // }, []);
 
 
-  return(
-    <div className="blogList">
-      <h1 className="">Blog List</h1>
-      {/* <div class="">
-        <h2 class="">
-          Blog List
-        </h2>
-        <p class="mt-2 text-lg leading-8 text-gray-600">
-          Learn how to grow your business with our expert advice.
-        </p>
-      </div> */}
-      {pending ? (
-        <h1>Loading Blogs! Please wait</h1>
-      ) : (
-        <div >
-          <div>
-            {noteList && noteList.length ? (
-              noteList.map((blogItem) => (
-                <div key={blogItem._id}>
+  // return(
+  //   <div className="blogList">
+  //     <h1 className="">Blog List</h1>
+  //     {/* <div class="">
+  //       <h2 class="">
+  //         Blog List
+  //       </h2>
+  //       <p class="mt-2 text-lg leading-8 text-gray-600">
+  //         Learn how to grow your business with our expert advice.
+  //       </p>
+  //     </div> */}
+  //     {pending ? (
+  //       <h1>Loading Blogs! Please wait</h1>
+  //     ) : (
+  //       <div >
+  //         <div>
+  //           {noteList && noteList.length ? (
+  //             noteList.map((blogItem) => (
+  //               <div key={blogItem._id}>
                   
                   
-                  <p>{blogItem.title}</p>
-                  <p>{blogItem.description}</p>
-                  <img src={blogItem.image.url} alt="some image" />
-                  {/* <FaEdit onClick={() => handleEdit(blogItem)} size={30} />
-                  <FaTrash
-                    onClick={() => handelDeleteBlog(blogItem._id)}
-                    size={30}
-                  /> */}
-                </div>
-              ))
-            ) : (
-              <h3>No Blogs Added</h3>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  )
+  //                 <p>{blogItem.title}</p>
+  //                 <p>{blogItem.description}</p>
+  //                 <img src={blogItem.image.url} alt="some image" />
+  //                 {/* <FaEdit onClick={() => handleEdit(blogItem)} size={30} />
+  //                 <FaTrash
+  //                   onClick={() => handelDeleteBlog(blogItem._id)}
+  //                   size={30}
+  //                 /> */}
+  //               </div>
+  //             ))
+  //           ) : (
+  //             <h3>No Blogs Added</h3>
+  //           )}
+  //         </div>
+  //       </div>
+  //     )}
+  //   </div>
+  // )
 };
 
 export default Home;

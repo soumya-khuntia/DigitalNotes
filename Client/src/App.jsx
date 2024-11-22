@@ -18,14 +18,17 @@ import NoteView from "./components/Pages/NoteView";
 import Dashboard from "./components/layout/Dashboard";
 import Notes from "./components/functional/Notes";
 import { Toaster } from "sonner";
-import GlobalState from "./context/GlobalState";
+// import GlobalState from "./context/GlobalState";
 import LogoutButton from "./components/Auth/LogoutButton";
-import { createContext, useEffect, useState } from "react";
-
+import { createContext, useContext, useEffect, useState } from "react";
+import { GlobalContext } from "./context/GlobalState";
 export const UserContext = createContext(null);
 
 function App() {
-  const [currUser, setCurrUser] = useState(null);
+  // const [currUser, setCurrUser] = useState(null);
+
+  const { currUser, setCurrUser } = useContext(GlobalContext);
+  // const { currUser } = useContext(GlobalState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -148,16 +151,7 @@ function App() {
         <Footer />
       </div>
 
-      <div>
-        {/* <Header/> */}
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route  path='/add-blog' element={<AddBlog/>} /> */}
-            {/* <Route path="*" element={<div>404 not fount</div>}></Route> */}
-          </Routes>
-        </div>
-      </div>
+      
     </UserContext.Provider>
   );
 }

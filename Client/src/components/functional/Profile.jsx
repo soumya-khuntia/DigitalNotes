@@ -37,9 +37,6 @@ const Profile = () => {
     // const [branch, setBranch] = useState("CSE");
     // const [year, setYear] = useState("1st");
 
-
-
-
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     const profileData = { regdno: regdNo, phno: phoneNo, dob, gender, branch, sem };
@@ -140,11 +137,14 @@ const Profile = () => {
             </span>
           </p>
         </div>
+        
         {currUser ? (
         <ProfileUpdateForm initialData={currUser} />
       ) : (
         <p>Loading profile data...</p>
       )}
+
+{/* <ProfileUpdateForm initialData={currUser} /> */}
         
         {/* <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:gap-x-12 gap-6 p-8">

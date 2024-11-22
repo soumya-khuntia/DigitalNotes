@@ -1,28 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { GlobalContext } from "../../context/GlobalState";
 
 const ProfileUpdateForm = ({ initialData }) => {
-  // const [username, setUsername] = useState(initialData?.username || "");
-  // const [email, setEmai] = useState(initialData?.email || "");
-  // const [regdNo, setRegdNo] = useState(initialData?.regdno || "");
-  // const [phoneNo, setPhoneNo] = useState(initialData?.phno || "");
-  // const [dob, setDob] = useState(initialData?.dob || "");
-  // const [gender, setGender] = useState(initialData?.gender || "");
-  // const [branch, setBranch] = useState(initialData?.branch || "");
-  // const [sem, setSem] = useState(initialData?.sem || "");
-  // const [year, setYear] = useState(initialData?.year || ""); // New state for year
+
+
+  // if(initialData){
+  //   console.log(initialData.username);
+    
+  // }
+  const [username, setUsername] = useState(initialData?.username || "");
+  const [email, setEmai] = useState(initialData?.email || "");
+  const [regdNo, setRegdNo] = useState(initialData?.regdNo || "");
+  const [phoneNo, setPhoneNo] = useState(initialData?.phoneNo || "");
+  const [dob, setDob] = useState(initialData?.dob || "");
+  const [gender, setGender] = useState(initialData?.gender || "");
+  const [branch, setBranch] = useState(initialData?.branch || "");
+  const [sem, setSem] = useState(initialData?.sem || "");
+  const [year, setYear] = useState(initialData?.year || ""); // New state for year
 
 
   // const { currUser } = useContext(GlobalContext); // Access setCurrUser from context
     
-  // // Define semester options based on the selected year
-  // const semesterOptions = {
-  //   "1st": ["1st", "2nd"],
-  //   "2nd": ["3rd", "4th"],
-  //   "3rd": ["5th", "6th"],
-  //   "4th": ["7th", "8th"],
-  // };
+  // Define semester options based on the selected year
+  const semesterOptions = {
+    "1st": ["1st", "2nd"],
+    "2nd": ["3rd", "4th"],
+    "3rd": ["5th", "6th"],
+    "4th": ["7th", "8th"],
+  };
 
   // const handleUpdateProfile = async (e) => {
   //   e.preventDefault();
@@ -63,24 +69,24 @@ const ProfileUpdateForm = ({ initialData }) => {
 
   const { currUser, setCurrUser } = useContext(GlobalContext); // Access currUser and setCurrUser from context
   
-  // Set initial state from currUser
-  const [username, setUsername] = useState(currUser.username || "");
-  const [email, setEmail] = useState(currUser.email || "");
-  const [regdNo, setRegdNo] = useState(currUser.regdNo || ""); // Use proper field names from your user schema
-  const [phoneNo, setPhoneNo] = useState(currUser.phoneNo || ""); // Adjusted to match schema
-  const [dob, setDob] = useState(currUser.dob || "");
-  const [gender, setGender] = useState(currUser.gender || "");
-  const [branch, setBranch] = useState(currUser.branch || "");
-  const [sem, setSem] = useState(currUser.sem || "");
-  const [year, setYear] = useState(currUser.year || ""); // New state for year
+  // // Set initial state from currUser
+  // const [username, setUsername] = useState(currUser.username || "");
+  // const [email, setEmail] = useState(currUser.email || "");
+  // const [regdNo, setRegdNo] = useState(currUser.regdNo || ""); // Use proper field names from your user schema
+  // const [phoneNo, setPhoneNo] = useState(currUser.phoneNo || ""); // Adjusted to match schema
+  // const [dob, setDob] = useState(currUser.dob || "");
+  // const [gender, setGender] = useState(currUser.gender || "");
+  // const [branch, setBranch] = useState(currUser.branch || "");
+  // const [sem, setSem] = useState(currUser.sem || "");
+  // const [year, setYear] = useState(currUser.year || ""); // New state for year
 
-  // Define semester options based on the selected year
-  const semesterOptions = {
-    "1st": ["1st", "2nd"],
-    "2nd": ["3rd", "4th"],
-    "3rd": ["5th", "6th"],
-    "4th": ["7th", "8th"],
-  };
+  // // Define semester options based on the selected year
+  // const semesterOptions = {
+  //   "1st": ["1st", "2nd"],
+  //   "2nd": ["3rd", "4th"],
+  //   "3rd": ["5th", "6th"],
+  //   "4th": ["7th", "8th"],
+  // };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -130,12 +136,38 @@ const ProfileUpdateForm = ({ initialData }) => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("Initial Data updated:", initialData);
+  // }, [initialData]);
+
   return (
+    <div>
+      
     <form
       onSubmit={handleUpdateProfile}
       className="max-w-lg mx-auto p-8 bg-white rounded shadow"
     >
       <h2 className="text-2xl font-bold mb-6 text-center">Update Profile</h2>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Username</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setRegdNo(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Email</label>
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setRegdNo(e.target.value)}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+
 
       <div className="mb-4">
         <label className="block text-gray-700">Regd. No.</label>
@@ -240,6 +272,7 @@ const ProfileUpdateForm = ({ initialData }) => {
         Save Profile
       </button>
     </form>
+    </div>
   );
 };
 

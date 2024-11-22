@@ -9,6 +9,7 @@ const GlobalState = ({ children }) => {
 //   });
 
   const [noteList, setNoteList] = useState([]);
+  const [reviewList, setReviewList] = useState([]);
   const [pending, setPending] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [currUser,setCurrUser] = useState(null);
@@ -31,6 +32,13 @@ const GlobalState = ({ children }) => {
     console.log(favoritesList,'favoritesList');
     
   }
+
+  // Function to add a review to the global state
+  const addReview = (reviewData) => {
+    setReviewList((prevReviews) => [...prevReviews, reviewData]);
+  };
+
+
   return (
     <GlobalContext.Provider
       value={{
@@ -45,7 +53,10 @@ const GlobalState = ({ children }) => {
         currUser,
         setCurrUser,
         handleAddToFavorite,
-        favoritesList
+        favoritesList,
+        reviewList,
+        setReviewList,
+        addReview
       }}
     >
       {children}

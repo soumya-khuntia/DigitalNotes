@@ -1,30 +1,111 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaEye, FaDownload, FaArrowLeft, FaFilePdf, FaBookmark, FaRegBookmark, FaTimes, FaPaperPlane, FaEdit, FaTrash } from 'react-icons/fa';
+import {
+  FaEye,
+  FaDownload,
+  FaArrowLeft,
+  FaFilePdf,
+  FaBookmark,
+  FaRegBookmark,
+  FaTimes,
+  FaPaperPlane,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
 
 import { GlobalContext } from "../../context/GlobalState";
-import axios from "axios";
+
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import StarRating from "../functional/StarRating";
+import axios from "axios";
 
 const NoteView = ({ noteItem }) => {
-
-
-  const { currUser } = useContext(GlobalContext);
+  const { currUser, setCurrUser } = useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
   const { note } = location.state || {};
-  const { noteList, setNoteList, pending, setPending, handleAddToFavorite } =
-    useContext(GlobalContext);
-    const [reviews, setReviews] = useState([
-      { id: 1, author: "John Doe", content: "Great notes! Very helpful.", rating: 5, date: "2023-07-01", userId: "user1" },
-      { id: 2, author: "Jane Smith", content: "Could use more detail, but overall good.", rating: 4, date: "2023-06-30", userId: "user2" },
-      { id: 3, author: "Mike Johnson", content: "Excellent resource for studying.", rating: 3, date: "2023-06-29", userId: "user3" },
-  ]);
+  const noteId = note._id;
+  const [inputValue, setInputValue] = useState("");
+ 
+
+  //   const [newReview, setNewReview] = useState({ rating: 0, content: '', isEditing: false, editId: null });
+  //   const [reviews, setReviews] = useState([
+  //     { id: 1, author: "John Doe", content: "Great notes! Very helpful.", rating: 5, date: "2023-07-01", userId: "user1" },
+  //     { id: 2, author: "Jane Smith", content: "Could use more detail, but overall good.", rating: 4, date: "2023-06-30", userId: "user2" },
+  //     { id: 3, author: "Mike Johnson", content: "Excellent resource for studying.", rating: 3, date: "2023-06-29", userId: "user3" },
+  // ]);
+
+  const [reviewComment, setReviewComment] = useState("");
+  const [newReview, setNewReview] = useState({
+    rating: 0, // Default rating
+    comment: "", // Default comment
+  });
+  const { noteList, setNoteList, pending, setPending,reviewList, setReviewList,addReview } =
+  useContext(GlobalContext);
+
+
+  const [starKey, setStarKey] = useState(0);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [selectedNoteId, setSelectedNoteId] = useState(null); // This could come from props or other logic
 
   const fileId = import.meta.env.VITE_FIELDID;
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-  const [inputValue, setInputValue] = useState("");
+  // async function fetchListOfReviews() {
+  //   setPending(true);
+
+  //   const response = await axios.get("http://localhost:8080/note/:id/reviews");
+
+  //   const result = await response.data;
+
+  //   // console.log(result);
+  //   if (result && result.reviewList && result.reviewList.length) {
+  //     setReviewList(result.reviewList);
+  //     setPending(false);
+  //   } else {
+  //     setPending(false);
+  //     setReviewList([]);
+  //   }
+  // }
+
+  // const fetchListOfReviews = async (noteId) => {
+  //   // setPending(true);
+
+  //   // try {
+  //   //   const response = await axios.get(`http://localhost:8080/note/${noteId}/reviews`);
+  //   //   if (response.data && response.data.reviewList) {
+  //   //     setReviewList(response.data.reviewList);
+  //   //   } else {
+  //   //     setReviewList([]);
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.error("Error fetching reviews:", error);
+  //   //   toast.error("Failed to load reviews.");
+  //   // } finally {
+  //   //   setPending(false);
+  //   // }
+
+  //   const url = `http://localhost:8080/view/note/${noteId}/reviews`;
+  // console.log(`Fetching reviews from: ${url}`); // Log URL for debugging
+
+  // try {
+  //   const response = await axios.get(url);
+  //   console.log(response);
+    
+  //   if (response.data && response.data.reviewList) {
+  //     setReviewList(response.data.reviewList); // Update your reviewList state with the data
+  //   } else {
+  //     setReviewList([]); // If no reviews found
+  //   }
+  // } catch (error) {
+  //   console.error("Error fetching reviews:", error);
+  //   toast.error("Failed to load reviews.");
+  // } finally {
+  //   setPending(false); // Reset the pending state
+  // }
+  // };
+
+
 
   if (!note) {
     return <p>Note not found</p>;
@@ -58,40 +139,76 @@ const NoteView = ({ noteItem }) => {
 
 
 
+
+
+
   const handleNewReviewSubmit = async (e) => {
-    console.log(currUser);
-    
     e.preventDefault();
-    const profileData = {
-      _id: currUser.id,
-      username: currUser.username,
-      
+
+    if (!currUser || !currUser._id) {
+      toast.error("User not logged in. Please sign in first.");
+      return;
+    }
+
+    const reviewData = {
+      comment: reviewComment,
+      rating: newReview.rating,
+      author: currUser._id, // Ensure `_id` is accessible
     };
 
     try {
-      const response = await fetch("http://localhost:8080/dashboard/note/view", {
+
+
+  //     const response =  await axios.post("http://localhost:5000/api/blogs/add", {
+  //       title: formData.title,
+  //       description: formData.description,
+  //     });
+
+  // const result = await response.data;
+
+  // if (result) {
+  //   setIsEdit(false);
+  //   setFormData({
+  //     title: "",
+  //     description: "",
+  //   });
+  //   navigate("/");
+  // }
+
+
+
+      const response = await fetch(`http://localhost:8080/note/${noteId}/reviews`,{
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify(profileData),
+        body: JSON.stringify(reviewData),
       });
 
       if (response.ok) {
-        // Update the currUser state with the new data
-        setCurrUser((prevUser) => ({
-          ...prevUser,
-          username,
-        }));
-        
-        toast.success("Profile updated successfully!");
+        const result = await response.json();
+        toast.success("Review submitted successfully!");
+        setReviewComment(""); // Reset textarea
+        setNewReview({ comment: "", rating: 0 }); // Reset form
+        // fetchListOfReviews(noteId);  // Reload reviews after submission
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message || "Failed to update profile");
+        toast.error(errorData.message || "Failed to submit review");
       }
     } catch (error) {
-      toast.error("An error occurred while updating the profile.");
+      toast.error("An error occurred while submitting the review.");
     }
   };
+
+
+
+
+
+  // // Fetch reviews when the component is mounted
+  // useEffect(() => {
+  //   if (noteId) {
+  //     fetchListOfReviews(noteId);
+  //   }
+  // }, [noteId]);
 
   return (
     <div className="flex flex-col items-center mt-20">
@@ -164,8 +281,11 @@ const NoteView = ({ noteItem }) => {
             <label className="text-sm md:text-base font-medium text-gray-700">
               Rate this note
             </label>
-            <div className="flex items-center gap-1">
-              {/* <StarRating
+            <div
+              className="flex items-center gap-1"
+              onClick={(e) => e.preventDefault()}
+            >
+              <StarRating
                 key={newReview.rating}
                 totalStars={5}
                 initialRating={newReview.rating}
@@ -173,7 +293,7 @@ const NoteView = ({ noteItem }) => {
                 onRatingChange={(rating) =>
                   setNewReview((prev) => ({ ...prev, rating }))
                 }
-              /> */}
+              />
             </div>
           </div>
 
@@ -190,9 +310,21 @@ const NoteView = ({ noteItem }) => {
               placeholder="Share your thoughts about this note..."
               required
             /> */}
-            <textarea name="comment" id=""
-            onChange={(e)=> setInputValue(e.target.value)}
-            rows={6} cols={15}></textarea>
+
+            {/* <textarea
+    value={reviewComment}
+    onChange={(e) => setReviewComment(e.target.value)}
+    placeholder="Write your comment here..."
+    required
+  /> */}
+            <textarea
+              value={reviewComment}
+              onChange={(e) => setReviewComment(e.target.value)}
+              rows={6}
+              cols={55}
+               placeholder="Write your comment here..."
+              required
+            />
           </div>
 
           <div className="flex justify-end">
@@ -207,59 +339,26 @@ const NoteView = ({ noteItem }) => {
         </div>
       </form>
 
-      <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-              <div className="flex items-center space-x-3 md:space-x-4">
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm md:text-base font-medium">
-                  {review.author.charAt(0)}
-                </div>
-                <div>
-                  <h3 className="text-sm md:text-base font-medium text-gray-900">
-                    {review.author}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* <StarRating
-                      totalStars={5}
-                      initialRating={review.rating}
-                      readonly={true}
-                    /> */}
-                    <span className="hidden sm:inline text-sm text-gray-500">
-                      •
-                    </span>
-                    <time className="text-xs md:text-sm text-gray-500">
-                      {review.date}
-                    </time>
-                  </div>
-                </div>
+              {/* <div>
+              <div>
+        {reviewList.length ? (
+          reviewList.map((review) => (
+            <div key={review._id} className="bg-white p-4 rounded-lg shadow-md">
+              <span>{review.comment}</span>
+              <div className="mt-4 text-xs sm:text-sm">
+                <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
+                <p className="mt-1 text-gray-600">{review.author}</p>
               </div>
-              {/* {review.userId === currentUserId && ( */}
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(review.id)}
-                    className="p-1.5 md:p-2 text-blue-600 hover:text-blue-800 transition-colors"
-                  >
-                    <FaEdit className="h-4 w-4 md:h-5 md:w-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(review.id)}
-                    className="p-1.5 md:p-2 text-red-600 hover:text-red-800 transition-colors"
-                  >
-                    <FaTrash className="h-4 w-4 md:h-5 md:w-5" />
-                  </button>
-                </div>
-              {/* )} */}
             </div>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              {review.content}
-            </p>
-          </div>
-         ))} 
+          ))
+        ) : (
+          <h3>No Reviews Yet</h3>
+        )}
       </div>
+              </div> */}
+
+
+
     </div>
   );
 };
