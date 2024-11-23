@@ -7,6 +7,7 @@ const ensureAuthenticated  = require("../middleware");
 const mongoose = require('mongoose');
 // const { saveRedirectUrl } = require("../middleware");
 const Review = require("../models/review");
+const Note = require("../models/listing");
 
 // router.get("/signup", (req, res) => {
 //   res.render("users/signup.ejs");
@@ -53,6 +54,11 @@ const CLIENT_URL = "http://localhost:5173/";
 // });
 
 
+// router.get("/view/:id", async(req,res)=> {
+//   let {id} = req.params;
+//   const note = await Note.findById(id).populate("reviews");
+//   return res.status(200).json({ note: note });
+// })
 
 
 
@@ -148,6 +154,19 @@ router.put("/dashboard/profile", async (req, res) => {
   }
 });
 
+// Note Routes
+// Endpoint to fetch all reviews
+router.get('/view/reviews', async (req, res) => {
+  try {
+    const reviews = await Review.find().populate('author'); // Use `.populate()` if author references another document
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
+
+
 
 router.post("/dashboard/note/view", async (req, res) => {
   try {
@@ -178,11 +197,22 @@ router.post("/note/:id/reviews", async (req, res) => {
   }
 
   try {
-    const newReview = await Review.create({
+    let note = await Note.findById(req.params.id);
+    // let newReview = new Review(req.body.)
+    let newReview = new Review({
       comment,
       rating,
       author,
     });
+
+    note.reviews.push(newReview);
+    await newReview.save();
+    await note.save();
+    // const newReview = await Review.create({
+    //   comment,
+    //   rating,
+    //   author,
+    // });
     res.status(201).json(newReview);
   } catch (error) {
     res.status(500).json({ message: "Error creating review", error });

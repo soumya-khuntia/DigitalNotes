@@ -17,7 +17,14 @@ app.use(cors());
 const fetchListOfNotes = async (req, res) => {
   let noteList;
   try {
-    noteList = await Note.find();
+    // noteList = await Note.find().populate("reviews").populate("owner");
+    noteList = await Note.find().populate({
+      path: "reviews",
+      populate:{
+          path: "author",
+      }
+  })
+  .populate("owner");
   } catch (e) {
     console.log(e);
   }

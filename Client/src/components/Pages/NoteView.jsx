@@ -26,7 +26,6 @@ const NoteView = ({ noteItem }) => {
   const { note } = location.state || {};
   const noteId = note._id;
   const [inputValue, setInputValue] = useState("");
- 
 
   //   const [newReview, setNewReview] = useState({ rating: 0, content: '', isEditing: false, editId: null });
   //   const [reviews, setReviews] = useState([
@@ -40,10 +39,17 @@ const NoteView = ({ noteItem }) => {
     rating: 0, // Default rating
     comment: "", // Default comment
   });
-  const { noteList, setNoteList, pending, setPending,reviewList, setReviewList,addReview } =
-  useContext(GlobalContext);
+  const {
+    noteList,
+    setNoteList,
+    pending,
+    setPending,
+    reviewList,
+    setReviewList,
+    addReview,
+  } = useContext(GlobalContext);
 
-
+  const [reviews, setReviews] = useState([]);
   const [starKey, setStarKey] = useState(0);
   const [reviewRating, setReviewRating] = useState(5);
   const [selectedNoteId, setSelectedNoteId] = useState(null); // This could come from props or other logic
@@ -91,7 +97,7 @@ const NoteView = ({ noteItem }) => {
   // try {
   //   const response = await axios.get(url);
   //   console.log(response);
-    
+
   //   if (response.data && response.data.reviewList) {
   //     setReviewList(response.data.reviewList); // Update your reviewList state with the data
   //   } else {
@@ -104,8 +110,6 @@ const NoteView = ({ noteItem }) => {
   //   setPending(false); // Reset the pending state
   // }
   // };
-
-
 
   if (!note) {
     return <p>Note not found</p>;
@@ -136,12 +140,6 @@ const NoteView = ({ noteItem }) => {
     }
   };
 
-
-
-
-
-
-
   const handleNewReviewSubmit = async (e) => {
     e.preventDefault();
 
@@ -157,32 +155,31 @@ const NoteView = ({ noteItem }) => {
     };
 
     try {
+      //     const response =  await axios.post("http://localhost:5000/api/blogs/add", {
+      //       title: formData.title,
+      //       description: formData.description,
+      //     });
 
+      // const result = await response.data;
 
-  //     const response =  await axios.post("http://localhost:5000/api/blogs/add", {
-  //       title: formData.title,
-  //       description: formData.description,
-  //     });
+      // if (result) {
+      //   setIsEdit(false);
+      //   setFormData({
+      //     title: "",
+      //     description: "",
+      //   });
+      //   navigate("/");
+      // }
 
-  // const result = await response.data;
-
-  // if (result) {
-  //   setIsEdit(false);
-  //   setFormData({
-  //     title: "",
-  //     description: "",
-  //   });
-  //   navigate("/");
-  // }
-
-
-
-      const response = await fetch(`http://localhost:8080/note/${noteId}/reviews`,{
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(reviewData),
-      });
+      const response = await fetch(
+        `http://localhost:8080/note/${noteId}/reviews`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(reviewData),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
@@ -199,9 +196,18 @@ const NoteView = ({ noteItem }) => {
     }
   };
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get("/view/reviews"); // Replace with your API endpoint
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
 
-
-
+    fetchReviews();
+  }, []);
 
   // // Fetch reviews when the component is mounted
   // useEffect(() => {
@@ -322,7 +328,7 @@ const NoteView = ({ noteItem }) => {
               onChange={(e) => setReviewComment(e.target.value)}
               rows={6}
               cols={55}
-               placeholder="Write your comment here..."
+              placeholder="Write your comment here..."
               required
             />
           </div>
@@ -339,7 +345,7 @@ const NoteView = ({ noteItem }) => {
         </div>
       </form>
 
-              {/* <div>
+      {/* <div>
               <div>
         {reviewList.length ? (
           reviewList.map((review) => (
@@ -358,7 +364,31 @@ const NoteView = ({ noteItem }) => {
               </div> */}
 
 
-
+      <div>
+        <div>
+          {note.reviews.length ? (
+            note.reviews.map((review) => (
+              <div
+                key={review._id}
+                className="bg-white p-4 rounded-lg shadow-md"
+              >
+                <h2><b>@{review.author.username}</b></h2>
+                <span>{review.comment}</span>
+                <div className="mt-4 text-xs sm:text-sm">
+                  <StarRating
+                    totalStars={5}
+                    initialRating={review.rating}
+                    readonly={true}
+                  />
+                </div>
+                  
+              </div>
+            ))
+          ) : (
+            <h3>No Reviews Yet</h3>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
