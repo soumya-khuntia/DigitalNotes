@@ -166,6 +166,48 @@ router.get('/view/reviews', async (req, res) => {
 });
 
 
+// router.delete("/notes/:id/reviews/:reviewId", async(req,res)=>{
+//   let {id, reviewId} = req.params;
+//   console.log("inside delete");
+//   console.log(id);
+//   console.log(reviewId);
+  
+  
+//   await Note.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
+//   await Review.findByIdAndDelete(reviewId);
+//   return res.status(200).json({
+//     message: "Review deleted successfully!",
+    
+//   });
+// })
+
+// router.delete('/notes/:noteId/reviews/:reviewId', async (req, res) => {
+//   const { reviewId } = req.params;
+//   try {
+//     await Review.findByIdAndDelete(reviewId);
+//     res.status(200).json({ message: "Review deleted successfully" });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to delete review" });
+//   }
+// });
+router.delete('/notes/:noteId/reviews/:reviewId', async (req, res) => {
+  console.log(req.params);
+  
+  const { noteId, reviewId } = req.params;
+  console.log("inside delete");
+  
+  try {
+    await Note.findByIdAndUpdate(noteId, {$pull: {reviews: reviewId}});
+    const review = await Review.findByIdAndDelete(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    res.status(200).json({ message: 'Review deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete review' });
+  }
+});
+
 
 
 router.post("/dashboard/note/view", async (req, res) => {

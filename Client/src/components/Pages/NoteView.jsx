@@ -134,11 +134,28 @@ const NoteView = ({ noteItem }) => {
     });
   };
 
-  const handleDelete = (reviewId) => {
-    if (window.confirm("Are you sure you want to delete this review?")) {
-      setReviews(reviews.filter((review) => review.id !== reviewId));
+
+  const handleDelete = async (reviewId) => {
+    try {
+      // Send DELETE request to your backend
+      const response = await axios.delete(`http://localhost:8080/notes/${noteId}/reviews/${reviewId}`);
+      // Optionally refresh the reviews list after deleting
+      if(response){
+        toast.success("Review deleted successfully!");
+        navigate("/");
+      }
+      // toast.success("Review submitted successfully!");
+      // fetchReviews();
+      // navigate("/view")
+    } catch (error) {
+      toast.error("Error deleting review:", error);
     }
   };
+ 
+  //   if (window.confirm("Are you sure you want to delete this review?")) {
+  //     setReviews(reviews.filter((review) => review.id !== reviewId));
+  //   }
+  // };
 
   const handleNewReviewSubmit = async (e) => {
     e.preventDefault();
@@ -215,6 +232,10 @@ const NoteView = ({ noteItem }) => {
   //     fetchListOfReviews(noteId);
   //   }
   // }, [noteId]);
+
+
+  
+
 
   return (
     <div className="flex flex-col items-center mt-20">
@@ -304,25 +325,6 @@ const NoteView = ({ noteItem }) => {
           </div>
 
           <div>
-            {/* <textarea
-            name="textarea"
-              // value={newReview.content}
-              value=""
-              // onChange={(e) =>
-              //   setNewReview((prev) => ({ ...prev, content: e.target.value }))
-              // }
-              className="w-full p-3 md:p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-              rows="4"
-              placeholder="Share your thoughts about this note..."
-              required
-            /> */}
-
-            {/* <textarea
-    value={reviewComment}
-    onChange={(e) => setReviewComment(e.target.value)}
-    placeholder="Write your comment here..."
-    required
-  /> */}
             <textarea
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
@@ -345,25 +347,7 @@ const NoteView = ({ noteItem }) => {
         </div>
       </form>
 
-      {/* <div>
-              <div>
-        {reviewList.length ? (
-          reviewList.map((review) => (
-            <div key={review._id} className="bg-white p-4 rounded-lg shadow-md">
-              <span>{review.comment}</span>
-              <div className="mt-4 text-xs sm:text-sm">
-                <StarRating totalStars={5} initialRating={review.rating} readonly={true} />
-                <p className="mt-1 text-gray-600">{review.author}</p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <h3>No Reviews Yet</h3>
-        )}
-      </div>
-              </div> */}
-
-
+      {/* All Reviews list*/}
       <div>
         <div>
           {note.reviews.length ? (
@@ -373,15 +357,20 @@ const NoteView = ({ noteItem }) => {
                 className="bg-white p-4 rounded-lg shadow-md"
               >
                 <h2><b>@{review.author.username}</b></h2>
-                <span>{review.comment}</span>
-                <div className="mt-4 text-xs sm:text-sm">
+                <div className=" text-xs sm:text-sm">
                   <StarRating
+
                     totalStars={5}
                     initialRating={review.rating}
                     readonly={true}
+                    style={{ pointerEvents: "none" }}
                   />
                 </div>
-                  
+                <span>{review.comment}</span>
+                
+                
+                <button onClick={() => handleDelete(review._id)}>Delete</button>
+               
               </div>
             ))
           ) : (
