@@ -3,6 +3,7 @@ import {
   Route,
   Routes,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import SignUp from "./components/Auth/SignUp";
 import SignIn from "./components/Auth/SignIn";
@@ -22,6 +23,8 @@ import { Toaster } from "sonner";
 import LogoutButton from "./components/Auth/LogoutButton";
 import { createContext, useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalState";
+import Profile from "./components/functional/Profile";
+import SavedNotes from "./components/functional/SavedNotes";
 export const UserContext = createContext(null);
 
 function App() {
@@ -111,10 +114,19 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/view" element={<NoteView />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/notes" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="/dashboard/notes" element={<Dashboard />} /> */}
           {/* <Route  element={<Dashboard />} /> */}
-          <Route path="/dashboard/savednotes" element={<Dashboard />} />
+          {/* <Route path="/dashboard/savednotes" element={<Dashboard />} /> */}
+
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route index element={<Navigate to="/dashboard/personal-details" replace />} />
+            <Route path="personal-details" element={<Profile />} />
+            {/* <Route path="notes" element={<NoteView />} /> */}
+            <Route path="notes" element={<Notes />} />
+            <Route path="view" element={<NoteView />} />
+            <Route path="saved-notes" element={<SavedNotes />} />
+        </Route>
 
           <Route
             path="/signup"

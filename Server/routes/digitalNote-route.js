@@ -10,12 +10,14 @@ const {
 //   updateABlog,
 //   deleteABlog,
 handleSignUp,
-handleSignIn
+handleSignIn,
+fetchListOfReviews
 } = require("../controller/note-controller");
 
-noteRouter.get("/", fetchListOfNotes,handleNoteClick);
+noteRouter.get("/", fetchListOfNotes,fetchListOfReviews,handleNoteClick);
+// noteRouter.post("/",fetchListOfReviews);
 
-
+// noteRouter.get("/note/:id/reviews", fetchListOfReviews);
 noteRouter.post("/signup",handleSignUp);
 noteRouter.post("/signin",
   passport.authenticate("local", {

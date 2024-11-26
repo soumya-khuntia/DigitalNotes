@@ -88,7 +88,7 @@ const Notes = () => {
     //   `http://localhost:5000/api/notes/${getCurrNoteItem._id}`
     // );
     // setNoteList(result.noteList);
-    navigate(`/view`, { state: {note: noteItem } });
+    navigate(`/dashboard/view`, { state: {note: noteItem } });
     // navigate(`view/${id}`);
   }
 

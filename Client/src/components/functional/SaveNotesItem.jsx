@@ -20,7 +20,7 @@ const SaveNotesItem = ({ item }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { note } = location.state || {};
-  const { noteList, setNoteList, pending, setPending, handleAddToFavorite } =
+  const { noteList, setNoteList, pending, setPending, handleAddToFavorite,handleRemoveFromCard } =
     useContext(GlobalContext);
   const { favoritesList, setFavoritesList } = useContext(GlobalContext);
   const fileId = import.meta.env.VITE_FIELDID;
@@ -76,7 +76,7 @@ const SaveNotesItem = ({ item }) => {
         <FaBookmark
           className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
           // onClick={toggleBookmark}
-          //   onClick={()=>handleAddToFavorite(note)}
+            onClick={()=>handleRemoveFromCard(note)}
         />
       </div>
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 w-full max-w-sm">

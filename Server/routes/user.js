@@ -156,45 +156,41 @@ router.put("/dashboard/profile", async (req, res) => {
 
 // Note Routes
 // Endpoint to fetch all reviews
-router.get('/view/reviews', async (req, res) => {
+// router.get('/note/:id/reviews', async (req, res) => {
+//   try {
+//     // const reviews = await Review.find().populate('author'); // Use `.populate()` if author references another document
+//     let note = await Note.findById(req.params.id);
+//     let reviews = note.reviews;
+//     res.json(reviews);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch reviews' });
+//   }
+// });
+
+router.get("/note/:id/reviews", async (req, res) => {
+  console.log(req.params.id);
+  
   try {
-    const reviews = await Review.find().populate('author'); // Use `.populate()` if author references another document
-    res.json(reviews);
+    const note = await Note.findById(req.params.id)
+      .populate({
+        path: "reviews",
+        populate: { path: "author", select: "username" }, // Populate the author's username
+      });
+
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    res.status(200).json(note.reviews); // Send the reviews of the note
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch reviews' });
+    console.error("Error fetching reviews", error);
+    res.status(500).json({ message: "Error fetching reviews", error });
   }
 });
 
-
-// router.delete("/notes/:id/reviews/:reviewId", async(req,res)=>{
-//   let {id, reviewId} = req.params;
-//   console.log("inside delete");
-//   console.log(id);
-//   console.log(reviewId);
-  
-  
-//   await Note.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
-//   await Review.findByIdAndDelete(reviewId);
-//   return res.status(200).json({
-//     message: "Review deleted successfully!",
-    
-//   });
-// })
-
-// router.delete('/notes/:noteId/reviews/:reviewId', async (req, res) => {
-//   const { reviewId } = req.params;
-//   try {
-//     await Review.findByIdAndDelete(reviewId);
-//     res.status(200).json({ message: "Review deleted successfully" });
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to delete review" });
-//   }
-// });
 router.delete('/notes/:noteId/reviews/:reviewId', async (req, res) => {
-  console.log(req.params);
-  
+
   const { noteId, reviewId } = req.params;
-  console.log("inside delete");
   
   try {
     await Note.findByIdAndUpdate(noteId, {$pull: {reviews: reviewId}});
@@ -208,32 +204,8 @@ router.delete('/notes/:noteId/reviews/:reviewId', async (req, res) => {
   }
 });
 
-
-
-router.post("/dashboard/note/view", async (req, res) => {
-  try {
-    
-    // Get profile data from request body
-    const { _id, username } = req.body;
-    const userId = _id; // Ensure req.user is defined
-
-    // console.log(req.body);
-    
-
-    return res.status(200).json({
-      message: "Profile updated successfully!",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return res.status(500).json({ message: "An error occurred while updating the profile." });
-  }
-});
-
 router.post("/note/:id/reviews", async (req, res) => {
   const { comment, rating, author } = req.body;
-  
-
   if (!author) {
     return res.status(400).json({ message: "User is not logged in." });
   }
@@ -250,16 +222,31 @@ router.post("/note/:id/reviews", async (req, res) => {
     note.reviews.push(newReview);
     await newReview.save();
     await note.save();
-    // const newReview = await Review.create({
-    //   comment,
-    //   rating,
-    //   author,
-    // });
+    
     res.status(201).json(newReview);
   } catch (error) {
     res.status(500).json({ message: "Error creating review", error });
   }
 });
+
+router.post("/dashboard/note/view", async (req, res) => {
+  try {
+    
+    // Get profile data from request body
+    const { _id, username } = req.body;
+    const userId = _id; // Ensure req.user is defined
+
+    return res.status(200).json({
+      message: "Profile updated successfully!",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({ message: "An error occurred while updating the profile." });
+  }
+});
+
+
 
 
 
@@ -283,6 +270,7 @@ router.post("/logout", (req, res) => {
     }
     res.clearCookie("sessionId"); // Clear the session cookie
     res.status(200).json({ message: "Logged out successfully." });
+    
   });
 })
 

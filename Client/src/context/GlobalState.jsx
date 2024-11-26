@@ -33,6 +33,19 @@ const GlobalState = ({ children }) => {
     
   }
 
+  function handleRemoveFromCard(itemToRemove) {
+    // Create a copy of the favorites list
+    let cpyFavoritesList = [...favoritesList];
+  
+    // Filter out the item to be removed
+    cpyFavoritesList = cpyFavoritesList.filter(item => item._id !== itemToRemove._id);
+  
+    // Update the state with the new list
+    setFavoritesList(cpyFavoritesList);
+  
+    console.log(cpyFavoritesList, 'Updated Favorites List');
+  }
+
   // Function to add a review to the global state
   const addReview = (reviewData) => {
     setReviewList((prevReviews) => [...prevReviews, reviewData]);
@@ -53,6 +66,7 @@ const GlobalState = ({ children }) => {
         currUser,
         setCurrUser,
         handleAddToFavorite,
+        handleRemoveFromCard,
         favoritesList,
         reviewList,
         setReviewList,
