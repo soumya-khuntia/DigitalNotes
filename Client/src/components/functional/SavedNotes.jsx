@@ -27,10 +27,6 @@ const SavedNotes = ({ item }) => {
   const fileId = import.meta.env.VITE_FIELDID;
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-  // if (!note) {
-  //   return <p>Note not found</p>;
-  // }
-
   const handlePreview = (noteUrl) => {
     // Open pdf in a new tab
     window.open(noteUrl, "_blank");
@@ -40,41 +36,27 @@ const SavedNotes = ({ item }) => {
     useNavigate("");
   };
 
-  const reviews = [
-    {
-      id: 1,
-      author: "John Doe",
-      content: "Great notes! Very helpful.",
-      rating: 5,
-    },
-    {
-      id: 2,
-      author: "Jane Smith",
-      content: "Could use more detail, but overall good.",
-      rating: 4,
-    },
-    {
-      id: 3,
-      author: "Mike Johnson",
-      content: "Excellent resource for studying.",
-      rating: 3,
-    },
-  ];
-
   return (
     <>
       {/* Save Notes section */}
 
-      <div className="flex flex-col items-center mt-20">
-        {favoritesList && favoritesList.length > 0 ? (
-          favoritesList.map((item) => <SaveNotesItem item={item} />)
-        ) : (
-          <div>
-            <p className="lg:text-4xl text-center text-xl text-black font-extrabold">
-              Nothing is added in favorites.
-            </p>
-          </div>
-        )}
+      <div className="flex flex-col items-center">
+        <div className="flex-1 p-8">
+          <h1 className="text-2xl font-bold mb-2 text-center">Saved Notes</h1>
+          {favoritesList && favoritesList.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {favoritesList.map((item) => (
+                <SaveNotesItem item={item} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex  justify-center mt-20">
+              <p className="lg:text-2xl text-xl text-center text-black font-semibold">
+                Nothing is added in favorites.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
