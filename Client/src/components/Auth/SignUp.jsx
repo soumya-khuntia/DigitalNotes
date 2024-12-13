@@ -49,7 +49,8 @@ const SignUp = ({onSignup, googleSignup, setCurrUser}) => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-
+      console.log(data);
+      
       if (!response.ok) {
         throw new Error(data.flashMessage.text);
       }

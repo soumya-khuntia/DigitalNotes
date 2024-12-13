@@ -127,12 +127,18 @@ router.get("/current-user", (req, res) => {
 
 // Profile update route
 router.put("/dashboard/profile", async (req, res) => {
+  console.log(req.body);
   try {
     
     // Get profile data from request body
-    const { _id, username, email, regdNo, phoneNo, dob, gender, branch, year, sem } = req.body;
+    // const { _id, username, email, regdNo, phoneNo, dob, gender, branch, year, sem } = req.body;
+    
+    
+    const { _id, username, email, regdNo, phoneNo, gender, branch, year, sem } = req.body;
     const userId = _id; // Ensure req.user is defined
 
+    console.log(req.body);
+    
     // Update user profile
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -168,8 +174,7 @@ router.put("/dashboard/profile", async (req, res) => {
 // });
 
 router.get("/note/:id/reviews", async (req, res) => {
-  console.log(req.params.id);
-  
+  // console.log(req.params.id);
   try {
     const note = await Note.findById(req.params.id)
       .populate({
@@ -177,11 +182,19 @@ router.get("/note/:id/reviews", async (req, res) => {
         populate: { path: "author", select: "username" }, // Populate the author's username
       });
 
+      // console.log(note);
+
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
+    // console.log(note.reviews);
 
-    res.status(200).json(note.reviews); // Send the reviews of the note
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+    
+    res.status(200).json({reviews: note}); // Send the reviews of the note
+    
   } catch (error) {
     console.error("Error fetching reviews", error);
     res.status(500).json({ message: "Error fetching reviews", error });
@@ -213,15 +226,20 @@ router.post("/note/:id/reviews", async (req, res) => {
   try {
     let note = await Note.findById(req.params.id);
     // let newReview = new Review(req.body.)
+    console.log(comment,rating,author);
+    
     let newReview = new Review({
       comment,
       rating,
       author,
     });
-
+    // console.log(newReview);
+    
     note.reviews.push(newReview);
     await newReview.save();
     await note.save();
+    console.log(newReview);
+    
     
     res.status(201).json(newReview);
   } catch (error) {
@@ -274,45 +292,46 @@ router.post("/logout", (req, res) => {
   });
 })
 
-// // Profile update route
-// router.put("/profile",  async (req, res) => {
-//   try {
-//     console.log(req.user._id);
+// Profile update route
+router.put("/:id/profile",  async (req, res) => {
+  try {
+    // console.log(req.body.userId);
     
-//     // Assuming req.user contains the logged-in user's information
-//     const userId = req.user._id;
+    // Assuming req.user contains the logged-in user's information
+    const userId = req.body.userId;
 
-//     // Get profile data from request body
-//     const { regdNo, phoneNo, dob, gender, branch,year, sem } = req.body;
+    // Get profile data from request body
+    // const { regdNo, phoneNo, dob, gender, branch,year, sem } = req.body;
+    const { regdNo, phoneNo, gender, branch,year, sem } = req.body;
 
-//     // Find the user and update their profile
-//     const updatedUser = await User.findByIdAndUpdate(
-//       userId,
-//       {
-//         regdNo,
-//         phoneNo,
-//         dob,
-//         gender,
-//         branch,
-//         year,
-//         sem,
-//       },
-//       { new: true } // Return the updated user
-//     );
+    // Find the user and update their profile
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        regdNo,
+        phoneNo,
+        // dob,
+        gender,
+        branch,
+        year,
+        sem,
+      },
+      { new: true } // Return the updated user
+    );
 
-//     if (!updatedUser) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-//     return res.status(200).json({
-//       message: "Profile updated successfully!",
-//       user: updatedUser,
-//     });
-//   } catch (error) {
-//     console.error("Error updating profile:", error);
-//     return res.status(500).json({ message: "An error occurred while updating the profile." });
-//   }
-// });
+    return res.status(200).json({
+      message: "Profile updated successfully!",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return res.status(500).json({ message: "An error occurred while updating the profile." });
+  }
+});
 
 
 

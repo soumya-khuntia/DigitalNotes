@@ -74,17 +74,19 @@ const NoteView = ({ noteItem }) => {
   //     setReviewList([]);
   //   }
   // }
-  const fetchReviews = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/note/:id/review"); // Replace with your API endpoint
-      // setReviews(response.data);
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-    }
-  };
-  if (!note) {
-    return <p>Note not found</p>;
-  }
+  // const fetchReviews = async () => {
+  //   console.log("inside fetch");
+    
+  //   try {
+  //     const response = await axios.get("http://localhost:8080/note/:id/review"); // Replace with your API endpoint
+  //     // setReviews(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching reviews:", error);
+  //   }
+  // };
+  // if (!note) {
+  //   return <p>Note not found</p>;
+  // }
 
   const handlePreview = (noteUrl) => {
     // Open pdf in a new tab
@@ -163,8 +165,11 @@ const NoteView = ({ noteItem }) => {
         toast.success("Review submitted successfully!");
         setReviewComment(""); // Reset textarea
         setNewReview({ comment: "", rating: 0 }); // Reset form
-        // console.log(result);
-        // fetchReviews();
+        console.log(result);
+        setReviews((prevReviews) => [...prevReviews, result]);
+
+
+        fetchReviews();
         // setReviewList(result)
         // fetchListOfReviews();  // Reload reviews after submission
       } else {
@@ -176,6 +181,25 @@ const NoteView = ({ noteItem }) => {
     }
   };
 
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/note/${noteId}/reviews`);
+      if (response.ok) {
+        const data = await response.json();
+        // console.log(data.reviews);
+        setReviews((prevReviews) => [...prevReviews, data.reviews]);
+        // setReviews(data.reviews);
+      } else {
+        toast.error("Failed to fetch reviews.");
+      }
+    } catch (error) {
+      toast.error("Error fetching reviews.");
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [noteId]);
   // useEffect(() => {
 
   //   fetchReviews();
@@ -215,25 +239,16 @@ const NoteView = ({ noteItem }) => {
   //   }
   // };
 
-  // Fetch reviews when the component is mounted
-  // useEffect(() => {
-  //   if (noteId) {
-  //     fetchListOfReviews(noteId);
-  //   }
-  // }, [noteId]);
-  // useEffect(() => {
+  
 
-  //   fetchListOfReviews(noteId); // Fetch reviews on mount
-  // }, [noteId]);
 
-  // useEffect(()=> {
-  //   fetchListOfReviews();
-  // },[]);
 
   const handleRating = (rate) => {
     setRating(rate);
   };
 
+
+  
   return (
     <div className="flex flex-col items-center mt-20">
       <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
@@ -366,38 +381,6 @@ const NoteView = ({ noteItem }) => {
       </form>
 
       {/* All Reviews list*/}
-      {/* <div>
-        <div>
-          {note.reviews.length ? (
-            note.reviews.map((review) => (
-              <div
-                key={review._id}
-                className="bg-white p-4 rounded-lg shadow-md"
-              >
-                <h2><b>@{review.author.username}</b></h2>
-                <div className=" text-xs sm:text-sm">
-                  <StarRating
-
-                    totalStars={5}
-                    initialRating={review.rating}
-                    readonly={true}
-                    style={{ pointerEvents: "none", userSelect: "none" }}
-                    
-                  />
-                </div>
-                <span>{review.comment}</span>
-                
-                
-                <button onClick={() => handleDelete(review._id)}>Delete</button>
-               
-              </div>
-            ))
-          ) : (
-            <h3>No Reviews Yet</h3>
-          )}
-        </div>
-      </div> */}
-
       <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
         {note.reviews.length ? (
           note.reviews.map((review) => (
