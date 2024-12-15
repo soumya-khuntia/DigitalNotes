@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   FaUser,
   FaEdit,
@@ -21,7 +21,12 @@ const Profile = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState("profile");
-  const { currUser } = useContext(GlobalContext);
+  const {
+    currUser,
+    setCurrUser,
+    showImportantMessage,
+    setShowImportantMessage,
+  } = useContext(GlobalContext);
 
   const [username, setUsername] = useState(currUser?.username || "");
   const [email, setEmail] = useState(currUser?.email || "");
@@ -32,7 +37,7 @@ const Profile = () => {
   const [branch, setBranch] = useState(currUser?.branch || "");
   const [sem, setSem] = useState(currUser?.sem || "");
   const [year, setYear] = useState(currUser?.year || ""); // New state for year
-  const [showImportantMessage, setShowImportantMessage] = useState(true);
+  // const [showImportantMessage, setShowImportantMessage] = useState(true);
   const [tempRegdNo, setTempRegdNo] = useState(currUser?.regdNo || ""); // Temporary state for editing
 
   const handleUpdateProfile = async (e) => {
@@ -40,7 +45,7 @@ const Profile = () => {
     const profileData = {
       regdNo: regdNo,
       phoneNo: phoneNo,
-      // dob,
+      dob,
       gender,
       branch,
       year,
@@ -49,7 +54,7 @@ const Profile = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/${currUser._id}/profile`,
+        `http://localhost:8080/dashboard/${currUser._id}/profile`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -59,7 +64,14 @@ const Profile = () => {
       );
 
       if (response.ok) {
+        const responseData = await response.json();
+        const updatedUser = responseData.user;
+        // console.log(updatedUser);
+
+        setCurrUser(updatedUser);
         toast.success("Profile Update successfully!");
+
+        // console.log(response.);
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || "Failed to update profile");
@@ -69,7 +81,9 @@ const Profile = () => {
     }
     setIsEditing(false);
     const allFieldsFilled = regdNo && phoneNo && dob && gender && branch && sem;
-        setShowImportantMessage(!allFieldsFilled);
+    console.log(allFieldsFilled);
+
+    setShowImportantMessage(!allFieldsFilled);
   };
 
   const toggleSidebar = () => {
@@ -80,52 +94,10 @@ const Profile = () => {
     setRegdNo(tempRegdNo); // Commit the edited value to the main state
     setIsEditing(false); // Exit editing mode
   };
-  
+
   const handleCancel = () => {
     setTempRegdNo(regdNo); // Revert temporary state to the original value
     setIsEditing(false); // Exit editing mode
-  };
-
-  const handleSaveProfile = async () => {
-    console.log("Saving profile:", {
-      username,
-      email,
-      regdNo,
-      dob,
-      gender,
-      phoneNo,
-      branch,
-      year,
-      sem,
-    });
-
-    const profileData = {
-      regdno: regdNo,
-      phno: phoneNo,
-      dob,
-      gender,
-      branch,
-      sem,
-    };
-    try {
-      const response = await fetch("http://localhost:8080/dashboard/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(profileData),
-      });
-
-      if (response.ok) {
-        alert("Profile updated successfully!");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Failed to update profile");
-      }
-    } catch (error) {
-      alert("An error occurred while updating the profile.");
-    }
-
-    setIsEditing(false);
   };
 
   // Function to format ISO date string to "dd-mm-yyyy"
@@ -188,7 +160,30 @@ const Profile = () => {
       </div>
     );
   };
+  // useEffect(() => {
+  //   if (currUser) {
+  //     setUsername(currUser.username || "");
+  //     setEmail(currUser.email || "");
+  //     setRegdNo(currUser.regdNo || "");
+  //     setPhoneNo(currUser.phoneNo || "");
+  //     setDob(currUser.dob || "");
+  //     setGender(currUser.gender || "");
+  //     setBranch(currUser.branch || "");
+  //     setSem(currUser.sem || "");
+  //     setYear(currUser.year || "");
+  //   }
+  // }, [currUser]); // Re-run whenever `currUser` changes
 
+  useEffect(() => {
+    const allFieldsFilled =
+      currUser?.regdNo &&
+      currUser?.phoneNo &&
+      currUser?.dob &&
+      currUser?.gender &&
+      currUser?.branch &&
+      currUser?.sem;
+    setShowImportantMessage(!allFieldsFilled);
+  }, [currUser, setShowImportantMessage]);
   return (
     <>
       {/* Profile section */}
@@ -197,13 +192,16 @@ const Profile = () => {
 
         <h1 className="text-2xl font-bold mb-2 text-center">Profile Details</h1>
         {showImportantMessage && (
-                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 mx-4 sm:mx-0 rounded-r">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-center">
-                        <FaExclamationTriangle className="flex-shrink-0 mr-2 mb-2 sm:mb-0 text-yellow-500 text-xl" />
-                        <p className="font-bold text-sm sm:text-base text-center sm:text-left">Please complete all profile details to access notes specific to your branch and semester.</p>
-                    </div>
-                </div>
-            )}
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 mx-4 sm:mx-0 rounded-r">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center">
+              <FaExclamationTriangle className="flex-shrink-0 mr-2 mb-2 sm:mb-0 text-yellow-500 text-xl" />
+              <p className="font-bold text-sm sm:text-base text-center sm:text-left">
+                Please complete all profile details to access notes specific to
+                your branch and semester.
+              </p>
+            </div>
+          </div>
+        )}
 
         {currUser ? (
           <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 shadow-md rounded-lg overflow-hidden">
@@ -228,8 +226,8 @@ const Profile = () => {
                 label="Regd. No."
                 value={regdNo}
                 isEditing={isEditing}
-                // onChange={setRegdNo}
-                onChange={(e) => setTempRegdNo(e.target.value)} // Update only temporary state
+                onChange={setRegdNo}
+                // onChange={(e) => setTempRegdNo(e.target.value)} // Update only temporary state
                 type="text"
                 icon={<FaIdCard className="mr-2 text-purple-500" />}
               />
@@ -251,7 +249,9 @@ const Profile = () => {
 
               <ProfileField
                 label="Date of Birth"
-                value={isEditing ? dob.split("T")[0] : formatDateToDDMMYYYY(dob)} // Show formatted value only when not editing
+                value={
+                  isEditing ? dob.split("T")[0] : formatDateToDDMMYYYY(dob)
+                } // Show formatted value only when not editing
                 isEditing={isEditing}
                 onChange={(value) => {
                   const isoDate = new Date(value).toISOString(); // Convert to ISO format
@@ -404,9 +404,6 @@ const Profile = () => {
             Save Profile
           </button>
         </form> */}
-
-       
-
       </div>
     </>
   );

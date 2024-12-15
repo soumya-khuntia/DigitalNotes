@@ -21,7 +21,8 @@ import StarRating from "../functional/StarRating";
 import axios from "axios";
 
 const NoteView = ({ noteItem }) => {
-  const { currUser, setCurrUser,handleAddToFavorite,handleRemoveFromCard } = useContext(GlobalContext);
+  const { currUser, setCurrUser, handleAddToFavorite, handleRemoveFromCard } =
+    useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
   const { note } = location.state || {};
@@ -56,6 +57,7 @@ const NoteView = ({ noteItem }) => {
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   // async function fetchListOfReviews(noteId) {
   //   // setPending(true);
@@ -76,7 +78,7 @@ const NoteView = ({ noteItem }) => {
   // }
   // const fetchReviews = async () => {
   //   console.log("inside fetch");
-    
+
   //   try {
   //     const response = await axios.get("http://localhost:8080/note/:id/review"); // Replace with your API endpoint
   //     // setReviews(response.data);
@@ -90,7 +92,11 @@ const NoteView = ({ noteItem }) => {
 
   const handlePreview = (noteUrl) => {
     // Open pdf in a new tab
-    window.open(noteUrl, "_blank");
+    // window.open(noteUrl, "_blank");
+    setPreviewUrl(noteUrl);
+  };
+  const handleClosePreview = () => {
+    setPreviewUrl(null);
   };
 
   const handleCloseNote = () => {
@@ -168,7 +174,6 @@ const NoteView = ({ noteItem }) => {
         console.log(result);
         setReviews((prevReviews) => [...prevReviews, result]);
 
-
         fetchReviews();
         // setReviewList(result)
         // fetchListOfReviews();  // Reload reviews after submission
@@ -183,7 +188,9 @@ const NoteView = ({ noteItem }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/note/${noteId}/reviews`);
+      const response = await fetch(
+        `http://localhost:8080/note/${noteId}/reviews`
+      );
       if (response.ok) {
         const data = await response.json();
         // console.log(data.reviews);
@@ -239,16 +246,10 @@ const NoteView = ({ noteItem }) => {
   //   }
   // };
 
-  
-
-
-
   const handleRating = (rate) => {
     setRating(rate);
   };
 
-
-  
   return (
     <div className="flex flex-col items-center mt-20">
       <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
@@ -294,7 +295,6 @@ const NoteView = ({ noteItem }) => {
               handleRemoveFromCard(note);
             }}
             // onClick={() => handleRemoveFromCard(note)}
-            
           />
         ) : (
           <FaRegBookmark
@@ -329,6 +329,36 @@ const NoteView = ({ noteItem }) => {
         <FaArrowLeft className="inline-block mr-2" />
         Back to All Notes
       </button>
+
+      {/* Note Preview Section */}
+      {previewUrl && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-3xl mx-4 sm:mx-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Preview: Note</h2>
+              <button
+                onClick={handleClosePreview}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className="flex flex-col items-center justify-center h-64 sm:h-96 bg-gray-100 rounded">
+              {/* <FaFilePdf className="text-6xl sm:text-8xl text-red-500 mb-4" /> */}
+              {/* <p className="text-gray-600 text-sm sm:text-base">
+                  PDF Preview Placeholder
+                </p> */}
+              <iframe
+                src={previewUrl}
+                title="Note Preview"
+                width="100%"
+                height="100%"
+                className="rounded border"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <form
         onSubmit={handleNewReviewSubmit}
@@ -394,9 +424,9 @@ const NoteView = ({ noteItem }) => {
                     {/* {review.author.charAt(0)} */}
                   </div>
                   <div>
-                    <h3 className="text-sm md:text-base font-medium text-gray-900">
+                    {/* <h3 className="text-sm md:text-base font-medium text-gray-900">
                       @{review.author.username}
-                    </h3>
+                    </h3> */}
                     <div className="flex flex-wrap items-center gap-2">
                       <StarRating
                         totalStars={5}

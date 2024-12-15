@@ -16,23 +16,75 @@ app.use(cors());
 
 
 const fetchListOfNotes = async (req, res) => {
+  const { branch, sem } = req.query;
+  // console.log(branch);
+  // console.log(sem);
+  
+  
   let noteList;
+  // try {
+  //   // noteList = await Note.find().populate("reviews").populate("owner");
+  //   noteList = await Note.find().populate({
+  //     path: "reviews",
+  //     populate:{
+  //         path: "author",
+  //     }
+  // })
+  // .populate("owner");
+  // } catch (e) {
+  //   console.log(e);
+  // }
+
+  // if (!noteList) {
+  //   return res.status(404).json({ message: "No Notes Found!" });
+  // }
+
+  // return res.status(200).json({ noteList });
+
+
+
+
+
   try {
-    // noteList = await Note.find().populate("reviews").populate("owner");
-    noteList = await Note.find().populate({
-      path: "reviews",
-      populate:{
-          path: "author",
+    // Build a filter object for branch and sem
+    const filter = {};
+
+    if (branch) {
+      filter.branch = branch; // Add filter for branch if it's provided
+      // console.log(filter);
+      
+    }
+
+    if (sem) {
+      filter.sem = sem; // Add filter for sem if it's provided
+      // console.log(filter);
+      
+    }
+
+    // Find notes with the specified filter, and populate necessary fields
+    // console.log(Note.find({branch: "CSE"}));
+    // console.log(Note.find(filter));
+    
+    // noteList = await Note.find(filter)
+    //   .populate({
+    //     path: "reviews",
+    //     populate: {
+    //       path: "author",
+    //     },
+    //   })
+    //   .populate("owner");
+    noteList = await Note.find(filter);
+      
+      if (!noteList || noteList.length === 0) {
+        return res.status(404).json({ message: "No Notes Found!" });
       }
-  })
-  .populate("owner");
+      
   } catch (e) {
     console.log(e);
+    return res.status(500).json({ message: "Error fetching notes." });
   }
 
-  if (!noteList) {
-    return res.status(404).json({ message: "No Notes Found!" });
-  }
+  
 
   return res.status(200).json({ noteList });
 };
@@ -67,7 +119,7 @@ const handleSignUp = async (req, res) => {
     let { username, email, password } = req.body;
     const newUser = new User({ email, username });
     const registeroedUser = await User.register(newUser, password);
-    console.log(registeroedUser);
+    // console.log(registeroedUser);
     // req.login(registeroedUser, (err)=>{  //After signup auto login
     //   if(err){
     //     return next(err);
@@ -91,7 +143,7 @@ const handleSignIn = async (req, res) => {
   //   failureRedirect: "/login",
   //   failureFlash: true,
   // }),
-  console.log(req.body);
+  // console.log(req.body);
   
   // passport.authenticate("local");
   return res.status(200).json("yes it work!");
