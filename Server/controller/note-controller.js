@@ -184,8 +184,8 @@ const fetchListOfReviews = async (req, res) => {
         populate: { path: "author", select: "username" }, // Populate the author's username
       });
       const review = Review.findById(req.params.id);
-      // console.log(review);
-      // console.log(note);
+      console.log(review);
+      console.log(note);
       
       
     if (!review) {

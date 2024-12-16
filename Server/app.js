@@ -72,7 +72,7 @@ app.use((req, res, next) => {
 app.use("/api/notes", noteRouter);
 app.use("/", userRouter);
 app.use("/view", userRouter);
-// app.use("/note/:id/reviews",noteRouter);
+app.use("/note/:id/reviews",noteRouter);
 app.use("/auth", authRoute);
 // app.use("/dashboard", updateRouter);
 // app.use("/signup",handleSignUp);

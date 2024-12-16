@@ -30,7 +30,7 @@ const GlobalState = ({ children }) => {
     }
 
     setFavoritesList(cpyFavoritesList);
-    console.log(favoritesList,'favoritesList');
+    // console.log(favoritesList,'favoritesList');
     
   }
 

@@ -132,11 +132,11 @@ router.get("/current-user", (req, res) => {
 router.get("/note/:id/reviews", async (req, res) => {
   // console.log(req.params.id);
   try {
-    const note = await Note.findById(req.params.id)
-      .populate({
+    const note = await Note.findById(req.params.id).populate({
         path: "reviews",
-        populate: { path: "author", select: "username" }, // Populate the author's username
+        populate: { path: "author" }, // Populate the author's username
       });
+    // const note = await Note.findById(req.params.id).populate("reviews");
 
       // console.log(note);
 
@@ -148,9 +148,9 @@ router.get("/note/:id/reviews", async (req, res) => {
     if (!note) {
       return res.status(404).json({ message: "Note not found" });
     }
-    console.log(note);
+    // console.log(note);
     
-    res.status(200).json({reviews: note}); // Send the reviews of the note
+    res.status(200).json({reviews: note.reviews}); // Send the reviews of the note
     
   } catch (error) {
     console.error("Error fetching reviews", error);
@@ -195,7 +195,7 @@ router.post("/note/:id/reviews", async (req, res) => {
     note.reviews.push(newReview);
     await newReview.save();
     await note.save();
-    console.log(newReview);
+    // console.log(newReview);
     
     
     res.status(201).json(newReview);
