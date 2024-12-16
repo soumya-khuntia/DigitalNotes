@@ -15,6 +15,7 @@ const GlobalState = ({ children }) => {
   const [currUser,setCurrUser] = useState(null);
   const [favoritesList ,setFavoritesList] = useState([]);
   const [showImportantMessage,setShowImportantMessage] = useState(true);
+  const [bookmarked, setBookmarked] = useState(false);
 
 
   function handleAddToFavorite(getCurrItem){
@@ -72,7 +73,9 @@ const GlobalState = ({ children }) => {
         setReviewList,
         addReview,
         showImportantMessage,
-        setShowImportantMessage
+        setShowImportantMessage,
+        bookmarked,
+        setBookmarked,
       }}
     >
       {children}

@@ -21,7 +21,7 @@ import StarRating from "../functional/StarRating";
 import axios from "axios";
 
 const NoteView = ({ noteItem }) => {
-  const { currUser, setCurrUser, handleAddToFavorite, handleRemoveFromCard } =
+  const { currUser, setCurrUser, handleAddToFavorite, handleRemoveFromCard, bookmarked,setBookmarked } =
     useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,22 +35,14 @@ const NoteView = ({ noteItem }) => {
     rating: 0, // Default rating
     comment: "", // Default comment
   });
-  const {
-    noteList,
-    setNoteList,
-    pending,
-    setPending,
-    reviewList,
-    setReviewList,
-    addReview,
-  } = useContext(GlobalContext);
+ 
 
   const [reviews, setReviews] = useState([]);
   const [review, setReview] = useState({ reviews: [] });
   const [starKey, setStarKey] = useState(0);
   const [reviewRating, setReviewRating] = useState(5);
   const [selectedNoteId, setSelectedNoteId] = useState(null); // This could come from props or other logic
-  const [bookmarked, setBookmarked] = useState(false);
+  // const [bookmarked, setBookmarked] = useState(false);
 
   const fileId = import.meta.env.VITE_FIELDID;
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -193,7 +185,7 @@ const NoteView = ({ noteItem }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        // console.log(data.reviews);
+        console.log(data.reviews.reviews);
         setReviews((prevReviews) => [...prevReviews, data.reviews]);
         // setReviews(data.reviews);
       } else {
@@ -410,74 +402,77 @@ const NoteView = ({ noteItem }) => {
         </div>
       </form>
 
-      {/* All Reviews list*/}
-      <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
-        {note.reviews.length ? (
-          note.reviews.map((review) => (
-            <div
-              key={review._id}
-              className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-                <div className="flex items-center space-x-3 md:space-x-4">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm md:text-base font-medium">
-                    {/* {review.author.charAt(0)} */}
-                  </div>
-                  <div>
-                    {/* <h3 className="text-sm md:text-base font-medium text-gray-900">
-                      @{review.author.username}
-                    </h3> */}
-                    <div className="flex flex-wrap items-center gap-2">
-                      <StarRating
-                        totalStars={5}
-                        initialRating={review.rating}
-                        readonly={true}
-                      />
-                      {/* <span className="hidden sm:inline text-sm text-gray-500">{review.comment}</span> */}
-                    </div>
-                    <div>
-                      <span className="hidden sm:inline text-base ">
-                        {review.comment}
-                      </span>
-                    </div>
-                    {/* <time className="text-xs md:text-sm text-gray-500">{review.createdAt}</time> */}
-                    <span className="hidden sm:inline text-sm text-gray-500">
-                      {new Date(review.createdAt).toLocaleDateString()}{" "}
-                      {new Date(review.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
-                  </div>
-                </div>
-                {review.author._id?.toString() === currUser._id && (
-                  <div className="flex space-x-2">
-                    <button
-                      // onClick={() => handleEdit(review.id)}
-                      className="p-1.5 md:p-2 text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                      <FaEdit className="h-4 w-4 md:h-5 md:w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(review._id)}
-                      className="p-1.5 md:p-2 text-red-600 hover:text-red-800 transition-colors"
-                    >
-                      <FaTrash className="h-4 w-4 md:h-5 md:w-5" />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                {review.content}
-              </p>
-            </div>
-          ))
-        ) : (
-          <h3>No Reviews Yet</h3>
-        )}
-      </div>
+      
     </div>
   );
 };
 
+
+
+
 export default NoteView;
+
+
+{/* All Reviews list*/}
+{/* <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
+{note.reviews.length ? (
+  note.reviews.map((review) => (
+    <div
+      key={review._id}
+      className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100 transition-all hover:shadow-md"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+        <div className="flex items-center space-x-3 md:space-x-4">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm md:text-base font-medium">
+            
+          </div>
+          <div>
+            <h3 className="text-sm md:text-base font-medium text-gray-900">
+              @{review.author.username}
+            </h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <StarRating
+                totalStars={5}
+                initialRating={review.rating}
+                readonly={true}
+              />
+            </div>
+            <div>
+              <span className="hidden sm:inline text-base ">
+                {review.comment}
+              </span>
+            </div>
+            <span className="hidden sm:inline text-sm text-gray-500">
+              {new Date(review.createdAt).toLocaleDateString()}{" "}
+              {new Date(review.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+          </div>
+        </div>
+        {review.author._id?.toString() === currUser._id && (
+          <div className="flex space-x-2">
+            <button
+              className="p-1.5 md:p-2 text-blue-600 hover:text-blue-800 transition-colors"
+            >
+              <FaEdit className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
+            <button
+              onClick={() => handleDelete(review._id)}
+              className="p-1.5 md:p-2 text-red-600 hover:text-red-800 transition-colors"
+            >
+              <FaTrash className="h-4 w-4 md:h-5 md:w-5" />
+            </button>
+          </div>
+         )} 
+      </div>
+      <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+        {review.content}
+      </p>
+    </div>
+  ))
+) : (
+  <h3>No Reviews Yet</h3>
+)}
+</div> */}

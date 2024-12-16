@@ -149,7 +149,7 @@ router.get("/note/:id/reviews", async (req, res) => {
       return res.status(404).json({ message: "Note not found" });
     }
     console.log(note);
-    g
+    
     res.status(200).json({reviews: note}); // Send the reviews of the note
     
   } catch (error) {
