@@ -101,7 +101,7 @@ const Navbar = () => {
               Dashboard
             </Link>
             {/* <LogoutButton /> */}
-            <button onClick={handleLogout} className="text-white">Logout</button>
+            {/* <button onClick={handleLogout} className="text-white">Logout</button> */}
             </div>
             
             

@@ -21,22 +21,13 @@ import StarRating from "../functional/StarRating";
 import axios from "axios";
 
 const NoteView = ({ noteItem }) => {
-  const {
-    currUser,
-    setCurrUser,
-    handleAddToFavorite,
-    handleRemoveFromCard,
-    bookmarked,
-    setBookmarked,
-    reviewList,
-    setReviewList,
-  } = useContext(GlobalContext);
+  const { currUser, setCurrUser, reviewList, setReviewList } =
+    useContext(GlobalContext);
   const navigate = useNavigate();
   const location = useLocation();
   const { note } = location.state || {};
   const noteId = note._id;
   const [inputValue, setInputValue] = useState("");
-  // const [rating, setRating] = useState(0);
 
   const [reviewComment, setReviewComment] = useState("");
   const [newReview, setNewReview] = useState({
@@ -68,12 +59,6 @@ const NoteView = ({ noteItem }) => {
     useNavigate("");
   };
 
-  const toggleBookmark = () => {
-    setBookmarked(!bookmarked);
-  };
-
-
-
   const handleDelete = async (reviewId) => {
     try {
       // Send DELETE request to your backend
@@ -83,7 +68,9 @@ const NoteView = ({ noteItem }) => {
       // Optionally refresh the reviews list after deleting
       if (response) {
         toast.success("Review deleted successfully!");
-        navigate("/dashboard/notes");
+        // navigate("/dashboard/view");
+        fetchListOfReviews(noteId);
+        navigate("/dashboard/view", { state: { note: note } });
       }
       // toast.success("Review submitted successfully!");
       // fetchReviews();
@@ -92,11 +79,6 @@ const NoteView = ({ noteItem }) => {
       toast.error("Error deleting review:", error);
     }
   };
-
-  //   if (window.confirm("Are you sure you want to delete this review?")) {
-  //     setReviews(reviews.filter((review) => review.id !== reviewId));
-  //   }
-  // };
 
   const handleNewReviewSubmit = async (e) => {
     e.preventDefault();
@@ -129,7 +111,13 @@ const NoteView = ({ noteItem }) => {
         setReviewComment(""); // Reset textarea
         setNewReview({ comment: "", rating: 0 }); // Reset form
         // console.log("new review",result);
-        setReviewList(result);
+        // setReviewList(result);
+        setReviewList((prevReviews) => [result, ...prevReviews]);
+        // setReviewList((prevReviews) =>
+        //   [result, ...prevReviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        // );
+        console.log(reviewList);
+
         fetchListOfReviews(noteId); // Reload reviews after submission
       } else {
         const errorData = await response.json();
@@ -162,6 +150,7 @@ const NoteView = ({ noteItem }) => {
   const handleRating = (rate) => {
     setRating(rate);
   };
+
   useEffect(() => {
     fetchListOfReviews(noteId);
   }, []);
@@ -169,60 +158,18 @@ const NoteView = ({ noteItem }) => {
   return (
     <div className="flex flex-col items-center mt-20">
       <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
-        <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-700">
-          {note.title}
-        </span>
+        
 
         <img
           src={note.image.url}
           alt={note.title}
           className="h-40 w-40 object-contain"
         />
-
-        {/* <FaFilePdf className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-red-500" /> */}
-        {/* <StarRating
-          totalStars={5}
-          initialRating={3}
-          //   onRatingChange={handleRatingChange}
-        /> */}
-        {/* {bookmarked ? (
-          <FaBookmark
-            className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
-            onClick={toggleBookmark}
-          />
-        ) : (
-          <FaRegBookmark
-            className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
-            onClick={toggleBookmark}
-          />
-        )} */}
-
-        {/* <FaBookmark
-          className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
-          // onClick={toggleBookmark}
-          onClick={() => handleAddToFavorite(note)}
-        /> */}
-
-        {bookmarked ? (
-          <FaBookmark
-            className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
-            onClick={() => {
-              toggleBookmark();
-              handleRemoveFromCard(note);
-            }}
-            // onClick={() => handleRemoveFromCard(note)}
-          />
-        ) : (
-          <FaRegBookmark
-            className="absolute top-2 right-2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-500 cursor-pointer"
-            onClick={() => {
-              toggleBookmark();
-              handleAddToFavorite(note);
-            }}
-            // onClick={() => handleAddToFavorite(note)}
-          />
-        )}
+        <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-700">
+          {note.title}
+        </span>
       </div>
+
       <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 w-full max-w-sm">
         <button
           onClick={() => handlePreview(note.noteUrl.url)}
@@ -383,10 +330,10 @@ const NoteView = ({ noteItem }) => {
           ))
         ) : (
           <div className="flex  justify-center mt-2">
-              <p className="lg:text-2xl text-xl text-center text-black font-semibold">
-                No Reviews Yet.
-              </p>
-            </div>
+            <p className="lg:text-2xl text-xl text-center text-black font-semibold">
+              No Reviews Yet.
+            </p>
+          </div>
         )}
       </div>
     </div>

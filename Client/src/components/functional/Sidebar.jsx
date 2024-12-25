@@ -82,6 +82,7 @@ const Sidebar = ({ sidebarOpen }) => {
             <span className="inline">Notes</span>
           </div>
         </NavLink>
+        
         <NavLink
           to="/dashboard/saved-notes"
           className={({ isActive }) =>
@@ -110,11 +111,15 @@ const Sidebar = ({ sidebarOpen }) => {
           className="block py-2 px-6 text-gray-700 hover:bg-red-200 font-bold text-lg"
 
         >
-          <div className="flex items-center" onClick={handleLogout}>
+          <div className="flex items-center" >
             <FaSignOutAlt className="mr-2" />
-            <span className="inline" >Logout</span>
+            {/* <span className="inline" >Logout</span> */}
+            <span className="inline"><button onClick={handleLogout} >Logout</button></span>
+
           </div>
         </Link>
+        {/* <button onClick={handleLogout} className="text-black">Logout</button> */}
+
       </nav>
     </div>
   );
