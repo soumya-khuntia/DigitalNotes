@@ -60,26 +60,7 @@ const NoteView = ({ noteItem }) => {
     useNavigate("");
   };
 
-  const handleDelete = async (reviewId) => {
-    try {
-      // Send DELETE request to your backend
-      const response = await axios.delete(
-        `http://localhost:8080/notes/${noteId}/reviews/${reviewId}`
-      );
-      // Optionally refresh the reviews list after deleting
-      if (response) {
-        toast.success("Review deleted successfully!");
-        // navigate("/dashboard/view");
-        fetchListOfReviews(noteId);
-        navigate("/dashboard/view", { state: { note: note } });
-      }
-      // toast.success("Review submitted successfully!");
-      // fetchReviews();
-      // navigate("/view")
-    } catch (error) {
-      toast.error("Error deleting review:", error);
-    }
-  };
+ 
 
   const handleNewReviewSubmit = async (e) => {
     e.preventDefault();
@@ -97,7 +78,7 @@ const NoteView = ({ noteItem }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/note/${noteId}/reviews`,
+        `http://localhost:8080/api/notes/note/${noteId}/reviews`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -132,7 +113,7 @@ const NoteView = ({ noteItem }) => {
   const fetchListOfReviews = async (noteId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/note/${noteId}/reviews`
+        `http://localhost:8080/api/notes/note/${noteId}/reviews`
       );
       const reviews = response.data;
       // console.log(reviews.reviews);
@@ -159,8 +140,6 @@ const NoteView = ({ noteItem }) => {
   return (
     <div className="flex flex-col items-center mt-20">
       <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full max-w-xs h-48 sm:h-56 md:h-64 lg:h-72 mb-6 relative">
-        
-
         <img
           src={note.image.url}
           alt={note.title}
@@ -338,7 +317,7 @@ const NoteView = ({ noteItem }) => {
         )}
       </div> */}
 
-      <ReviewList noteId={noteId}/>
+      <ReviewList noteId={noteId} />
     </div>
   );
 };

@@ -158,20 +158,20 @@ const handleSignIn = async (req, res) => {
     };
 };
 
-const fetchListOfBlogs = async (req, res) => {
-  let blogList;
-  try {
-    blogList = await Blog.find();
-  } catch (e) {
-    console.log(e);
-  }
+// const fetchListOfBlogs = async (req, res) => {
+//   let blogList;
+//   try {
+//     blogList = await Blog.find();
+//   } catch (e) {
+//     console.log(e);
+//   }
 
-  if (!blogList) {
-    return res.status(404).json({ message: "No Blogs Found!" });
-  }
+//   if (!blogList) {
+//     return res.status(404).json({ message: "No Blogs Found!" });
+//   }
 
-  return res.status(200).json({ blogList });
-};
+//   return res.status(200).json({ blogList });
+// };
 
 const fetchListOfReviews = async (req, res) => {
   // let reviewList;

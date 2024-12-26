@@ -34,7 +34,7 @@ function App() {
   const { currUser, setCurrUser } = useContext(GlobalContext);
   // const { currUser } = useContext(GlobalState);
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -50,6 +50,8 @@ function App() {
         }
       } catch (error) {
         console.error("Error fetching current user:", error);
+      }finally {
+        setIsLoading(false); // Set loading to false
       }
     };
     fetchCurrentUser();
@@ -82,6 +84,13 @@ function App() {
   const googleLogin = () => {
     window.open("http://localhost:8080/auth/google", "_self");
   };
+
+  
+
+  if (isLoading) {
+    // Show loading state while fetching user
+    return <div className="text-center mt-20">Loading...</div>;
+  }
 
   const handleSignup = async (formData) => {
     try {

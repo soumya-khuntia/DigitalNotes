@@ -13,9 +13,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { handleSignUp, handleSignIn } = require("./controller/note-controller");
 const userRouter = require("./routes/user.js");
-const updateRouter = require("./routes/update.js");
 const passportSetup = require("./passport.js");
 const authRoute = require("./routes/auth.js");
+const dashboardRouter = require("./routes/dashboard.js");
 
 main()
   .then(() => {
@@ -72,6 +72,7 @@ app.use((req, res, next) => {
 app.use("/api/notes", noteRouter);
 app.use("/", userRouter);
 app.use("/view", userRouter);
+app.use("/dashboard",dashboardRouter)
 // app.use("/note/:id/reviews",noteRouter);
 app.use("/auth", authRoute);
 // app.use("/dashboard", updateRouter);

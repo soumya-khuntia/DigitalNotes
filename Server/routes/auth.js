@@ -1,6 +1,7 @@
 const passport = require("passport");
 const mongoose = require("mongoose");
 const express = require("express");
+const user = require("../models/user");
 
 const router = express.Router();
 
@@ -44,6 +45,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "http://localhost:5173/signin" }),
   (req, res) => {
+    
     res.redirect(CLIENT_URL+"dashboard");
   }
 );
