@@ -8,24 +8,21 @@ import {
   FaRegBookmark,
   FaTimes,
 } from "react-icons/fa";
-import StarRating from "../functional/StarRating";
+import StarRating from "../../components/review/StarRating";
 import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../layout/Dashboard";
-import NoteItem from "./NoteItem";
+import Sidebar from "../../components/layout/Dashboard";
+import NoteItem from "../../components/note/NoteItem";
 
 
 
 const Notes = () => {
   const [selectedNote, setSelectedNote] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const { noteList, setNoteList, pending, setPending } =
+  const { noteList, setNoteList, pending, setPending,currUser,setCurrUser } =
     useContext(GlobalContext);
   const navigate = useNavigate();
-
-  const { currUser, setCurrUser } =
-    useContext(GlobalContext);
 
 
 

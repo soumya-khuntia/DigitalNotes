@@ -5,26 +5,27 @@ import {
   useNavigate,
   Navigate,
 } from "react-router-dom";
-import SignUp from "./components/Auth/SignUp";
-import SignIn from "./components/Auth/SignIn";
-import Forgetpass from "./components/Auth/PasswordReset/Forgetpass";
-import EmailCode from "./components/Auth/PasswordReset/EmailCode";
-import SetNewpassword from "./components/Auth/PasswordReset/SetNewpassword";
-import Contact from "./components/Pages/Contact";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Home from "./components/Pages/Home";
-import AboutUs from "./components/Pages/About";
-import NoteView from "./components/Pages/NoteView";
+import SignUp from "./features/auth/SignUp";
+import SignIn from "./features/auth/SignIn";
+import Forgetpass from "./features/auth/PasswordReset/Forgetpass";
+import EmailCode from "./features/auth/PasswordReset/EmailCode";
+import SetNewpassword from "./features/auth/PasswordReset/SetNewpassword";
+import Contact from "./Pages/Contact";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Home from "./Pages/Home";
+import AboutUs from "./Pages/About";
+import NoteView from "./components/note/NoteView";
 import Dashboard from "./components/layout/Dashboard";
-import Notes from "./components/functional/Notes";
+import Notes from "./features/Dashboard/Notes";
 import { Toaster } from "sonner";
 // import GlobalState from "./context/GlobalState";
-import LogoutButton from "./components/Auth/LogoutButton";
+import LogoutButton from "./features/auth/LogoutButton";
 import { createContext, useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalState";
-import Profile from "./components/functional/Profile";
-import SavedNotes from "./components/functional/SavedNotes";
+// import Profile from "./components/functional/Profile";
+import Profile from "./features/Dashboard/Profile";
+import SavedNotes from "./features/Dashboard/SavedNotes";
 export const UserContext = createContext(null);
 
 function App() {

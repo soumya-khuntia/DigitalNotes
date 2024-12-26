@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { GlobalContext } from "../context/GlobalState";
-import LogoutButton from "./Auth/LogoutButton";
-import { UserContext } from "../App";
+import { GlobalContext } from "../../context/GlobalState";
+import LogoutButton from "../../features/auth/LogoutButton";
+import { UserContext } from "../../App";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 const Navbar = () => {

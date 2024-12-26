@@ -72,25 +72,13 @@ app.use((req, res, next) => {
 app.use("/api/notes", noteRouter);
 app.use("/", userRouter);
 app.use("/view", userRouter);
-app.use("/note/:id/reviews",noteRouter);
+// app.use("/note/:id/reviews",noteRouter);
 app.use("/auth", authRoute);
 // app.use("/dashboard", updateRouter);
 // app.use("/signup",handleSignUp);
 // app.use("/signin",handleSignIn);
 
-app.get("/", (req, res) => {
-  res.send("Welcome");
-});
 
-// app.get("/demouser", async (req, res) => {
-//   let fakeUser = new User({
-//     email: "newuser@123",
-//     username: "newuser5",
-//   });
-//   let registredUser = await User.register(fakeUser, "helloworld");
-//   // console.log(registredUser);
-//   res.send("user registred successfuly!");
-// });
 
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "something went wrong" } = err;

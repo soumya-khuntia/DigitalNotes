@@ -11,7 +11,7 @@ import {
 import { GlobalContext } from "../../context/GlobalState";
 import axios from "axios";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import StarRating from "../functional/StarRating";
+import StarRating from "../review/StarRating";
 import { toast } from "sonner";
 
 

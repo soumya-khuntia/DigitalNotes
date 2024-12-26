@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GlobalContext } from "../../context/GlobalState";
+// import { GlobalContext } from "../../context/GlobalState";
+import { GlobalContext } from '../context/GlobalState';
 import axios from "axios";
 import { toast } from "sonner";
 import { FaRocket, FaSearch, FaUsers, FaChartLine, FaShieldAlt, FaClock, FaServer, FaChevronDown } from 'react-icons/fa';

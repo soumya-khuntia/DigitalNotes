@@ -16,9 +16,10 @@ import { GlobalContext } from "../../context/GlobalState";
 
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import StarRating from "../functional/StarRating";
+import StarRating from "../review/StarRating";
 // import { Rating } from 'react-simple-star-rating'
 import axios from "axios";
+import ReviewList from "../review/ReviewList";
 
 const NoteView = ({ noteItem }) => {
   const { currUser, setCurrUser, reviewList, setReviewList } =
@@ -116,7 +117,7 @@ const NoteView = ({ noteItem }) => {
         // setReviewList((prevReviews) =>
         //   [result, ...prevReviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         // );
-        console.log(reviewList);
+        // console.log(reviewList);
 
         fetchListOfReviews(noteId); // Reload reviews after submission
       } else {
@@ -274,7 +275,7 @@ const NoteView = ({ noteItem }) => {
       </form>
       {/* <div>{allreviews}</div> */}
       {/* All Reviews list*/}
-      <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
+      {/* <div className="space-y-4 md:space-y-6 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pr-2">
         {reviewList.length ? (
           reviewList.map((review) => (
             <div
@@ -288,6 +289,13 @@ const NoteView = ({ noteItem }) => {
                     <h3 className="text-sm md:text-base font-medium text-gray-900">
                       @{review.author.username}
                     </h3>
+                    <span className="hidden sm:inline text-sm text-gray-500">
+                      {new Date(review.createdAt).toLocaleDateString()}{" "}
+                      {new Date(review.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
                     <div className="flex flex-wrap items-center gap-2">
                       <StarRating
                         totalStars={5}
@@ -300,13 +308,6 @@ const NoteView = ({ noteItem }) => {
                         {review.comment}
                       </span>
                     </div>
-                    <span className="hidden sm:inline text-sm text-gray-500">
-                      {new Date(review.createdAt).toLocaleDateString()}{" "}
-                      {new Date(review.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
                   </div>
                 </div>
                 {review.author._id?.toString() === currUser._id && (
@@ -335,7 +336,9 @@ const NoteView = ({ noteItem }) => {
             </p>
           </div>
         )}
-      </div>
+      </div> */}
+
+      <ReviewList noteId={noteId}/>
     </div>
   );
 };

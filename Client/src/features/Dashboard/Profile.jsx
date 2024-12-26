@@ -15,7 +15,8 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import { GlobalContext } from "../../context/GlobalState";
-import ProfileUpdateForm from "./ProfileUpdateForm";
+// import ProfileUpdateForm from "./ProfileUpdateForm";
+import ProfileUpdateForm from "../../components/profile/ProfileUpdateForm";
 
 const Profile = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -81,7 +82,7 @@ const Profile = () => {
     }
     setIsEditing(false);
     const allFieldsFilled = regdNo && phoneNo && dob && gender && branch && sem;
-    console.log(allFieldsFilled);
+    // console.log(allFieldsFilled);
 
     setShowImportantMessage(!allFieldsFilled);
   };

@@ -17,10 +17,10 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import { useState } from "react";
-import Notes from "../functional/Notes";
-import Profile from "../functional/Profile";
-import SavedNotes from "../functional/SavedNotes";
-import Sidebar from "../functional/Sidebar";
+import Notes from "../../features/Dashboard/Notes";
+import Profile from "../../features/Dashboard/Profile";
+import SavedNotes from "../../features/Dashboard/SavedNotes";
+import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("profile");
